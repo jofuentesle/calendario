@@ -1,0 +1,121 @@
+---
+import Layout from '../layouts/LandingLayout2.astro';
+import Hero2 from '../components/widgets/Hero2.astro';
+import Features from '../components/widgets/Features.astro';
+
+import Img1 from '~/assets/images/mesa/SobremesaTriangular.jpg';
+import Img2 from '~/assets/images/mesa/SobremesaTriangular1.jpg';
+import Img3 from '~/assets/images/mesa/SobremesaTriangular2.jpg';
+import Img4 from '~/assets/images/mesa/SobremesaTriangular3.jpg';
+import DynamicForm from '~/components/widgets/DynamicForm.astro';
+
+const galleryImages = [
+  { src: Img1.src, alt: 'Imprimir calendarios de mesa personalizados plegados en Barcelona'},
+  { src: Img2.src, alt: 'Calendarios de mesa triangulares personalizados con fotos y logotipos en Barcelona' },
+  { src: Img3.src, alt: 'Calendarios de mesa plegados y personalizados en Barcelona por Repro Disseny' },
+  { src: Img4.src, alt: 'Comprar calendarios de mesa triangulares y personalizados en Barcelona' },
+];
+
+const metadata = {
+  title: "Calendarios de Mesa Personalizados  en Barcelona | Imprenta Repro Disseny",
+  description: "Imprime calendarios de mesa personalizados y plegados en Barcelona. Calendarios con fotos personalizados para empresas. Perfectos para promocionar tu negocio.",
+  keywords: [
+    "Calendarios de mesa personalizados",
+    "Calendario triangular de sobremesa",
+    "Calendario publicitario",
+    "Calendario de mesa económico",
+    "Calendarios de empresa personalizados",
+    "Impresión de calendarios triangulares",
+    "Calendario de sobremesa triangular personalizado",
+    "imprimir calendarios Barcelona plegados",
+    "calendarios de mesa triangular",
+    "imprenta de calendarios en Barcelona",
+    "calendario con fotos personalizado",
+    "comprar calendarios en Barcelona"
+  ],
+  canonical: "https://calendarios.reprodisseny.com/calendarios-mesa-triangular",
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Calendarios de Mesa Personalizados para Empresas en Barcelona",
+    "description": "Solicita calendarios de mesa personalizados plegados con fotos y logotipos. Ideal para promocionar tu marca en Barcelona y Cataluña todo el año.",
+    "image": "../../assets/images/mesa/SobremesaTriangular.jpg",
+    "brand": {
+      "@type": "Brand",
+      "name": "Repro Disseny"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://https://calendarios.reprodisseny.com/calendarios-mesa-triangular",
+      "priceCurrency": "EUR",
+      "price": "5.99",
+      "availability": "https://schema.org/InStock"
+    },
+    "keywords": "calendarios personalizados empresas, calendarios plegados Barcelona, calendarios de mesa triangular, imprenta en Barcelona, calendarios con fotos personalizados"
+  }
+};
+
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero2 Widget ******************* -->
+
+  <Hero2
+    tagline="Calendarios de Mesa Personalizados"
+    title="Impresión de Calendarios de Mesa en Barcelona | Diseño Triangular y Plegado"
+    subtitle="Imprime calendarios de mesa personalizados y plegados en Barcelona. Perfectos para la promoción de tu empresa durante todo el año."
+    actions={[
+     { variant: 'primary', text: 'Solicita tu oferta', href: '#form-section', icon: 'tabler:square-rounded-arrow-right' },
+     { text: 'Ver características', href: '#features' },
+    ]}
+       galleryImages={galleryImages}
+       
+  />
+  <Features 
+  id="features"
+  tagline="Beneficios de los Calendarios Personalizados"
+  title="6 Ventajas de Imprimir Calendarios de Mesa Triangulares y Plegados en Barcelona" 
+  subtitle="Conoce las ventajas de nuestros calendarios personalizados con fotos y logotipos para la promoción empresarial en Barcelona."
+  items={[
+    {
+      title: 'Promoción continua',
+      description:
+        'Los calendarios de mesa personalizados aseguran visibilidad diaria de tu marca durante todo el año. Ideales para promocionar empresas en Barcelona.',
+      icon: 'tabler:calendar-check',
+    },
+    {
+      title: 'Diseño plegado y compacto​',
+      description:
+        'Calendarios de mesa plegados y triangulares, fáciles de colocar en cualquier escritorio, perfectos para ahorrar espacio.',
+      icon: 'tabler:desk',
+    },
+    {
+      title: 'Personalización con fotos y logotipos',
+      description:
+        'Nuestros calendarios permiten personalizar con tus fotos y logotipos, asegurando que tu marca destaque.',
+      icon: 'tabler:calendar-heart',
+    },
+    {
+      title: 'Impresión económica en Barcelona',
+      description:
+        'Imprime calendarios plegados y triangulares a precios competitivos en nuestra imprenta en Barcelona.',
+      icon: 'tabler:calendar-dollar',
+    },
+    {
+      title: 'Funcionalidad y estilo',
+      description:
+        "Calendarios de mesa que combinan estilo y funcionalidad, permitiendo un fácil acceso a las fechas importantes durante el año.",
+      icon: 'tabler:calendar-smile',
+    },
+    {
+      title: 'Materiales duraderos',
+      description:
+        'Fabricados con materiales de alta calidad, nuestros calendarios plegados aseguran durabilidad durante todo el año.',
+      icon: 'tabler:hammer',
+    },
+  ]}
+/>
+<!-- CallToAction (2/3 width on large screens) -->
+   
+   <DynamicForm/>
+  </Layout>

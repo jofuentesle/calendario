@@ -1,0 +1,179 @@
+---
+import { useState } from 'preact/hooks';
+import Button from '~/components/ui/Button.astro';
+import type { Form as Props } from '~/types';
+
+//Estados principales
+const [calendarType, setCalendarType] = useState(''); // Tipo de calendario seleccionado
+const [calendarSize, setCalendarSize] = useState(''); // Tamaño seleccionado según el tipo
+const [formData, setFormData] = useState({
+  name: '',
+  telefono: '',
+  email: '',
+  acabado: '',
+  cantidad: ''
+});
+
+// Extraemos las propiedades del formulario para mantenerlo flexible y reutilizable
+const { inputs = [], textarea, disclaimer, button = 'Enviar', description = '' } = Astro.props;
+
+//Funciones para manejar los cambios de estado
+const handleCalendar = (event) => {
+  setCalendarType(event.target.value);
+  setCalendarSize('');
+}
+
+const handleInputChange = (event) => {
+  const {name, value} = event.target;
+  setFormData((prevData) => ({ ...prevData, [name]: value }));
+}
+
+const validateForm = () => {
+  const{ name, telefono, email, acabado,cantidad } = formData;
+
+  if (!name || !telefono || !email || !calendarType || !calendarSize || !acabado || !cantidad) {
+    alert("Todos los campos son obligatorios.");
+    return false;
+  }
+  return true;
+}
+---
+
+<form method="POST" onsubmit={(e) => { 
+    e.preventDefault(); 
+    
+    //Validamos formulario
+    if (validateForm()) { 
+      alert('Formulario enviado correctamente'); 
+      } 
+  }}>
+  {inputs && inputs.map(({ type = 'text', name,  label = '', options = [], icons = null }) => (
+    <div class="mb-6 content-between">
+      <label for={name} class="block text-sm font-medium">{label}</label>
+      {type === 'select' ? (
+        <select name={name} id={name} required class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200" onchange={handleInputChange}>
+          <option value="" disabled selected>Selecciona una opción</option>
+          {options.map(option => (
+            <option value={option.value}>{option.label}</option>
+          ))}
+        </select>
+      ) : type ==='radio' ? (
+          // Lógica para Radio Buttons
+          options.map(option => (
+          <div class="inline-flex items-center mb-2">
+            <input 
+              type="radio" 
+              id={option.value} 
+              name={name} 
+              value={option.value} 
+              class="hidden" 
+              required
+              onchange={setCalendarType}
+            />
+            <label for={option.value} class="cursor-pointer">
+              <img 
+                src={option.image}
+                alt={option.label} 
+                class="h-10 w-10 rounded-full border-2 border-gray-300"
+              />
+              <span class="text-sm font-medium text-gray-700">{option.label}</span>
+            </label>
+          </div>
+        ))
+      ) : (
+
+        <div class="relative">
+          {icons && (
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {icons}
+              </svg>
+            </span>
+          )}
+        <input
+          type={type}
+          name={name}
+          id={name}
+          required
+          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200"
+          placeholder={`Ingrese su ${label.toLowerCase()}`}
+          oninput={handleInputChange}
+        />
+        </div>
+      )}
+    </div>
+  ))}
+   <!-- Campos dinámicos que dependen de la selección del calendario -->
+   {calendarType && (
+    <div class="mb-6">
+      <label class="block text-sm font-medium mb-2">Seleccione la medida del calendario</label>
+      {calendarType === 'calendario1' && (
+        <div>
+          <label><input type="radio" name="calendarSize" value="21x10" onchange={() => setCalendarSize('21x10')} /> 21x10 cm</label>
+          <label><input type="radio" name="calendarSize" value="15x15" onchange={() => setCalendarSize('15x15')} /> 15x15 cm</label>
+        </div>
+      )}
+      {calendarType === 'calendario2' && (
+        <div>
+          <label><input type="radio" name="calendarSize" value="A5" onchange={() => setCalendarSize('A5')} /> A5 (21x15 cm)</label>
+          <label><input type="radio" name="calendarSize" value="A4" onchange={() => setCalendarSize('A4')} /> A4 (30x21 cm)</label>
+        </div>
+      )}
+    </div>
+  )}
+
+  <!-- Acabado del calendario -->
+  {calendarType && calendarSize && (
+    <div class="mb-6">
+      <label class="block text-sm font-medium mb-2">Seleccione el acabado del calendario</label>
+      <div>
+        <label><input type="radio" name="acabado" value="brillo" onchange={handleInputChange} /> Brillo</label>
+        <label><input type="radio" name="acabado" value="mate" onchange={handleInputChange} /> Mate</label>
+      </div>
+    </div>
+  )}
+
+  <!-- Cantidad de calendarios -->
+  {calendarType && calendarSize && formData.acabado && (
+    <div class="mb-6">
+      <label class="block text-sm font-medium mb-2">Seleccione la cantidad</label>
+      <select name="cantidad" onchange={handleInputChange} required class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200">
+        <option value="">Selecciona una cantidad</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="500">500</option>
+      </select>
+    </div>
+  )}
+
+  <!-- Textarea y disclaimer -->
+  {textarea && (
+    <div>
+      <label for="textarea" class="block text-sm font-medium">{textarea.label}</label>
+      <textarea id="textarea" name={textarea.name ? textarea.name : 'message'} rows={textarea.rows ? textarea.rows : 4} placeholder={textarea.placeholder} class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900" />
+    </div>
+  )}
+
+  {disclaimer && (
+    <div class="mt-3 flex items-start">
+      <input id="disclaimer" name="disclaimer" type="checkbox" class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900" />
+      <div class="ml-3">
+        <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">{disclaimer.label}</label>
+      </div>
+    </div>
+  )}
+
+  <!-- Botón de envío -->
+  {button && (
+    <div class="mt-10 grid">
+      <Button variant="primary" type="submit">{button}</Button>
+    </div>
+  )}
+
+  {description && (
+    <div class="mt-3 text-center">
+      <p class="text-sm text-gray-600 dark:text-gray-400">{description}</p>
+    </div>
+  )}
+</form>

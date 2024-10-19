@@ -1,0 +1,32 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+
+const metadata = {
+  title: 'Solicitar presupuesto para Calendarios de Mesa Triangular',
+};
+
+const medidas = ['A5', '25x15cm'];
+const title = 'Solicita presupuesto para Calendarios de Mesa Triangular';
+const subtitle = 'Perfectos para oficinas y mesas de trabajo, personaliza tus calendarios triangulares.';
+---
+
+<Layout metadata={metadata}>
+  <HeroText tagline="Contacta con nosotros" title={title} subtitle={subtitle} />
+
+  <ContactUs
+    title={title}
+    subtitle={subtitle}
+    medidas={medidas}
+    inputs={[
+      { type: 'text', name: 'name', label: 'Nombre *' },
+      { type: 'email', name: 'email', label: 'Email *' },
+      { type: 'tel', name: 'telefono', label: 'Teléfono *' },
+      { type: 'text', name: 'empresa', label: 'Empresa' },
+    ]}
+    disclaimer={{ label: 'Acepto la política de privacidad.' }}
+    description="Nuestro equipo se pondrá en contacto contigo en menos de 24 horas."
+    id="mesa-triangular"
+  />
+</Layout>

@@ -1,0 +1,73 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import FormContainer from '~/components/ui/Form.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Table as Props } from '~/types';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  price1 = await Astro.slots.render('price1'),
+  price2 = await Astro.slots.render('price2'),
+  price3 = await Astro.slots.render('price3'),
+  price4 = await Astro.slots.render('price4'),
+  price5 = await Astro.slots.render('price5'),
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+    <Headline title={title} subtitle={subtitle} tagline={tagline} />
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table
+              class="min-w-full text-left text-sm font-light text-surface dark:text-white">
+              <thead
+                class="border-b border-neutral-200 font-medium dark:border-white/10">
+                <tr>
+                  <th scope="col" class="px-6 py-4">Unidades</th>
+                  <th scope="col" class="px-6 py-4">33 x 23 cm</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-neutral-200 dark:border-white/10">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">50</td>
+                  <td class="whitespace-nowrap px-6 py-4">{price1}</td>
+ 
+                </tr>
+                <tr class="border-b border-neutral-200 dark:border-white/10">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">100</td>
+                  <td class="whitespace-nowrap px-6 py-4">{price2}</td>
+        
+                </tr>
+                <tr class="border-b border-neutral-200 dark:border-white/10">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">250</td>
+                  <td class="whitespace-nowrap px-6 py-4">{price3}</td>
+
+                </tr>
+                <tr class="border-b border-neutral-200 dark:border-white/10">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">500</td>
+                  <td class="whitespace-nowrap px-6 py-4">{price4}</td>
+
+                </tr>
+                <tr class="border-b border-neutral-200 dark:border-white/10">
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">1000</td>
+                  <td class="whitespace-nowrap px-6 py-4">{price5}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </WidgetWrapper>

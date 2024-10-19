@@ -1,0 +1,80 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import sendGrid from '@sendgrid/mail';
+import FormContainer from '~/components/ui/Form.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+
+// Configuración de SendGrid
+sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  inputs,
+  textarea,
+  disclaimer,
+  button,
+  description,
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+// Envío de datos a través de SendGrid en el servidor
+if (Astro.request.method === 'POST') {
+  try {
+    // Obtener los datos del formulario
+    const data = await Astro.request.formData();
+    const name = data.get('name');
+    const email = data.get('email');
+    const message = data.get('message');
+
+    // Enviar el correo a través de SendGrid
+    const msg = {
+      to: 'jfuentesleiva@gmail.com', // Cambiar a tu dirección
+      from: 'noreply@reprodisseny.com', // Cambiar al remitente verificado
+      replyTo: { email: email, name: name },
+      subject: `Formulario de contacto de ${name}`,
+      text: message,
+    };
+
+    await sendGrid.send(msg).then(() => {
+      console.log('Correo enviado');
+    }).catch((error) => {
+      console.error('Error al enviar el correo:', error);
+    });
+
+  } catch (error) {
+    console.error('Error al procesar el formulario:', error);
+  }
+}
+
+// Metadatos para la página
+const metadata = {
+  title: 'Solicita precios para tus calendarios',
+};
+
+---
+<Layout metadata={metadata}>
+  <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+    <Headline title={title} subtitle={subtitle} tagline={tagline} />
+    
+    <!-- Contenedor del formulario -->
+    {
+      inputs && (
+        <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
+          <FormContainer
+            inputs={inputs}
+            textarea={textarea}
+            disclaimer={disclaimer}
+            button={button}
+            description={description}
+          />
+        </div>
+      )
+    }
+  </WidgetWrapper>
+</Layout>

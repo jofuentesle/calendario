@@ -1,0 +1,301 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "/404/",
+			"headers": {
+				"Location": "/404"
+			},
+			"status": 308
+		},
+		{
+			"src": "/about/",
+			"headers": {
+				"Location": "/about"
+			},
+			"status": 308
+		},
+		{
+			"src": "/api/",
+			"headers": {
+				"Location": "/api"
+			},
+			"status": 308
+		},
+		{
+			"src": "/calendario-mesa-espiral/",
+			"headers": {
+				"Location": "/calendario-mesa-espiral"
+			},
+			"status": 308
+		},
+		{
+			"src": "/calendario-mesa-triangular/",
+			"headers": {
+				"Location": "/calendario-mesa-triangular"
+			},
+			"status": 308
+		},
+		{
+			"src": "/calendario-pared-espiral/",
+			"headers": {
+				"Location": "/calendario-pared-espiral"
+			},
+			"status": 308
+		},
+		{
+			"src": "/calendario-pared-revista/",
+			"headers": {
+				"Location": "/calendario-pared-revista"
+			},
+			"status": 308
+		},
+		{
+			"src": "/contact/",
+			"headers": {
+				"Location": "/contact"
+			},
+			"status": 308
+		},
+		{
+			"src": "/contacto/",
+			"headers": {
+				"Location": "/contacto"
+			},
+			"status": 308
+		},
+		{
+			"src": "/formulario/",
+			"headers": {
+				"Location": "/formulario"
+			},
+			"status": 308
+		},
+		{
+			"src": "/formularios/calendarios-mesa-espiral/",
+			"headers": {
+				"Location": "/formularios/calendarios-mesa-espiral"
+			},
+			"status": 308
+		},
+		{
+			"src": "/formularios/calendarios-mesa-triangular/",
+			"headers": {
+				"Location": "/formularios/calendarios-mesa-triangular"
+			},
+			"status": 308
+		},
+		{
+			"src": "/formularios/calendarios-pared-espiral/",
+			"headers": {
+				"Location": "/formularios/calendarios-pared-espiral"
+			},
+			"status": 308
+		},
+		{
+			"src": "/formularios/calendarios-pared-revista/",
+			"headers": {
+				"Location": "/formularios/calendarios-pared-revista"
+			},
+			"status": 308
+		},
+		{
+			"src": "/formularios/",
+			"headers": {
+				"Location": "/formularios"
+			},
+			"status": 308
+		},
+		{
+			"src": "/homes/mobile-app/",
+			"headers": {
+				"Location": "/homes/mobile-app"
+			},
+			"status": 308
+		},
+		{
+			"src": "/homes/personal/",
+			"headers": {
+				"Location": "/homes/personal"
+			},
+			"status": 308
+		},
+		{
+			"src": "/homes/saas/",
+			"headers": {
+				"Location": "/homes/saas"
+			},
+			"status": 308
+		},
+		{
+			"src": "/homes/startup/",
+			"headers": {
+				"Location": "/homes/startup"
+			},
+			"status": 308
+		},
+		{
+			"src": "/pricing/",
+			"headers": {
+				"Location": "/pricing"
+			},
+			"status": 308
+		},
+		{
+			"src": "/privacy/",
+			"headers": {
+				"Location": "/privacy"
+			},
+			"status": 308
+		},
+		{
+			"src": "/services/",
+			"headers": {
+				"Location": "/services"
+			},
+			"status": 308
+		},
+		{
+			"src": "/terms/",
+			"headers": {
+				"Location": "/terms"
+			},
+			"status": 308
+		},
+		{
+			"src": "^/_astro/(.*)$",
+			"headers": {
+				"cache-control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^\\/_image$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/404$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/about$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/api\\/contact$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/api\\/send-emails$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/api\\/send-form$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/api\\/send-quotes$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/api$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/calendario-mesa-espiral$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/calendario-mesa-triangular$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/calendario-pared-espiral$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/calendario-pared-revista$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/contact$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/contacto$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/formulario$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/formularios\\/calendarios-mesa-espiral$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/formularios\\/calendarios-mesa-triangular$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/formularios\\/calendarios-pared-espiral$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/formularios\\/calendarios-pared-revista$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/formularios$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/homes\\/mobile-app$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/homes\\/personal$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/homes\\/saas$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/homes\\/startup$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/pricing$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/privacy$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/rss\\.xml$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/services$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/terms$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/$",
+			"dest": "_render"
+		},
+		{
+			"src": "/.*",
+			"dest": "_render",
+			"status": 404
+		}
+	]
+}

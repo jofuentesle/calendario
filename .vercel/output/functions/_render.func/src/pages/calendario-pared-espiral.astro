@@ -1,0 +1,134 @@
+---
+import Layout from '~/layouts/LandingLayout2.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Features from '~/components/widgets/Features.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+import DynamicForm from '~/components/widgets/DynamicForm.astro';
+
+//Importamos images para las rutas
+import Img1 from '~/assets/images/pared/ParedEspiral.jpg';
+import Img2 from '~/assets/images/pared/ParedEspiral1.jpg';
+import Img3 from '~/assets/images/pared/ParedEspiral2.jpg';
+import Img4 from '~/assets/images/pared/ParedEspiral3.jpg';
+
+const galleryImages = [
+  { src: Img1.src, alt: 'Calendarios de pared con espiral personalizados en Barcelona' },
+  { src: Img2.src, alt: 'Impresión de calendarios de pared con espiral para empresas en Cataluña' },
+  { src: Img3.src, alt: 'Diseño de calendarios publicitarios de pared con espiral' },
+  { src: Img4.src, alt: 'Comprar calendarios de pared con espiral online' },
+];
+
+const metadata = {
+  title: "Calendarios de Pared con Espiral Personalizados | Impresión en Barcelona",
+  description: "Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Promociona tu marca todo el año con nuestros calendarios publicitarios de alta calidad.",
+  keywords: [
+    "Calendarios de pared con espiral personalizados", 
+    "Impresión de calendarios con espiral para pared", 
+    "Calendarios publicitarios de pared", 
+    "Calendarios de pared promocionales", 
+    "Diseño de calendarios de pared con espiral",
+    "Calendarios anuales para pared", 
+    "Calendarios de pared para empresas",
+    "Calendarios de pared con espiral Barcelona",
+    "Imprimir calendarios de pared en Cataluña",
+    "Comprar calendarios de pared con espiral online"
+  ],
+  canonical: "https://calendarios.reprodisseny.com/calendario-pared-espiral",
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Calendarios de Pared con Espiral Personalizados",
+    "description": "Imprime calendarios de pared con espiral para empresas en Barcelona. Personalización completa y entrega rápida. Ideal para promociones empresariales.",
+    "image": `${Img1.src}`,
+    "brand": {
+      "@type": "Brand",
+      "name": "Repro Disseny" 
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://calendarios.reprodisseny.com/calendario-pared-espiral",
+      "priceCurrency": "EUR",
+      "price": "5.99",
+      "availability": "https://schema.org/InStock"
+    },
+    "keywords": "calendarios de pared con espiral, calendarios promocionales, impresión de calendarios, comprar calendarios pared online, imprenta de calendarios en Barcelona"
+  }
+};
+---
+<Layout metadata={metadata}>
+  <!-- Hero2 Widget ******************* -->
+
+  <Hero2
+    tagline="Calendarios de Pared con Espiral Personalizados"
+    title="Calendarios de Pared con Espiral: Promoción Empresarial Continua"
+    subtitle="Imprime calendarios publicitarios de pared con espiral personalizados para promocionar tu marca todo el año. Ofrecemos impresión de alta calidad en Barcelona."
+    actions={[
+      { variant: 'primary', text: 'Pide tu oferta!', href: '#form-section', icon: 'tabler:square-rounded-arrow-right' },
+      { text: 'Saber más', href: '#features' },
+    ]}
+    galleryImages={galleryImages}
+    
+  />
+
+  <DynamicForm/>
+  <Features 
+    id="features"
+    tagline="Caracteristicas Clave"
+    title="Calendarios de Pared con Espiral Personalizados para Empresas" 
+    subtitle="Nuestros calendarios de pared con espiral están diseñados para promocionar tu empresa de manera efectiva y visual durante todo el año. Ofrecemos impresión de alta calidad en Barcelona y Cataluña."
+    items={[
+      {
+        title: 'Impresión Personalizada',
+        description:
+          'Personaliza tus calendarios de pared con espiral con el logotipo y diseño de tu empresa. Ideal para promociones durante todo el año en Barcelona.',
+        icon: 'tabler:calendar',
+      },
+      {
+        title: 'Alta Calidad de Impresión',
+        description:
+          'Utilizamos tecnología de impresión en cuatricromía para asegurar que tus calendarios se vean profesionales y duraderos.',
+        icon: 'tabler:printer',
+      },
+      {
+        title: 'Diseño Promocional',
+        description:
+          'Crea un calendario promocional que destaque tu marca todo el año con nuestros calendarios anuales de pared personalizados.',
+        icon: 'tabler:file-signal',
+      },
+      {
+        title: 'Entrega en Barcelona',
+        description:
+          'Ofrecemos tiempos de entrega rápidos y eficientes para pedidos de calendarios de pared promocionales en Barcelona y Cataluña.',
+        icon: 'tabler:truck',
+      },
+      {
+        title: 'Ideal para Empresas',
+        description:
+          'Nuestros calendarios son perfectos para empresas que buscan una solución publicitaria efectiva y duradera.',
+        icon: 'tabler:building',
+      },
+      {
+        title: 'Fácil de Colgar',
+        description:
+          'El formato con espiral hace que los calendarios de pared sean fáciles de colgar y utilizar en cualquier entorno corporativo o de oficina.',
+        icon: 'tabler:wall',
+      },
+    ]}
+  />
+       <!-- Formulario de solicitud -->
+  <div id="form-section">
+    <form id="calendar-form" method="POST" action="/api/send-form">
+      <!-- Formulario generado arriba -->
+    </form>
+  </div>
+
+  <CallToAction
+    title="Solicita tu Presupuesto"
+    subtitle="Compra calendarios tipo revista para pared y recibe la mejor oferta."
+    actions={[
+      { variant: 'primary', text: '¡Solicita oferta hoy!', href: '#form-section', icon: 'tabler:mail' },
+    ]}
+  />
+ 
+</Layout>

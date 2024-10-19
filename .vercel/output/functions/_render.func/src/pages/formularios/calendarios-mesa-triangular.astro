@@ -1,0 +1,123 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+
+const metadata = {
+  title: 'Contacta con nosotros para calendarios de mesa',
+};
+
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+
+  <HeroText 
+  tagline="calendarios de mesa" title="Solicita información sobre los calidendarios de sobremesa" />
+  
+  <ContactUs
+    id="form"
+    title="Envíanos tus consultas sobre calendarios"
+    subtitle="Estamos aquí para ayudarte a crear el calendario perfecto, desde el diseño hasta la impresión, con opciones personalizadas y soporte en cada paso."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Nombre',
+      },
+      {
+        type: 'text',
+        name: 'empresa',
+        label: 'Empresa',
+      },
+      {
+        type: 'text',
+        name: 'telefono',
+        label: 'Número de teléfono',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Correo electrónico',
+      },
+      {
+        type: 'select',
+        name: 'medida',
+        label: 'Medida calendario',
+        options: [
+          { value: '21x10', label: 'Rectangular 21 x 10 cm' },
+          { value: '15x15', label: 'Cuadrado 15 x 15 cm' },
+          { value: 'A5', label:'Din A5 21 x 15 cm' }
+        ],
+      },
+    {
+      type: 'select',
+        name: 'acabdo',
+        label: 'Acabado calendario',
+        options: [
+          { value: 'brillo', label: 'Acabado brillante' },
+          { value: 'mate', label: 'Acabado mate' }
+        ],
+    },
+    {
+        type: 'select',
+        name: 'quantity',
+        label: 'Selectiona la medida',
+        options: [
+          { value: '50', label: '50' },
+          { value: '100', label: '100' },
+          { value: '250', label: '250' },
+          { value: '500', label: '500' },
+          { value: '1000', label: '1000' },
+          { value: '2000', label: '2000' },
+          { value: '3000', label: '3000' },
+        ],
+      },   
+      
+    ]}
+   
+    disclaimer={{
+      label:
+        'He leído y acepto la Política de Privacidad.',
+    }}
+    description="Nuestro equipo contactará lo antes posible."
+  />
+
+  <!-- Features2 Widget ************** -->
+  <Features2
+    title="Estamos aquí para ayuderte!"
+    items={[
+      {
+        title: 'Consultas generales',
+        description: `Ofrecemos un servicio de consultas generales ágil y personalizado para resolver todas tus dudas sobre nuestros calendarios impresos, ya sea en formato digital o offset, asegurando la mejor calidad y opciones adaptadas a tus necesidades.`,
+      },
+      {
+        title: 'Dpto. Comercial',
+        description:
+          'Nuestro departamento comercial está a tu disposición para asesorarte de manera personalizada en la compra de calendarios impresos, brindando soluciones a medida tanto en impresión digital como offset, para garantizar que encuentres la opción perfecta para tu negocio o proyecto.',
+      },
+      {
+        title: 'Dpto. Diseño',
+        description:
+          'Nuestro departamento de diseño te ofrece asesoramiento experto para crear calendarios únicos y personalizados, garantizando que cada detalle en la impresión digital u offset refleje tu estilo y necesidades con la máxima calidad.',
+      },
+      {
+        title: 'Teléfono',
+        description: '+93 274 98 90',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Email',
+        description: 'comercial@reprodisseny.com',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Ubicación',
+        description: 'Calle Juan de Mena, 19 - 08035 Barcelona',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
+
+</Layout>

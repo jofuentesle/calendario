@@ -1,0 +1,117 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import sendGrid from '@sendgrid/mail';
+import 'dotenv/config';
+
+sendGrid.setApiKey( import.meta.env.SENDGRID_API_KEY );
+
+
+if (Astro.request.method === 'POST') {
+  try{
+    // Getting posted data from our contact form
+    const data = await Astro.request.formData();
+    const name = data.get('name');
+    const email = data.get('email');
+    const message = data.get('message');
+
+    console.log(message);
+    // TODO: Do not forget to do validation and error handling over received data from your contact form.
+
+    // Sending email
+    const msg = {
+      to: email, // Change to your recipient
+      from: 'noreply@reprodisseny.com', // Change to your verified sender
+      replyTo: {email:email, name:name},
+      subject: `Contact form submission from ${name}`,
+      text: message,
+    }
+    await sendGrid.send(msg).then(() => {
+      console.log('Email sent')
+    }).catch((error) => {
+      console.error(error)
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+const metadata = {
+  title: 'Contacta con nosotros',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+
+  <HeroText tagline="contacto" title="Hola! ¿Necesitas ayuda?" />
+
+  <ContactUs
+    id="form"
+    title="Envíanos tus consultas sobre calendarios"
+    subtitle="Estamos aquí para ayudarte a crear el calendario perfecto, desde el diseño hasta la impresión, con opciones personalizadas y soporte en cada paso."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Nombre',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Correo electrónicssss',
+      },
+    ]}
+    textarea={{
+      label: 'Mensaje',
+      name: 'msg'
+    }}
+    disclaimer={{
+      label:
+        'He leído y acepto la Política de Privacidad.',
+    }}
+    description="Nuestro equipo contactará lo antes posible."
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="Estamos aquí para ayuderte!"
+    items={[
+      {
+        title: 'Consultas generales',
+        description: `Ofrecemos un servicio de consultas generales ágil y personalizado para resolver todas tus dudas sobre nuestros calendarios impresos, ya sea en formato digital o offset, asegurando la mejor calidad y opciones adaptadas a tus necesidades.`,
+      },
+      {
+        title: 'Dpto. Comercial',
+        description:
+          'Nuestro departamento comercial está a tu disposición para asesorarte de manera personalizada en la compra de calendarios impresos, brindando soluciones a medida tanto en impresión digital como offset, para garantizar que encuentres la opción perfecta para tu negocio o proyecto.',
+      },
+      {
+        title: 'Dpto. Diseño',
+        description:
+          'Nuestro departamento de diseño te ofrece asesoramiento experto para crear calendarios únicos y personalizados, garantizando que cada detalle en la impresión digital u offset refleje tu estilo y necesidades con la máxima calidad.',
+      },
+      {
+        title: 'Teléfono',
+        description: '+93 274 98 90',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Email',
+        description: 'comercial@reprodisseny.com',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Ubicación',
+        description: 'Calle Juan de Mena, 19 - 08035 Barcelona',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
+</Layout>

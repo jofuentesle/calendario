@@ -1,0 +1,377 @@
+---
+import Layout from '../layouts/LandingLayout2.astro';
+import Hero2 from '../components/widgets/Hero2.astro';
+import Features from '../components/widgets/Features.astro';
+
+//EMAIL
+import sendGrid from '@sendgrid/mail';
+
+//Importamos images galeria
+import Img1 from '~/assets/images/mesa/SobremesaEspiral.jpg';
+import Img2 from '~/assets/images/mesa/SobremesaEspiral1.jpg';
+import Img3 from '~/assets/images/mesa/SobremesaEspiral2.jpg';
+import Img4 from '~/assets/images/mesa/SobremesaEspiral3.jpg';
+
+const galleryImages = [
+  { src: Img1.src, alt: 'Calendario de mesa personalizado con espiral para empresas en Barcelona, perfecto para regalos corporativos.' },
+  { src: Img2.src, alt: 'Calendario publicitario de sobremesa personalizado con espiral, ideal para promoción de marca en oficinas.' },
+  { src: Img3.src, alt: 'Calendarios personalizados de mesa con espiral, ideales para empresas, formato A4 con logotipo.' },
+  { src: Img4.src, alt: 'Calendarios de sobremesa personalizados con espiral, diseño elegante para oficinas y empresas en Cataluña.' },
+];
+
+const metadata = {
+  title: "Calendarios de Mesa Personalizados con Espiral | Regalos Corporativos Únicos",
+  description: "Descubre nuestros calendarios de mesa personalizados, ideales para empresas y oficinas. Personaliza tu calendario sobremesa con espiral y destaca tu marca con un diseño atractivo y funcional. Impresión de alta calidad en Barcelona.",
+  keywords: [
+    "calendario mesa personalizado", 
+    "calendario sobremesa personalizado", 
+    "calendarios de mesa personalizados", 
+    "calendarios de sobremesa", 
+    "calendarios sobremesa", 
+    "calendarios de mesa", 
+    "calendario personalizado", 
+    "calendarios económicos", 
+    "calendario publicitario", 
+    "calendarios corporativos", 
+    "imprimir calendarios sobremesa Barcelona"
+  ],
+  canonical: "https://calendarios.reprodisseny.com/calendario-mesa-espiral-personalizado",
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Calendarios de Mesa con Espiral Personalizados ",
+    "description": "Personaliza calendarios de mesa personalizados para empresas y oficinas. Perfectos para promocionar tu marca durante todo el año.",
+    "image": `${Img1.src}`,
+    "brand": {
+      "@type": "Brand",
+      "name": "Repro Disseny" 
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://calendarios.reprodisseny.com/landing/calendario-mesa-espiral",
+      "priceCurrency": "EUR",
+      "price": "5.99",
+      "availability": "https://schema.org/InStock"
+    },
+    "keywords": "calendario mesa personalizado, calendario sobremesa personalizado, calendarios de mesa personalizados, calendarios de sobremesa, alendarios sobremesa, calendarios de mesa, calendario personalizado, calendarios económicos, calendario publicitario,calendarios corporativos,imprimir calendarios sobremesa Barcelona"
+  }
+};
+
+sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
+
+if (Astro.request.method === 'POST') {
+  
+  try{
+    const formData = await Astro.request.formData();
+    const nombre = formData.get('nombre') || 'Usuario anónimo';
+    const email = formData.get('email');
+    const telefono = formData.get('telefono') || 'No proporcionado';
+    const tamaño = formData.get('tamaño');
+
+ // Crear el mensaje para el correo
+  const message = `
+      Nombre: ${nombre}
+      Email: ${email}
+      Teléfono: ${telefono}
+      Tamaño: ${tamaño}
+    `;
+
+  // Valida que el email y el tamaño sean cadenas válidas
+  if (!email || typeof email !== 'string') {
+    throw new Error('El correo es obligatorio y debe ser una cadena de texto válida.');
+  }
+  if (!tamaño || typeof tamaño !== 'string') {
+    throw new Error('El tamaño es obligatorio y debe ser una cadena de texto válida.');
+  }
+     // Validar que el mensaje no esté vacío
+  if (!message || typeof message !== 'string' || !message.trim()) {
+    throw new Error('El contenido del mensaje no puede estar vacío o inválido.');
+  }
+    // Sending email
+    const msg = {
+      to: email, // Change to your recipient
+      from: 'noreply@reprodisseny.com', // Change to your verified sender
+      subject: `Contact form submission from ${nombre}`,
+      text: message,
+    }
+    await sendGrid.send(msg).then(() => {
+      console.log('Email sent')
+    }).catch((error) => {
+      console.error(error)
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+---
+<Layout metadata={metadata}>
+  <!-- Hero2 Widget ******************* -->
+
+  <section id="form-section" class="p-6 bg-white shadow-lg rounded-lg w-full mx-auto md:w-2/3 lg:w-2/3">
+  
+    <h2 class="text-2xl font-bold mb-4 text-center">Solicita la mejor oferta para calendarios de mesa</h2>
+  
+    <form id="calendar-form" method="POST">
+      <fieldset class="col-span-2 text-left">
+        <!-- Nombre -->
+        <div class="input-icon-container relative w-full mb-4">
+          <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre *</label>
+          <input id="nombre" name="nombre" required placeholder="Introduce tu nombre" class="form-btn pl-10 py-2" />
+        </div>
+
+          <!-- Empresa con icono en el placeholder -->
+        <div class="input-icon-container relative w-full mb-4">
+          <label for="empresa" class="block text-sm font-medium text-gray-700">Empresa</label>
+          <div class="relative">
+            <input id="empresa" name="empresa" placeholder="Introduce tu empresa" class="form-btn pl-10 py-2" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+              <!-- Icono para la empresa -->
+              <path d="M3 3.75a.75.75 0 0 1 .75-.75h1.5v2.25a.75.75 0 0 1-1.5 0V4.5H3.75a.75.75 0 0 1-.75-.75zM3.75 6h1.5v2.25a.75.75 0 0 1-1.5 0V6zm0 3h1.5v1.5a.75.75 0 0 1-1.5 0v-1.5z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="input-icon-container relative w-full mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email *</label>
+          <input id="email" name="email" type="email" required placeholder="Introduce tu email" class="form-btn pl-10" />
+        </div>
+        
+        <!-- Teléfono -->
+        <div class="input-icon-container relative w-full mb-4">
+          <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <input id="telefono" name="telefono" type="tel" required placeholder="Introduce tu teléfono" class="form-btn pl-10" />
+        </div>
+      </fieldset>
+
+      <!-- Tamaño del calendario -->
+      <div class="col-span-2 text-center">
+        <label for="tamaño" class="block text-sm font-bold text-gray-700 mb-2">Tamaño del calendario*</label>
+        <div id="tamaño" class="size-container flex justify-center gap-4 flex-wrap">
+          <button type="button" class="size-btn py-2 px-4 rounded-full border border-gray-300" data-value="21x10cm">21x10cm</button>
+          <button type="button" class="size-btn py-2 px-4 rounded-full border border-gray-300" data-value="15x15cm">15x15cm</button>
+          <button type="button" class="size-btn py-2 px-4 rounded-full border border-gray-300" data-value="21x15cm">21x15cm</button>
+        </div>
+        <input type="hidden" name="tamaño" id="tamaño-input" required />
+        <span class="error-message hidden" id="tamaño-error">Selecciona un tamaño.</span>
+      </div>
+
+      <!-- Cantidad con selección destacada -->
+      <div class="col-span-2 text-center">
+        <label for="cantidad" class="block text-sm font-bold text-gray-700 mb-2">Cantidad *</label>
+        <div id="cantidad" class="flex justify-center gap-2 flex-wrap">
+          <button type="button" class="quantity-btn py-2 px-4 rounded-full border border-gray-300" data-value="50">50</button>
+          <button type="button" class="quantity-btn py-2 px-4 rounded-full border border-gray-300" data-value="100">100</button>
+          <button type="button" class="quantity-btn py-2 px-4 rounded-full border border-gray-300" data-value="200">200</button>
+          <button type="button" class="quantity-btn py-2 px-4 rounded-full border border-gray-300" data-value="500">500</button>
+          <button type="button" class="quantity-btn py-2 px-4 rounded-full border border-gray-300" data-value="1000">1000</button>
+        </div>
+        <input type="hidden" name="cantidad" id="cantidad-input" required />
+        <span class="error-message hidden" id="cantidad-error">Selecciona una cantidad.</span>
+      </div>
+
+      <!-- Aceptación de política de privacidad -->
+      <div class="col-span-2">
+        <label class="flex items-center">
+          <input type="checkbox" name="politicaPrivacidad" id="politicaPrivacidad" required class="mr-2" />
+          Acepto la política de privacidad *
+        </label>
+        <span class="error-message hidden" id="politicaPrivacidad-error">Debes aceptar la política de privacidad.</span>
+      </div>
+
+      <!-- Botón de Envío -->
+      <div class="col-span-2 text-center mt-4">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+
+      <!-- Mensaje de feedback -->
+      <div id="response-message" class="hidden mt-4 text-center text-green-600">Tu formulario ha sido enviado con éxito.</div>
+    </form>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sizeBtns = document.querySelectorAll(".size-btn");
+    const tamañoInput = document.getElementById("tamaño-input") as HTMLInputElement;
+    const quantityBtns = document.querySelectorAll(".quantity-btn");
+    const cantidadInput = document.getElementById("cantidad-input") as HTMLInputElement;
+    const form = document.getElementById("calendar-form");
+    const responseMessage = document.getElementById("response-message");
+
+    // Manejo de la selección de tamaño
+    sizeBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        sizeBtns.forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        tamañoInput.value = btn.getAttribute("data-value");
+      });
+    });
+
+    // Manejo de la selección de cantidad
+    quantityBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        quantityBtns.forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        cantidadInput.value = btn.getAttribute("data-value");
+      });
+    });
+
+    // Enviar formulario con feedback y redirección
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, { method: "POST", body: formData });
+        if (response.ok) {
+          responseMessage.classList.remove("hidden");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 3000);
+        } else {
+          alert("Hubo un error al enviar el formulario.");
+        }
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+      }
+    });
+  });
+</script>
+
+  <style>
+    /* Clase de selección para todos los botones */
+    .selected {
+    border: 2px solid #007BFF;
+    color: #007BFF;
+    background-color: transparent;
+    }
+
+    /* Estilos generales para botones */
+    .size-btn, .quantity-btn, .calendar-btn {
+    transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .size-btn:hover, .quantity-btn:hover, .calendar-btn:hover {
+    border-color: #0056b3;
+    }
+
+    /* Botones adaptables al ancho */
+    .size-btn, .quantity-btn, .calendar-btn {
+    width: 100%;
+    }
+
+
+    .form-btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 9999px;
+    text-align: left; /* Alinear texto a la izquierda */
+    background-color: white;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .form-btn:hover {
+    border-color: #007BFF;
+    }
+
+    /* Distribuir el formulario de contacto en una columna para pantallas pequeñas */
+    .contact-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    }
+
+    /* Para pantallas mayores de 768px, mostrar en dos columnas */
+
+    @media (min-width: 640px) {
+    .size-btn, .quantity-btn, .calendar-btn {
+        width: auto;
+    }
+    
+  }
+    @media (min-width: 768px) {
+    .contact-info {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+      #form-section {
+      width: 66%;
+    }
+    }
+
+    @media (max-width: 767px) {
+    #form-section {
+      width: 100%;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+    /* Estilos para los inputs con icono */
+    .input-icon-container {
+    position: relative;
+    width: 100%;
+    }
+
+    .input-icon-container input {
+    width: 100%;
+    padding-left: 2.5rem; /* Espacio para el icono */
+    padding-right: 1rem;
+    }
+
+    .input-icon-container .icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #aaa;
+    transition: opacity 0.3s ease;
+    }
+
+    /* Ocultar el icono cuando se introduce texto */
+    .input-icon-container input:not(:placeholder-shown) + .icon {
+    opacity: 0;
+    }
+
+    /* Mejorar visibilidad del icono al hacer foco */
+    .input-icon-container input:focus + .icon {
+        color: #007BFF;
+    }
+
+    /* Estilos del input */
+    .input-icon-container input {
+        width: 100%;
+        padding-left: 2.5rem; /* Espacio para el icono */
+        padding-right: 1rem;
+        padding-top: 0.5rem; /* Ajusta según sea necesario */
+        padding-bottom: 0.5rem; /* Ajusta según sea necesario */
+        line-height: 1.5rem; /* Ajusta según sea necesario */
+    }
+
+    /* Estilos del icono */
+    .input-icon-container .icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #aaa;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Estilos error */
+    .error-message {
+      color: red;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .hidden {
+      display: none;
+    }
+
+  </style>

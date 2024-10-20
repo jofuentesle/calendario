@@ -50,7 +50,7 @@ const {
         {
           title && (
             <h1
-              class="text-5xl ismd:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading"
+              class="text-5xl ismd:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-black"
               set:html={title}
             />
           )
@@ -143,17 +143,6 @@ const {
   /* Estilo cuando "html" tiene la clase "dark" */
   html.dark .isTxtColor {
     color: #030620;
-  }
-
-  html.dark h1:first-of-type {
-      color: #030620; /* Color blanco en pantallas pequeñas */
-    }
-
-  /* Cambiar el color del primer h1 en pantallas pequeñas */
-  @media (max-width: 768px) {
-    html.dark h1:first-of-type {
-      color: #ffffff; /* Color blanco en pantallas pequeñas */
-    }
   }
 
   html.dark .isTxtSub {

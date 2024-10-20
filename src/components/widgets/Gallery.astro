@@ -1,6 +1,5 @@
 ---
-//Definimos constante para pasar props
-const { images = [] } = Astro.props;
+const { images = [] } = Astro.props;  // Recibir las imágenes como prop
 ---
 <script>
   import Swiper from 'swiper';
@@ -13,22 +12,24 @@ const { images = [] } = Astro.props;
   import PhotoSwipeLightbox from 'photoswipe/lightbox';
   import 'photoswipe/style.css';
 
-  // Declarar las variables correctamente como instancia de Swiper o null
-let mainSwiper: Swiper | null = null;
-let thumbsSwiper: Swiper | null = null;
+  let mainSwiper = null;
+  let thumbsSwiper = null;
+  let lightbox = null;
 
+  // Función para inicializar Swiper
   function initializeSwiper() {
-    // Destruir instancias anteriores
+    // Destruir instancias antiguas si existen
     if (mainSwiper) {
-      mainSwiper.destroy();
+      console.log('Destruyendo mainSwiper');
+      mainSwiper.destroy(true, true);
       mainSwiper = null;
     }
     if (thumbsSwiper) {
-      thumbsSwiper.destroy();
+      console.log('Destruyendo thumbsSwiper');
+      thumbsSwiper.destroy(true, true);
       thumbsSwiper = null;
     }
 
-    // Verificar si los elementos hijos existen antes de inicializar
     const mainSwiperEl = document.querySelector('.main .swiper-wrapper');
     const thumbsSwiperEl = document.querySelector('.thumbs .swiper-wrapper');
 
@@ -53,27 +54,50 @@ let thumbsSwiper: Swiper | null = null;
           swiper: thumbsSwiper,
         },
       });
+
+      console.log('Swiper inicializado correctamente');
+    } else {
+      console.log('No se encontraron los elementos de Swiper');
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initializeSwiper();
-
-    const lightbox = new PhotoSwipeLightbox({
+  // Función para inicializar PhotoSwipe
+  function initializeLightbox() {
+    if (lightbox) {
+      console.log('Destruyendo lightbox anterior');
+      lightbox.destroy();
+      lightbox = null;
+    }
+    
+    lightbox = new PhotoSwipeLightbox({
       gallery: '#my-slider',
       children: 'a',
       pswpModule: () => import('photoswipe'),
     });
     lightbox.init();
 
-    // Re-inicializar Swiper después de la navegación de Astro
-    document.addEventListener('astro:after-swap', () => {
-      initializeSwiper();
-      lightbox.init();
-    });
+    console.log('PhotoSwipe inicializado correctamente');
+  }
+
+  // Re-inicializar Swiper y Lightbox
+  function reinitializeGallery() {
+    initializeSwiper();
+    initializeLightbox();
+  }
+
+  // Asegurarse de que la galería se re-inicializa después de la navegación
+  document.addEventListener('astro:after-swap', () => {
+    setTimeout(() => {
+      console.log('Navegación detectada, re-inicializando galería');
+      reinitializeGallery();
+    }, 100);  // Añadir un pequeño retardo para asegurar que el DOM esté completamente listo
+  });
+
+  // Inicializar cuando el DOM esté cargado
+  document.addEventListener('DOMContentLoaded', () => {
+    reinitializeGallery();
   });
 </script>
-
 
 <!-- Contenedor principal de Swiper -->
 <main>
@@ -84,14 +108,11 @@ let thumbsSwiper: Swiper | null = null;
           <a 
             class="swiper-slide"
             href={image.src}
-            data-pswp-width="600" data-pswp-height="600"
-           
+            data-pswp-width="600" 
+            data-pswp-height="600"
             data-cropped="true"
           >
-            <img 
-              src={image.src} 
-              alt={image.alt} 
-              />
+            <img src={image.src} alt={image.alt} />
           </a>
         ))}
       </div>
@@ -109,8 +130,6 @@ let thumbsSwiper: Swiper | null = null;
     </div>
   </div>
 </main>
-
-
 <style>
   .swiper-container {
     position: relative;
@@ -150,5 +169,4 @@ let thumbsSwiper: Swiper | null = null;
     width: 100%;
     object-fit: cover;
   }
-  
 </style>

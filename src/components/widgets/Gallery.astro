@@ -3,7 +3,7 @@
 const { images = [] } = Astro.props;
 ---
 <script>
-  import Swiper, { Swiper as SwiperInstance } from 'swiper';
+  import Swiper from 'swiper';
   import { Navigation, Thumbs, FreeMode } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
@@ -13,8 +13,9 @@ const { images = [] } = Astro.props;
   import PhotoSwipeLightbox from 'photoswipe/lightbox';
   import 'photoswipe/style.css';
 
-  let mainSwiper = null;
-  let thumbsSwiper = null;
+  // Declarar las variables correctamente como instancia de Swiper o null
+let mainSwiper: Swiper | null = null;
+let thumbsSwiper: Swiper | null = null;
 
   function initializeSwiper() {
     // Destruir instancias anteriores

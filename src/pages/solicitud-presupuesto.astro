@@ -166,38 +166,44 @@ const {
     </div>
   </WidgetWrapper>
 
-  <!-- Script para actualizar dinámicamente las medidas -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    // Función para inicializar el formulario
+    function initializeForm() {
       const form = document.querySelector('#contact-form');
       const tipoSelect = form?.querySelector('select[name="tipo"]');
       const medidaSelect = form?.querySelector('select[name="medida"]');
       const feedback = document.querySelector('#form-feedback');
-
+  
       const medidas = {
         'mesa-espiral': ['15x15 cm', '21x10 cm', 'Din A5'],    
         'mesa-triangular': ['15x15 cm', '21x10 cm', 'Din A5'],
         'pared-espiral': ['38x48 cm'],
         'pared-revista': ['34 x 24 cm (cerrado)']
       };
-
-      tipoSelect.addEventListener('change', (event) => {
-        const selectedTipo = event.target.value;
-        medidaSelect.innerHTML = '';
-        medidas[selectedTipo].forEach(medida => {
-          const option = document.createElement('option');
-          option.value = medida;
-          option.textContent = medida;
-          medidaSelect.appendChild(option);
+  
+      // Si tipoSelect y medidaSelect existen, adjuntamos el evento de cambio
+      if (tipoSelect && medidaSelect) {
+        tipoSelect.addEventListener('change', (event) => {
+          const selectedTipo = event.target.value;
+          medidaSelect.innerHTML = ''; // Limpiar las opciones actuales
+  
+          // Añadir nuevas opciones según el tipo seleccionado
+          medidas[selectedTipo]?.forEach(medida => {
+            const option = document.createElement('option');
+            option.value = medida;
+            option.textContent = medida;
+            medidaSelect.appendChild(option);
+          });
         });
-      });
-
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Evita la redirección predeterminada
-
+      }
+  
+      // Envío del formulario
+      form?.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Evitar redirección predeterminada
+  
         const formData = new FormData(form);
         const jsonData = Object.fromEntries(formData.entries());
-
+  
         try {
           const response = await fetch(window.location.href, {
             method: 'POST',
@@ -206,14 +212,14 @@ const {
             },
             body: new URLSearchParams(jsonData).toString(),
           });
-
+  
           if (response.ok) {
             feedback.classList.remove('bg-red-500');
             feedback.classList.add('bg-green-500');
             feedback.innerHTML = 'Correo enviado correctamente.';
             feedback.classList.remove('hidden');
             form.reset();
-            redirectToHome()  // Restablecer formulario
+            redirectToHome();  // Restablecer formulario y redirigir
           } else {
             feedback.innerHTML = 'Error al enviar el correo.';
             feedback.classList.add('bg-red-500');
@@ -226,12 +232,26 @@ const {
           feedback.classList.remove('hidden');
         }
       });
+    }
+  
+    // Función que se ejecuta cuando el DOM está listo
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeForm();  // Inicializar el formulario la primera vez
+  
+      // Re-inicializar después de la navegación en Astro
+      document.addEventListener('astro:after-swap', () => {
+        setTimeout(() => {
+          console.log('Re-inicializando formulario después de la navegación');
+          initializeForm();  // Re-inicializar el formulario tras la navegación dinámica
+        }, 100);  // Añadir un pequeño retardo para asegurar que el DOM esté completamente listo
+      });
     });
-
+  
+    // Redirigir después de un envío exitoso
     function redirectToHome() {
       setTimeout(() => {
-      window.location.href = '/'; // Redirigir a la página de inicio (cambiar si es necesario)
-      }, 3000); // 3000 ms = 3 segundos
+        window.location.href = '/'; // Cambia si es necesario
+      }, 3000);  // 3 segundos de retraso
     }
   </script>
 </Layout>

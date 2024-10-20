@@ -1,7 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'astro/config';
-import node from "@astrojs/node";
+import netlify from "@astrojs/netlify/functions"; // Adaptador para Netlify
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -13,15 +13,10 @@ import astroIcon from 'astro-icon';
 import astrowind from './vendor/integration';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Configuración optimizada para sitio estático en Plesk
+// Configuración optimizada para Netlify
 export default defineConfig({
-  output: 'server',  // Salida estática optimizada para Plesk
-  adapter: node({
-    mode: "standalone"
-  }),
-  server: {
-    host: true
-  },  // Asegúrate de reemplazar esto por tu dominio real
+  output: 'server',  // Usa 'server' si necesitas SSR o funciones
+  adapter: netlify(), // Cambiado a Netlify Functions
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -49,11 +44,9 @@ export default defineConfig({
         ],
       },
     }),
-
     partytown({
       config: { forward: ['dataLayer.push'] },
     }),
-
     compress({
       CSS: true,
       HTML: {
@@ -66,7 +59,6 @@ export default defineConfig({
       SVG: false,
       Logger: 1,
     }),
-
     astrowind({
       config: './src/config.yaml',
     }),
@@ -84,7 +76,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-      //  '~': path.resolve(__dirname, './src'),
+        '~': path.resolve(__dirname, './src'),
       },
     },
   },

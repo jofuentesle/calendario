@@ -10,6 +10,7 @@ interface Props extends Widget {
   tagline?: string;
   callToAction?: CallToAction;
   actions?: string | CallToAction[];
+  tipo?:string;
 }
 
 const {
@@ -17,7 +18,6 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   actions = await Astro.slots.render('actions'),
-
   id,
   isDark = false,
   classes = {},

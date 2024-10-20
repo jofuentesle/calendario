@@ -1,6 +1,6 @@
 ---
 const { 
-  id = 'contact-form', 
+  id = 'contact-form',  // ID dinámico
   title, 
   subtitle, 
   inputs, 
@@ -13,14 +13,14 @@ const {
 <form id={id} method="POST" class="space-y-6">
   <h2 class="text-2xl font-bold">{title}</h2>
   <p class="text-sm">{subtitle}</p>
-  {/* Renderizado de los inputs */}
+
   {inputs.map(input => (
     <div class="mb-4">
       <label for={input.name} class="block text-sm font-medium text-gray-700">
         {input.label}
       </label>
       {input.type === 'select' ? (
-        <select id={input.name} name={input.name} class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900">
+        <select id={input.name} name={input.name} class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200">
           {input.options.map(option => (
             <option value={option.value}>{option.label}</option>
           ))}
@@ -30,30 +30,70 @@ const {
           type={input.type}
           name={input.name}
           id={input.name}
-          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200"
           required={input.required}
         />
       )}
     </div>
   ))}
 
-  {/* Renderizado del disclaimer */}
-  {disclaimer && (
-    <div class="flex items-start">
-      <input id="disclaimer" name="disclaimer" type="checkbox" required class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
-      <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
-        {disclaimer.label}
-      </label>
-    </div>
-  )}
+{disclaimer && (
+  <div class="flex items-start">
+    <input 
+      id="disclaimer" 
+      name="disclaimer" 
+      type="checkbox" 
+      required 
+      class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2" 
+    />
+    <label 
+      for="disclaimer" 
+      class="cursor-pointer select-none text-sm text-gray-600"
+    >
+      {disclaimer.label}
+    </label>
+  </div>
+)}
 
-  {/* Botón de envío */}
   <div>
-    <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
       {button || 'Solicitud de precio'}
     </button>
   </div>
 
-  {/* Descripción final */}
   {description && <p class="mt-2 text-sm text-gray-500">{description}</p>}
 </form>
+
+<script>
+  // Escuchar el evento de cuando el DOM esté completamente cargado
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('{id}')?.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      // Casting explícito para asegurar que event.target es un formulario HTML
+      const form = event.target as HTMLFormElement;
+      const formData = new FormData(form);  // Crear FormData desde el formulario
+
+      const data = Object.fromEntries(formData.entries());  // Obtener datos correctamente
+
+      try {
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert('Correo enviado exitosamente.');
+        } else {
+          alert('Error al enviar el correo.');
+        }
+      } catch (error) {
+        console.error('Error al enviar el correo:', error);
+        alert('Error inesperado.');
+      }
+    });
+  });
+</script>

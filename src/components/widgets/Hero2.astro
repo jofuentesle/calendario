@@ -75,23 +75,48 @@ const {
 </section>
 
 <style>
-  .container {
+ /* .container {
     display: flex;
-    flex-direction: column; /* Comportamiento por defecto en pantallas pequeñas */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    }
+  }
 
-    .gallery-container {
-      padding: 20px;
-      width: 100%;
+  .gallery-container {
+    padding: 20px;
+    width: 100%;
+  }
+  .flex {
+    display: flex;
+  }
+  .text-container {
+    padding: 20px;
+  }
+  .gallery-container {
+    padding: 20px;
+  }
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
     }
+  }*/
+  .container {
+    display: flex;
+  flex-direction: column; /* Comportamiento por defecto en pantallas pequeñas */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  }
+
+  .gallery-container {
+    padding: 20px;
+    width: 100%;
+  }
 
   /* Para pantallas grandes, dividir en dos columnas */
-  @media (min-width: 1024px) {
-    .container {
-      flex-direction: row; /* Cambia la dirección a fila en pantallas grandes */
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: row; /* Cambia la dirección a fila en pantallas grandes */
   }
 
   .text-container {

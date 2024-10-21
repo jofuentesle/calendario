@@ -4,75 +4,71 @@ import HeroText from '~/components/widgets/HeroText.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
+
 const metadata = {
   title: 'Calendarios de mesa',
 };
+
+const tipoCalendario = 'Calendario de Mesa Espiral'; // Definir la constante
+
+const inputs = [
+  {
+    type: 'text',
+    name: 'nombre',
+    label: 'Nombre',
+  },
+  {
+    type: 'email',
+    name: 'email',
+    label: 'Correo electrónico',
+  },
+  {
+    type: 'tel',
+    name: 'phone',
+    label: 'Teléfono',
+  },
+  {
+    type: 'select',
+    name: 'medida',
+    label: 'Medida Calendario',
+    options: [
+      { value: '21x10', label: 'Rectangular 21x10 cm' },
+      { value: '15x15', label: 'Cuadrado 15x15 cm' },
+      { value: '21x15', label: 'Dina A5 21x15 cm' },
+    ],
+  },
+  {
+    type: 'select',
+    name: 'cantidad',
+    label: 'Cantidad',
+    options: [
+      { value: '100', label: '100' },
+      { value: '200', label: '200' },
+      { value: '500', label: '500' },
+      { value: '1000', label: '1000' },
+    ],
+  },
+  
+  
+];
+
 ---
 
 <Layout metadata={metadata}>
   <!-- HeroText Widget ******************* -->
-
   <HeroText tagline="Solicitud de Precio" title="Calendario de Mesa Espiral" />
 
   <ContactUs
-    id="form-contact"
-    title="Consulta precios y promociones especiales para el Calendario para mesa con espiral!"
-    subtitle="Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año."
-    inputs={[
-      {
-        type: 'text',
-        name: 'nombre',
-        label: 'Nombre',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-      },
-      {
-        type: 'tel',
-        name: 'phone',
-        label: 'Teléfono',
-      },
-      {
-        type: 'text',
-        name: 'bussines',
-        label: 'Empresa',
-      },
-      
-      {
-      type: 'select', 
-      name: 'medida', 
-      label: 'Medida Calendario', 
-      options: [
-        { value: '21x10', label: 'Rectangular 21x10 cm' },
-        { value: '15x15', label: 'Cuadrado 15x15 cm' },
-        { value: '21x15', label: 'Dina A5 21x15 cm' },
-        { value: '1000', label: '1000' }
-      ]
-    },
-    {
-      type: 'select', 
-      name: 'cantidad', 
-      label: 'Cantidad', 
-      options: [
-        { value: '100', label: '100' },
-        { value: '200', label: '200' },
-        { value: '500', label: '500' },
-        { value: '1000', label: '1000' },
-      ],
-    },
-    ]}
-  
-    disclaimer={{
-      label:
-        'Al enviar este formulario de contacto, reconoces y aceptas política de privacidad.',
-    }}
-    description="Nuestro equipo comercial contactará lo más rápido posible."
+    
+    button="Enviar Solicitud"
+    subtitle="Para respuestas rápidas, consulta nuestras preguntas frecuentes. Si no encuentras lo que buscas, estamos encantados de ayudarte."
+    inputs={inputs}
+      disclaimer={{
+        label: 'Al enviar este formulario, aceptas nuestra política de privacidad.',
+      }}
   />
 
   <!-- Features2 Widget ************** -->
-
   <Features2
     title="Estamos para ayudarte!"
     items={[
@@ -108,36 +104,39 @@ const metadata = {
     ]}
   />
 </Layout>
+
+<!-- Script para manejar el envío del formulario -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('from-contact');
-
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const jsonData = Object.fromEntries(formData.entries());
-
-      try {
-        const response = await fetch('/api/sen-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(jsonData),
-        });
-
-        const result = await response.json();
-        if (response.ok && result.success) {
-          alert('Formulario enviado con éxito.');
-          form.reset();
-        } else {
-          alert('Error al enviar el formulario.');
+  document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('form-contact'); // Verifica que este ID coincida con el del formulario
+  
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Evita el comportamiento por defecto de recargar la página
+  
+        const formData = new FormData(form); // Captura los datos del formulario
+        const jsonData = Object.fromEntries(formData.entries()); // Convierte los datos a un formato JSON
+  
+        try {
+          const response = await fetch('/api/send-email', { // Verifica que la URL de tu API es correcta
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonData), // Envía los datos del formulario en formato JSON
+          });
+  
+          const result = await response.json();
+  
+          if (response.ok && result.success) {
+            alert('Formulario enviado con éxito.');
+            form.reset(); // Limpia el formulario si el envío fue exitoso
+          } else {
+            alert('Error al enviar el formulario: ' + (result.error || 'desconocido'));
+          }
+        } catch (error) {
+          console.error('Error en el envío del formulario:', error);
+          alert('Error inesperado: ' + error.message);
         }
-      } catch (error) {
-        console.error('Error en el envío del formulario:', error);
-        alert('Error inesperado.');
-      }
-    });
+      });
   });
-</script>
+  </script>

@@ -330,3 +330,15 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
     empresa?: string;
   };
 }
+
+export interface InputOption {
+  value: string;
+  label: string;
+}
+
+export interface FormInput {
+  type: string;
+  name: string;
+  label?: string;
+  options?: InputOption[]; // Aquí definimos que "options" es un array de objetos con value y label
+}

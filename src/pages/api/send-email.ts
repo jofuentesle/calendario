@@ -14,35 +14,36 @@ sendGrid.setApiKey(apiKey);
 
 export const POST = async ({ request }) => {
   try {
-    const data = await request.json();
+    // Obtener los datos del formulario enviados desde la solicitud
+    const { nombre, email, telefono, empresa, tipo, cantidad } = await request.json();
 
-    // Validar que todos los campos requeridos existan
-    const { name, email, telefono, empresa, tipo, medida, cantidad } = data;
-    if (!name || !email || !telefono || !tipo || !medida || !cantidad) {
+    // Verificar si los campos requeridos están presentes
+    if (!nombre || !email || !telefono || !tipo || !cantidad) {
       return new Response(JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }), { status: 400 });
     }
 
+    // Construir el contenido del correo
     const messageContent = `
-      Nombre: ${name}
+      Nombre: ${nombre}
       Email: ${email}
       Teléfono: ${telefono}
       Empresa: ${empresa || 'No proporcionado'}
       Tipo de Calendario: ${tipo}
-      Medida: ${medida}
       Cantidad: ${cantidad}
     `;
 
+    // Crear el mensaje a enviar
     const msg = {
-      to: email, // Cambia esto al destinatario correcto
+      to: 'jfuentesleiva@gmail.com',  // Cambiar al destinatario correcto
       from: 'noreply@reprodisseny.com',
-      replyTo: { email, name },
-      subject: `Solicitud de presupuesto de ${name}`,
-      text: messageContent,
+      subject: `Solicitud de presupuesto de ${nombre}`,
+      text: messageContent, // Enviar el mensaje de texto con todos los datos
     };
 
     // Enviar el correo
     await sendGrid.send(msg);
 
+    // Responder con éxito
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
     console.error('Error al enviar el correo:', error);

@@ -1,143 +1,168 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import ContactUs from '~/components/widgets/Contact.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Calendarios de mesa',
+  title: 'Solicitud de presupuesto para Calendarios Triangulares de Mesa',
 };
+
+// Constante para el tipo de calendario
+const tipoCalendario = 'mesa-triangular';
+
 ---
 
 <Layout metadata={metadata}>
-  <!-- HeroText Widget ******************* -->
-
-  <HeroText tagline="Solicitud de Precio" title="Calendario de Mesa Triangulares" />
-
-  <ContactUs
-    id="form-contact"
-    title="Consulta precios y promociones especiales para el Calendario para mesa triangulares!"
-    subtitle="Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año."
-    inputs={[
-      {
-        type: 'text',
-        name: 'nombre',
-        label: 'Nombre',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-      },
-      {
-        type: 'tel',
-        name: 'phone',
-        label: 'Teléfono',
-      },
-      {
-        type: 'text',
-        name: 'bussines',
-        label: 'Empresa',
-      },
-      
-      {
-      type: 'select', 
-      name: 'medida', 
-      label: 'Medida Calendario', 
-      options: [
-        { value: '21x10', label: 'Rectangular 21x10 cm' },
-        { value: '15x15', label: 'Cuadrado 15x15 cm' },
-        { value: '21x15', label: 'Dina A5 21x15 cm' },
-        { value: '1000', label: '1000' }
-      ]
-    },
-    {
-      type: 'select', 
-      name: 'cantidad', 
-      label: 'Cantidad', 
-      options: [
-        { value: '100', label: '100' },
-        { value: '200', label: '200' },
-        { value: '500', label: '500' },
-        { value: '1000', label: '1000' },
-      ],
-    },
-    ]}
   
-    disclaimer={{
-      label:
-        'Al enviar este formulario de contacto, reconoces y aceptas política de privacidad.',
-    }}
-    description="Nuestro equipo comercial contactará lo más rápido posible."
-  />
+  <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <form id="form-presupuesto-triangular" class="space-y-6"> <!-- ID actualizado -->
+      <div>
+        <label for="nombre-triangular" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input
+          type="text"
+          name="nombre"
+          id="nombre-triangular" 
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu nombre"
+          required
+        />
+      </div>
 
-  <!-- Features2 Widget ************** -->
+      <div>
+        <label for="email-triangular" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        <input
+          type="email"
+          name="email"
+          id="email-triangular" 
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu correo"
+          required
+        />
+      </div>
 
-  <Features2
-    title="Estamos para ayudarte!"
-    items={[
-      {
-        title: 'Atención al cliente',
-        description: `Contáctanos para consultas sobre gestión de cuenta, navegación web, problemas de pago o acceso a productos adquiridos.`,
-      },
-      {
-        title: 'Departamento comercial',
-        description:
-          'Contáctanos para preguntas sobre compras, personalización, licencias comerciales o creación de calendarios personalizados.',
-      },
-      {
-        title: 'Soporte técnico',
-        description:
-          'Contáctanos si enfrentas problemas técnicos con la personalización, diseño o compatibilidad de calendarios.',
-      },
-      {
-        title: 'Teléfono',
-        description: '+34 932 749 890',
-        icon: 'tabler:headset',
-      },
-      {
-        title: 'Email',
-        description: 'comercial@reproidsseny.com',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Ubicación',
-        description: 'Juan de Mena, nº 19 - 08035 BCN',
-        icon: 'tabler:map-pin',
-      },
-    ]}
-  />
+      <div>
+        <label for="telefono-triangular" class="block text-sm font-medium text-gray-700">Teléfono</label>
+        <input
+          type="tel"
+          name="telefono"
+          id="telefono-triangular" 
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu teléfono"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="empresa-triangular" class="block text-sm font-medium text-gray-700">Empresa (Opcional)</label>
+        <input
+          type="text"
+          name="empresa"
+          id="empresa-triangular" 
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu empresa"
+        />
+      </div>
+
+      <!-- Campo oculto para el tipo de calendario -->
+      <input type="hidden" name="tipo" value={tipoCalendario} />
+
+      <!-- Selector de medidas -->
+      <div>
+        <label for="medida-triangular" class="block text-sm font-medium text-gray-700">Medida</label>
+        <select
+          id="medida-triangular" 
+          name="medida"
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          required
+        >
+          <option value="15x15 cm">15x15 cm</option>
+          <option value="21x10 cm">21x10 cm</option>
+          <option value="Din A5">Din A5</option>
+        </select>
+      </div>
+
+      <!-- Cantidad de calendarios -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Cantidad</label>
+        <div id="cantidad-selector-triangular" class="flex justify-between flex-wrap gap-2 mt-2"> <!-- ID actualizado -->
+          <!-- Botones para seleccionar cantidad -->
+          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="100">100</button>
+          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="200">200</button>
+          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="500">500</button>
+          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="750">750</button>
+          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="1000">1000</button>
+        </div>
+        <input type="hidden" name="cantidad" id="cantidad-triangular" required /> <!-- ID actualizado -->
+      </div>
+
+      <!-- Feedback messages -->
+      <div id="feedback-triangular" class="hidden p-4 text-white rounded-md"></div> <!-- ID actualizado -->
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Enviar
+      </button>
+    </form>
+  </div>
 </Layout>
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('from-contact');
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form-presupuesto-triangular'); // ID actualizado
+    const cantidadButtons = document.querySelectorAll('.cantidad-btn');
+    const cantidadInput = document.getElementById('cantidad-triangular'); // ID actualizado
+    const feedback = document.getElementById('feedback-triangular'); // ID actualizado
 
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const jsonData = Object.fromEntries(formData.entries());
-
-      try {
-        const response = await fetch('/api/sen-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(jsonData),
-        });
-
-        const result = await response.json();
-        if (response.ok && result.success) {
-          alert('Formulario enviado con éxito.');
-          form.reset();
-        } else {
-          alert('Error al enviar el formulario.');
-        }
-      } catch (error) {
-        console.error('Error en el envío del formulario:', error);
-        alert('Error inesperado.');
-      }
+    // Añadir funcionalidad para seleccionar cantidad al hacer clic en los botones
+    cantidadButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Quitar selección de todos los botones
+        cantidadButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+        // Añadir selección al botón clicado
+        button.classList.add('bg-blue-500', 'text-white');
+        // Asignar el valor al campo oculto
+        cantidadInput.value = button.dataset.value;
+      });
     });
+
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            feedback.textContent = 'Correo enviado correctamente';
+            feedback.classList.remove('hidden', 'bg-red-500');
+            feedback.classList.add('bg-green-500');
+            form.reset();
+
+            // Redireccionar a la página de inicio después de 3 segundos
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 3000);
+          } else {
+            feedback.textContent = 'Error al enviar el correo';
+            feedback.classList.remove('hidden', 'bg-green-500');
+            feedback.classList.add('bg-red-500');
+          }
+        } catch (error) {
+          console.error('Error en el envío del formulario:', error);
+          feedback.textContent = 'Error en el envío';
+          feedback.classList.remove('hidden', 'bg-green-500');
+          feedback.classList.add('bg-red-500');
+        }
+      });
+    } else {
+      console.error('Formulario no encontrado');
+    }
   });
 </script>

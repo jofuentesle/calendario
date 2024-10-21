@@ -1,9 +1,11 @@
 ---
 import type { FormInput } from '~/types'; 
 const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } = Astro.props;
----
 
-<form id="form-contact">
+// Tipos válidos de HTMLInputTypeAttribute
+const validInputTypes: Array<HTMLInputTypeAttribute> = ['text', 'email', 'tel', 'password', 'number', 'search', 'url', 'date'];
+---
+<form id="form-contact" novalidate>
   {inputs &&
     inputs.map(({ type = 'text', name, label = '', options = [] }: FormInput) =>
       name && (
@@ -18,72 +20,53 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
               name={name}
               id={name}
               class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+              required={['tipo', 'medida'].includes(name)}
             >
               {options.map(option => (
                 <option value={option.value}>{option.label}</option>
               ))}
             </select>
           ) : (
-            <input
-              type={type}
-              name={name}
-              id={name}
-              class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-            />
+            <div class="relative">
+              <span class="icon-placeholder absolute left-3 top-1/2 transform -translate-y-1/2">
+                <i class={`icon-${name}`}></i>
+              </span>
+              <input
+                type={validInputTypes.includes(type) ? (type) : 'text'}
+                name={name}
+                id={name}
+                class="py-3 px-10 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                placeholder={`Enter your ${label.toLowerCase()}`}
+                
+              />
+              <p class="text-red-500 hidden" id={`error-${name}`}>Este campo es obligatorio.</p>
+            </div>
           )}
         </div>
       )
-    )
-  }
-
+    )}
   {textarea && (
-    <div>
-      <label for="textarea" class="block text-sm font-medium">
+    <div class="mb-6">
+      <label for={textarea.name} class="block text-sm font-medium">
         {textarea.label}
       </label>
       <textarea
-        id="textarea"
-        name={textarea.name ? textarea.name : 'message'}
-        rows={textarea.rows ? textarea.rows : 4}
-        placeholder={textarea.placeholder}
+        name={textarea.name}
+        id={textarea.name}
         class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-      />
+        required={textarea.required}
+        placeholder={textarea.label}
+      ></textarea>
     </div>
   )}
-
-  <!-- Checkbox de aceptación de política de privacidad -->
   {disclaimer && (
-    <div class="mt-3 flex items-start">
-      <div class="flex mt-0.5">
-        <input
-          id="disclaimer"
-          name="disclaimer"
-          type="checkbox"
-          class="cursor-pointer mt-1"
-          required
-        />
-      </div>
-      <div class="ml-3">
-        <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
-          {disclaimer.label} <!-- Aquí se mostrará el texto de la política de privacidad -->
-        </label>
-      </div>
+    <div class="mb-6">
+      <label>
+        <input type="checkbox" name="privacy" id="privacy" required /> {disclaimer.label}
+      </label>
     </div>
   )}
-
-  {description && (
-    <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
-      {description}
-    </p>
-  )}
-
-  <!-- Botón de envío -->
-  <div class="mt-6">
-    <button
-      type="submit"
-      class="w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-    >
-      {button} <!-- Texto del botón personalizado -->
-    </button>
-  </div>
+  <button type="submit" class="py-3 px-6 bg-blue-500 text-white rounded-lg w-full">
+    {button}
+  </button>
 </form>

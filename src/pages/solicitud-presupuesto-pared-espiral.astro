@@ -1,165 +1,143 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import sendGrid from '@sendgrid/mail';
-import FormContainer from '~/components/ui/Form.astro';
-import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-
-// Configuración de SendGrid
-sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Solicitar presupuesto para calendarios de pared con espiral',
+  title: 'Calendarios de pared',
 };
-
-// Definir las características específicas para el calendario de pared con espiral
-const calendarDetails = {
-  title: 'Pared con Espiral',
-  subtitle: 'Promociona tu marca durante todo el año con nuestros calendarios de pared con espiral.',
-  medidas: ['33x23 cm', '38x48 cm'],
-};
-
-// Entradas del formulario para calendarios de pared con espiral
-const inputs = [
-  { type: 'text', name: 'name', label: 'Nombre', required: true },
-  { type: 'email', name: 'email', label: 'Email', required: true },
-  { type: 'tel', name: 'telefono', label: 'Teléfono', required: true },
-  { type: 'text', name: 'empresa', label: 'Empresa', required: false },
-  {
-    type: 'select', 
-    name: 'medida', 
-    label: 'Medida Calendario', 
-    required: true,
-    options: calendarDetails.medidas.map((medida) => ({ value: medida, label: medida })),
-  },
-  {
-    type: 'select', 
-    name: 'cantidad', 
-    label: 'Cantidad', 
-    required: true,
-    options: [
-      { value: '100', label: '100' },
-      { value: '200', label: '200' },
-      { value: '500', label: '500' },
-      { value: '1000', label: '1000' },
-    ],
-  },
-];
-
-const disclaimer = {
-  label: 'Al enviar este formulario, aceptas nuestra política de privacidad.',
-};
-
-const button = 'Enviar';
-
-const description = "Completa el formulario para solicitar un presupuesto para nuestros calendarios de pared con espiral.";
-
-// Lógica del servidor para enviar el correo a través de SendGrid
-if (Astro.request.method === 'POST') {
-  try {
-    const data = await Astro.request.formData();
-    const name = data.get('name');
-    const email = data.get('email');
-    const telefono = data.get('telefono');
-    const empresa = data.get('empresa') || 'No proporcionado';
-    const tipo = data.get('tipo') || 'Pared Espiral';
-    const medida = data.get('medida') || 'No seleccionado';
-    const cantidad = data.get('cantidad') || 'No seleccionado';
-
-    const messageContent = `
-      Nombre: ${name}
-      Email: ${email}
-      Teléfono: ${telefono}
-      Empresa: ${empresa}
-      Tipo de Calendario: ${tipo}
-      Medida: ${medida}
-      Cantidad: ${cantidad}
-    `;
-
-    const msg = {
-      to: email,
-      from: 'noreply@reprodisseny.com',
-      replyTo: { email, name },
-      subject: `Solicitud de presupuesto de ${name}`,
-      text: messageContent,
-    };
-
-    await sendGrid.send(msg).then(() => {
-      console.log('Correo enviado correctamente');
-    }).catch((error) => {
-      console.error('Error al enviar el correo:', error);
-    });
-
-  } catch (error) {
-    console.error('Error al procesar el formulario:', error);
-  }
-}
 ---
 
 <Layout metadata={metadata}>
-  <WidgetWrapper containerClass="max-w-7xl mx-auto">
-    <Headline title="Solicitar presupuesto para tus Calendarios de Pared con Espiral" subtitle="Conéctate con nosotros para personalizar el calendario con espiral perfecto y promocionar tu marca todo el año." />
-    
-    <!-- Contenedor del formulario -->
-    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
-      <form id="contact-form">
-        <FormContainer
-          inputs={inputs}
-          disclaimer={disclaimer}
-          button={button}
-          description={description}
-        />
-        <div id="form-feedback" class="hidden mt-4 p-4 text-white bg-red-500 rounded"></div> <!-- Contenedor para mensajes al final del formulario -->
-      </form>
-    </div>
-  </WidgetWrapper>
+  <!-- HeroText Widget ******************* -->
 
-   <!-- Script para manejar la actualización dinámica -->
-   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const form = document.querySelector('#contact-form');
-      const feedback = document.querySelector('#form-feedback');
+  <HeroText tagline="Solicitud de Precio" title="Calendario de Pared Espiral" />
 
-      form?.addEventListener('submit', async (event) => {
-        event.preventDefault();
+  <ContactUs
+    id="form-contact"
+    title="Consulta precios y promociones especiales para el Calendario para pared con espiral!"
+    subtitle="Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año."
+    inputs={[
+      {
+        type: 'text',
+        name: 'nombre',
+        label: 'Nombre',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Correo electrónico',
+      },
+      {
+        type: 'tel',
+        name: 'phone',
+        label: 'Teléfono',
+      },
+      {
+        type: 'text',
+        name: 'bussines',
+        label: 'Empresa',
+      },
+      
+      {
+      type: 'select', 
+      name: 'medida', 
+      label: 'Medida Calendario', 
+      options: [
+        { value: '21x10', label: 'Rectangular 21x10 cm' },
+        { value: '15x15', label: 'Cuadrado 15x15 cm' },
+        { value: '21x15', label: 'Dina A5 21x15 cm' },
+        { value: '1000', label: '1000' }
+      ]
+    },
+    {
+      type: 'select', 
+      name: 'cantidad', 
+      label: 'Cantidad', 
+      options: [
+        { value: '100', label: '100' },
+        { value: '200', label: '200' },
+        { value: '500', label: '500' },
+        { value: '1000', label: '1000' },
+      ],
+    },
+    ]}
+  
+    disclaimer={{
+      label:
+        'Al enviar este formulario de contacto, reconoces y aceptas política de privacidad.',
+    }}
+    description="Nuestro equipo comercial contactará lo más rápido posible."
+  />
 
-        const formData = new FormData(form);
-        const jsonData = Object.fromEntries(formData.entries());
+  <!-- Features2 Widget ************** -->
 
-        try {
-          const response = await fetch(window.location.href, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(jsonData).toString(),
-          });
-
-          if (response.ok) {
-            feedback?.classList.remove('bg-red-500');
-            feedback?.classList.add('bg-green-500');
-            feedback.innerHTML = 'Correo enviado correctamente.';
-            feedback?.classList.remove('hidden');
-            form.reset();
-            redirectToHome();
-          } else {
-            feedback.innerHTML = 'Error al enviar el correo.';
-            feedback?.classList.add('bg-red-500');
-            feedback?.classList.remove('hidden');
-          }
-        } catch (error) {
-          console.error('Error en la solicitud:', error);
-          feedback.innerHTML = 'Error en el envío del formulario.';
-          feedback?.classList.add('bg-red-500');
-          feedback?.classList.remove('hidden');
-        }
-      });
-    });
-
-    function redirectToHome() {
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 3000);
-    }
-  </script>
+  <Features2
+    title="Estamos para ayudarte!"
+    items={[
+      {
+        title: 'Atención al cliente',
+        description: `Contáctanos para consultas sobre gestión de cuenta, navegación web, problemas de pago o acceso a productos adquiridos.`,
+      },
+      {
+        title: 'Departamento comercial',
+        description:
+          'Contáctanos para preguntas sobre compras, personalización, licencias comerciales o creación de calendarios personalizados.',
+      },
+      {
+        title: 'Soporte técnico',
+        description:
+          'Contáctanos si enfrentas problemas técnicos con la personalización, diseño o compatibilidad de calendarios.',
+      },
+      {
+        title: 'Teléfono',
+        description: '+34 932 749 890',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Email',
+        description: 'comercial@reproidsseny.com',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Ubicación',
+        description: 'Juan de Mena, nº 19 - 08035 BCN',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
 </Layout>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('from-contact');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const jsonData = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/sen-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          alert('Formulario enviado con éxito.');
+          form.reset();
+        } else {
+          alert('Error al enviar el formulario.');
+        }
+      } catch (error) {
+        console.error('Error en el envío del formulario:', error);
+        alert('Error inesperado.');
+      }
+    });
+  });
+</script>

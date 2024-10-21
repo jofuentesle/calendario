@@ -18,22 +18,22 @@ const tipoCalendario = Astro.url.searchParams.get('tipo') || 'mesa-espiral';
 // Definir los valores por defecto para cada tipo de calendario
 const calendarOptions = {
   'mesa-espiral': {
-    title: 'Calendarios Mesa Espiral',
+    title: 'Mesa Espiral',
     subtitle: 'Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año.',
     medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
   },
   'mesa-triangular': {
-    title: 'Calendarios Mesa Triangular',
+    title: 'Mesa Triangular',
     subtitle: 'Perfectos para oficinas y mesas de trabajo, personaliza tus calendarios triangulares.',
     medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
   },
   'pared-espiral': {
-    title: 'Pared con Espiral',
+    title: 'Pared Espiral',
     subtitle: 'Promociona tu marca durante todo el año con nuestros calendarios de pared con espiral.',
     medidas: ['33x23 cm'],
   },
   'pared-revista': {
-    title: 'Calendarios Revista',
+    title: 'Pared Revista',
     subtitle: 'Nuestros calendarios tipo revista son perfectos para destacar tu marca de manera elegante.',
     medidas: ['33 x 23 cm (cerrado)'],
   },
@@ -128,9 +128,6 @@ if (Astro.request.method === 'POST') {
 }
 ---
 
----
-// Todo el código inicial se mantiene igual
----
 <Layout metadata={metadata}>
   <WidgetWrapper containerClass="max-w-7xl mx-auto">
     <Headline title="Solicitar presupuesto para tus Calendarios Personalizados" subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." />
@@ -149,9 +146,9 @@ if (Astro.request.method === 'POST') {
     </div>
   </WidgetWrapper>
 
-  <!-- Script para actualizar dinámicamente las medidas -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
+   <!-- Script para actualizar dinámicamente las medidas -->
+   <script>
+    document.addEventListener('DOMContentLoaded', async () => {
       // Selecciona el formulario y los selects de tipo y medida
       const form = document.querySelector('#contact-form') as HTMLFormElement | null;
       const tipoSelect = form?.querySelector('select[name="tipo"]') as HTMLSelectElement | null;
@@ -189,7 +186,7 @@ if (Astro.request.method === 'POST') {
       handleUrlChange();
 
       // Actualizar las medidas cuando cambia el tipo de calendario seleccionado
-      tipoSelect.addEventListener('change', (event) => {
+      tipoSelect?.addEventListener('change', (event) => {
         const selectedTipo = (event.target as HTMLSelectElement).value;
         actualizarMedidas(selectedTipo);
       });

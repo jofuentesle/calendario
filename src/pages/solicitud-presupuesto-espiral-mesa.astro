@@ -1,0 +1,164 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import sendGrid from '@sendgrid/mail';
+import FormContainer from '~/components/ui/Form.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+
+// Configuración de SendGrid
+sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
+
+const metadata = {
+  title: 'Solicitar presupuesto para calendarios de mesa con espiral',
+};
+
+// Definir los valores específicos para el calendario de mesa con espiral
+const calendarOptions = {
+  title: 'Calendario Mesa Espiral',
+  subtitle: 'Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año.',
+  medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
+};
+
+// Entradas del formulario
+const inputs = [
+  { type: 'text', name: 'name', label: 'Nombre', required: true },
+  { type: 'email', name: 'email', label: 'Email', required: true },
+  { type: 'tel', name: 'telefono', label: 'Teléfono', required: true },
+  { type: 'text', name: 'empresa', label: 'Empresa', required: false },
+  {
+    type: 'select',
+    name: 'medida',
+    label: 'Medida Calendario',
+    required: true,
+    options: calendarOptions.medidas.map((medida) => ({ value: medida, label: medida })),
+  },
+  {
+    type: 'select',
+    name: 'cantidad',
+    label: 'Cantidad',
+    required: true,
+    options: [
+      { value: '100', label: '100' },
+      { value: '200', label: '200' },
+      { value: '500', label: '500' },
+      { value: '1000', label: '1000' },
+    ],
+  },
+];
+
+const disclaimer = {
+  label: 'Al enviar este formulario, aceptas nuestra política de privacidad.',
+};
+
+const button = 'Enviar';
+
+const description = "Completa el formulario para solicitar un presupuesto para nuestros calendarios de mesa con espiral.";
+
+// Lógica del servidor para enviar el correo a través de SendGrid
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const name = data.get('name');
+    const email = data.get('email');
+    const telefono = data.get('telefono');
+    const empresa = data.get('empresa') || 'No proporcionado';
+    const medida = data.get('medida') || 'No seleccionado';
+    const cantidad = data.get('cantidad') || 'No seleccionado';
+
+    const messageContent = `
+      Nombre: ${name}
+      Email: ${email}
+      Teléfono: ${telefono}
+      Empresa: ${empresa}
+      Medida: ${medida}
+      Cantidad: ${cantidad}
+    `;
+
+    const msg = {
+      to: email,
+      from: 'noreply@reprodisseny.com',
+      replyTo: { email, name },
+      subject: `Solicitud de presupuesto de ${name}`,
+      text: messageContent,
+    };
+
+    await sendGrid.send(msg);
+    await sendGrid.send(msg).then(() => {
+      console.log('Correo enviado correctamente');
+    }).catch((error) => {
+      console.error('Error al enviar el correo:', error);
+    });
+
+    } catch (error) {
+      console.error('Error al procesar el formulario:', error);
+    } 
+}
+---
+
+<Layout metadata={metadata}>
+  <WidgetWrapper containerClass="max-w-7xl mx-auto">
+    <Headline title="Solicitar presupuesto para Calendarios de Mesa con Espiral" subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." />
+
+    <!-- Contenedor del formulario -->
+    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
+      <form id="contact-form">
+        <FormContainer
+          inputs={inputs}
+          disclaimer={disclaimer}
+          button={button}
+          description={description}
+        />
+        <div id="form-feedback" class="hidden mt-4 p-4 text-white bg-red-500 rounded"></div> <!-- Contenedor para mensajes al final del formulario -->
+      </form>
+    </div>
+  </WidgetWrapper>
+
+   <!-- Script para manejar el envío del formulario -->
+   <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const form = document.querySelector('#contact-form');
+      const feedback = document.querySelector('#form-feedback');
+
+      form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const jsonData = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(jsonData).toString(),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            console.log(response.json);
+            feedback?.classList.remove('bg-red-500');
+            feedback?.classList.add('bg-green-500');
+            feedback.innerHTML = result.message; // Usar el mensaje del servidor
+            feedback?.classList.remove('hidden');
+            form.reset();
+              // Redirigir a la página de inicio después de 3 segundos
+            setTimeout(() => {
+              window.location.href = '/'; // Aquí puedes cambiar la URL si deseas redirigir a una página específica
+            }, 3000);
+          } else {
+            feedback.innerHTML = 'Error al enviar el correo.';
+            feedback?.classList.add('bg-red-500');
+            feedback?.classList.remove('hidden');
+          }
+        } catch (error) {
+          console.error('Error en la solicitud:', error);
+          feedback.innerHTML = 'Error en el envío del formulario.';
+          feedback?.classList.add('bg-red-500');
+          feedback?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</Layout>

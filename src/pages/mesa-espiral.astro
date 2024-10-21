@@ -4,7 +4,7 @@ import Hero2 from '../components/widgets/Hero2.astro';
 import Features from '../components/widgets/Features.astro';
 import CallToActionProps from '~/components/widgets/CallToAction.astro';
 
-import { getHomePermalink } from '~/utils/permalinks';
+
 
 //Importamos images galeria
 import Img1 from '~/assets/images/mesa/SobremesaEspiral.jpg';
@@ -67,7 +67,11 @@ const metadata = {
 const title = "Solicita Presupuesto para Calendarios de Mesa con Espiral";
 const subtitle = "Consigue la mejor oferta para calendarios personalizados de sobremesa. Nuestros comerciales te contactarán con una propuesta a medida.";
 const tagline = "calendarios de mesa personalizados";
+const tipoCalendario = "mesa-espiral"; // Este será el parámetro que pasaremos
+
+
 ---
+
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->
   <Hero2
@@ -75,7 +79,7 @@ const tagline = "calendarios de mesa personalizados";
   title=" Calendarios de Mesa Personalizados con Espiral"
   subtitle="Imprime calendarios de mesa personalizados con espiral para oficinas y promociones. Ideal para empresas que buscan calendarios de sobremesa de alta calidad, económicos y publicitarios. ¡Crea el tuyo hoy mismo!"
   actions={[
-   { variant: 'primary', text: 'Pide tu oferta!', href: `solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
+   { variant: 'primary', text: 'Pide tu oferta!', href: "/solicitud-presupuesto/?tipo=mesa-espiral", icon: 'tabler:square-rounded-arrow-right' },
    { text: 'Saber más', href: '#features' },
   ]}
   galleryImages={galleryImages}
@@ -134,7 +138,7 @@ const tagline = "calendarios de mesa personalizados";
     {
       variant: 'primary',
       text: 'Solicita tu presupuesto personalizado',
-      href: "/solicitud-presupuesto",
+      href: "/solicitud-presupuesto/?tipo=mesa-espiral",
       icon: 'tabler:mail', // Icono SVG
     },
   ]} 

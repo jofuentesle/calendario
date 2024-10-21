@@ -1,50 +1,244 @@
-<script>
-  window.addEventListener('load', function () {
-    const tipoSelect = document.querySelector('select[name="tipo"]') as HTMLSelectElement;
-    const medidaSelect = document.querySelector('select[name="medida"]') as HTMLSelectElement;
+---
+import Layout from '~/layouts/PageLayout.astro';
+import sendGrid from '@sendgrid/mail';
+import FormContainer from '~/components/ui/Form.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 
-    //const params = new URLSearchParams(window.location.search);
-    //const tipo = params.get('tipo'); // Esto te dará 'pared-revista'
+// Configuración de SendGrid
+sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
 
-    //console.log(tipo);
-    // Verificamos si tipoSelect y medidaSelect existen y son HTMLSelectElement
-    if (tipoSelect && medidaSelect && tipoSelect instanceof HTMLSelectElement && medidaSelect instanceof HTMLSelectElement) {
-      console.log(tipoSelect);  // Verifica que está seleccionando el elemento correcto
-      console.log(medidaSelect);
+const metadata = {
+  title: 'Solicitar presupuesto calendarios',
+};
 
-      // Definir las medidas de acuerdo con el tipo seleccionado
+// Obtener el parámetro 'tipo' de la URL
+const tipoCalendario = Astro.url.searchParams.get('tipo') || 'mesa-espiral';
+
+// Definir los valores por defecto para cada tipo de calendario
+const calendarOptions = {
+  'mesa-espiral': {
+    title: 'Calendarios Mesa Espiral',
+    subtitle: 'Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año.',
+    medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
+  },
+  'mesa-triangular': {
+    title: 'Calendarios Mesa Triangular',
+    subtitle: 'Perfectos para oficinas y mesas de trabajo, personaliza tus calendarios triangulares.',
+    medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
+  },
+  'pared-espiral': {
+    title: 'Pared con Espiral',
+    subtitle: 'Promociona tu marca durante todo el año con nuestros calendarios de pared con espiral.',
+    medidas: ['33x23 cm'],
+  },
+  'pared-revista': {
+    title: 'Calendarios Revista',
+    subtitle: 'Nuestros calendarios tipo revista son perfectos para destacar tu marca de manera elegante.',
+    medidas: ['33 x 23 cm (cerrado)'],
+  },
+};
+
+// Si el tipo de calendario no es válido, usa 'mesa-espiral' por defecto
+const calendar = calendarOptions[tipoCalendario] || calendarOptions['mesa-espiral'];
+
+
+// Entradas del formulario
+const inputs = [
+  { type: 'text', name: 'name', label: 'Nombre', required: true },
+  { type: 'email', name: 'email', label: 'Email', required: true },
+  { type: 'tel', name: 'telefono', label: 'Teléfono', required: true },
+  { type: 'text', name: 'empresa', label: 'Empresa', required: false },
+  {
+    type: 'select', 
+    name: 'tipo', 
+    label: 'Tipo Calendario', 
+    required: true,
+    options: Object.keys(calendarOptions).map((tipo) => ({ value: tipo, label: calendarOptions[tipo].title })),
+  },
+  {
+    type: 'select', 
+    name: 'medida', 
+    label: 'Medida Calendario', 
+    required: true,
+    options: calendar.medidas.map((medida) => ({ value: medida, label: medida })),
+  },
+  {
+    type: 'select', 
+    name: 'cantidad', 
+    label: 'Cantidad', 
+    required: true,
+    options: [
+      { value: '100', label: '100' },
+      { value: '200', label: '200' },
+      { value: '500', label: '500' },
+      { value: '1000', label: '1000' },
+    ],
+  },
+];
+
+
+const disclaimer = {
+  label: 'Al enviar este formulario, aceptas nuestra política de privacidad.',
+};
+
+const button = 'Enviar';
+
+const description = "Completa el formulario para solicitar un presupuesto para nuestros calendarios.";
+
+// Lógica del servidor para enviar el correo a través de SendGrid
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const name = data.get('name');
+    const email = data.get('email');
+    const telefono = data.get('telefono');
+    const empresa = data.get('empresa') || 'No proporcionado';
+    const tipo = data.get('tipo') || 'No seleccionado';
+    const medida = data.get('medida') || 'No seleccionado';
+    const cantidad = data.get('cantidad') || 'No seleccionado';
+
+    const messageContent = `
+      Nombre: ${name}
+      Email: ${email}
+      Teléfono: ${telefono}
+      Empresa: ${empresa}
+      Tipo de Calendario: ${tipo}
+      Medida: ${medida}
+      Cantidad: ${cantidad}
+    `;
+
+    const msg = {
+      to: email,
+      from: 'noreply@reprodisseny.com',
+      replyTo: { email, name },
+      subject: `Solicitud de presupuesto de ${name}`,
+      text: messageContent,
+    };
+
+    await sendGrid.send(msg).then(() => {
+      console.log('Correo enviado correctamente');
+    }).catch((error) => {
+      console.error('Error al enviar el correo:', error);
+    });
+
+  } catch (error) {
+    console.error('Error al procesar el formulario:', error);
+  }
+}
+---
+
+---
+// Todo el código inicial se mantiene igual
+---
+<Layout metadata={metadata}>
+  <WidgetWrapper containerClass="max-w-7xl mx-auto">
+    <Headline title="Solicitar presupuesto para tus Calendarios Personalizados" subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." />
+    
+    <!-- Contenedor del formulario -->
+    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
+      <form id="contact-form">
+        <FormContainer
+          inputs={inputs}
+          disclaimer={disclaimer}
+          button={button}
+          description={description}
+        />
+        <div id="form-feedback" class="hidden mt-4 p-4 text-white bg-red-500 rounded"></div> <!-- Contenedor para mensajes al final del formulario -->
+      </form>
+    </div>
+  </WidgetWrapper>
+
+  <!-- Script para actualizar dinámicamente las medidas -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Selecciona el formulario y los selects de tipo y medida
+      const form = document.querySelector('#contact-form') as HTMLFormElement | null;
+      const tipoSelect = form?.querySelector('select[name="tipo"]') as HTMLSelectElement | null;
+      const medidaSelect = form?.querySelector('select[name="medida"]')  as HTMLSelectElement | null;
+      const feedback = document.querySelector('#form-feedback');
+  
+      // Definir las medidas correspondientes a cada tipo de calendario
       const medidas = {
-        'mesa-espiral': ['15x15 cm', '21x10 cm', 'Din A5'],
+        'mesa-espiral': ['15x15 cm', '21x10 cm', 'Din A5'],    
         'mesa-triangular': ['15x15 cm', '21x10 cm', 'Din A5'],
-        'pared-espiral': ['38x48 cm'],
-        'pared-revista': ['34 x 24 cm (cerrado)'],
+        'pared-espiral': ['33x46 cm'],
+        'pared-revista': ['33x23 cm (cerrado)']
       };
 
-      // Función para actualizar las opciones de medidas
-      function actualizarMedidas() {
-        const tipo = tipoSelect.value;  // Ahora estamos seguros de que tipoSelect es un HTMLSelectElement
+      // Función para actualizar las opciones del select de medida
+      const actualizarMedidas = (tipo) => {
+        medidaSelect.innerHTML = ''; // Limpiar las opciones actuales
         const medidasDelTipo = medidas[tipo] || [];
-        
-        // Limpiar las opciones actuales
-        if(medidaSelect){
-          medidaSelect.innerHTML = '';
-        }
-        // Añadir las nuevas opciones
         medidasDelTipo.forEach(medida => {
           const option = document.createElement('option');
           option.value = medida;
           option.textContent = medida;
-          medidaSelect?.appendChild(option);
+          medidaSelect.appendChild(option);
         });
-      }
+      };
 
-      // Actualizar cuando se cambie el tipo de calendario
-      tipoSelect.addEventListener('change', actualizarMedidas);
+      // Función para manejar los cambios en los parámetros de la URL
+      const handleUrlChange = () => {
+        const tipoCalendario = new URLSearchParams(window.location.search).get('tipo') || 'mesa-espiral';
+        tipoSelect.value = tipoCalendario;
+        actualizarMedidas(tipoCalendario);
+      };
 
-      // Cargar las medidas del tipo seleccionado inicialmente
-      actualizarMedidas();
-    } else {
-      console.error('No se encontró el select de tipo o medida, o no son HTMLSelectElement.');
+      // Inicializar las medidas con el valor actual de la URL
+      handleUrlChange();
+
+      // Actualizar las medidas cuando cambia el tipo de calendario seleccionado
+      tipoSelect.addEventListener('change', (event) => {
+        const selectedTipo = (event.target as HTMLSelectElement).value;
+        actualizarMedidas(selectedTipo);
+      });
+
+      // Detectar cambios en la URL sin recargar la página
+      window.addEventListener('popstate', handleUrlChange);
+  
+      // Manejo del envío del formulario
+      form?.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Evita la redirección predeterminada
+  
+        const formData = new FormData(form);
+        const jsonData = Object.fromEntries(formData.entries());
+  
+        try {
+          const response = await fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(jsonData).toString(),
+          });
+  
+          if (response.ok) {
+            feedback?.classList.remove('bg-red-500');
+            feedback?.classList.add('bg-green-500');
+            feedback.innerHTML = 'Correo enviado correctamente.';
+            feedback?.classList.remove('hidden');
+            form.reset();
+            redirectToHome();  // Restablecer formulario y redirigir
+          } else {
+            feedback.innerHTML = 'Error al enviar el correo.';
+            feedback?.classList.add('bg-red-500');
+            feedback?.classList.remove('hidden');
+          }
+        } catch (error) {
+          console.error('Error en la solicitud:', error);
+          feedback.innerHTML = 'Error en el envío del formulario.';
+          feedback?.classList.add('bg-red-500');
+          feedback?.classList.remove('hidden');
+        }
+      });
+    });
+
+    // Función para redirigir a la página de inicio después de enviar el formulario
+    function redirectToHome() {
+      setTimeout(() => {
+        window.location.href = '/'; // Cambiar la redirección si es necesario
+      }, 3000); // 3000 ms = 3 segundos
     }
-  });
-</script>
+  </script>
+</Layout>

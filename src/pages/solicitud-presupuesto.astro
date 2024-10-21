@@ -1,12 +1,8 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import sendGrid from '@sendgrid/mail';
 import FormContainer from '~/components/ui/Form.astro';
 import Headline from '~/components/ui/Headline.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-
-// Configuración de SendGrid
-sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
 
 const metadata = {
   title: 'Solicitar presupuesto calendarios',
@@ -15,154 +11,48 @@ const metadata = {
 // Obtener el parámetro 'tipo' de la URL
 const tipoCalendario = Astro.url.searchParams.get('tipo');
 
-// Definir los valores por defecto para cada tipo de calendario
+// Definir valores por defecto según el tipo de calendario
 const calendarOptions = {
-  'mesa-espiral': {
-    title: 'Solicita presupuesto para Calendarios de Mesa con Espiral',
-    subtitle: 'Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año.',
-    medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
-  },
-  'mesa-triangular': {
-    title: 'Solicita presupuesto para Calendarios de Mesa Triangular',
-    subtitle: 'Perfectos para oficinas y mesas de trabajo, personaliza tus calendarios triangulares.',
-    medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
-  },
-  'pared-espiral': {
-    title: 'Solicita presupuesto para Calendarios de Pared con Espiral',
-    subtitle: 'Promociona tu marca durante todo el año con nuestros calendarios de pared con espiral.',
-    medidas: ['38x48 cm'],
-  },
-  'pared-revista': {
-    title: 'Solicita presupuesto para Calendarios de Pared tipo Revista',
-    subtitle: 'Nuestros calendarios tipo revista son perfectos para destacar tu marca de manera elegante.',
-    medidas: ['34 x 24 cm (cerrado)'],
-  },
+  'mesa-espiral': { title: 'Calendarios de Mesa Espiral', medidas: ['15x15 cm', '21x10 cm'] },
+  'pared-espiral': { title: 'Calendarios de Pared Espiral', medidas: ['38x48 cm'] },
 };
 
-const tipoCalendarioValido = tipoCalendario !== null ? tipoCalendario : 'mesa-espiral';
+const tipoCalendarioValido = calendarOptions[tipoCalendario] ? tipoCalendario : 'mesa-espiral';
 const { medidas: medidasDefault } = calendarOptions[tipoCalendarioValido];
 
-// Entradas del formulario
+// Definir inputs para el formulario
 const inputs = [
   { type: 'text', name: 'name', label: 'Nombre', required: true },
   { type: 'email', name: 'email', label: 'Email', required: true },
   { type: 'tel', name: 'telefono', label: 'Teléfono', required: true },
-  { type: 'text', name: 'empresa', label: 'Empresa', required: false },
   {
-    type: 'select', 
-    name: 'tipo', 
-    label: 'Tipo Calendario', 
-    required: true,
-    options: [
-      { value: 'mesa-espiral', label: 'Mesa Espiral' },
-      { value: 'mesa-triangular', label: 'Mesa Triangular' },
-      { value: 'pared-espiral', label: 'Pared Espiral' },
-      { value: 'pared-revista', label: 'Pared Revista' },
-    ],
+    type: 'select', name: 'tipo', label: 'Tipo de Calendario', required: true,
+    options: Object.keys(calendarOptions).map(key => ({ value: key, label: calendarOptions[key].title })),
   },
   {
-    type: 'select', 
-    name: 'medida', 
-    label: 'Medida Calendario', 
-    required: true,
+    type: 'select', name: 'medida', label: 'Medida', required: true,
     options: medidasDefault.map(medida => ({ value: medida, label: medida })),
-  },
-  {
-    type: 'select', 
-    name: 'cantidad', 
-    label: 'Cantidad', 
-    required: true,
-    options: [
-      { value: '100', label: '100' },
-      { value: '200', label: '200' },
-      { value: '500', label: '500' },
-      { value: '1000', label: '1000' },
-    ],
   },
 ];
 
-const textarea = {
-  label: 'Mensaje',
-  name: 'message',
-  required: true,
-};
-
-const disclaimer = {
-  label: 'Al enviar este formulario, aceptas nuestra política de privacidad.',
-};
-
-const button = 'Solcitud de precio';
-
-const description = "Completa el formulario para solicitar un presupuesto para nuestros calendarios.";
-
-// Lógica del servidor para enviar el correo a través de SendGrid
-if (Astro.request.method === 'POST') {
-  try {
-    const data = await Astro.request.formData();
-    const name = data.get('name');
-    const email = data.get('email');
-    const telefono = data.get('telefono');
-    const empresa = data.get('empresa') || 'No proporcionado';
-    const tipo = data.get('tipo') || 'No seleccionado';
-    const medida = data.get('medida') || 'No seleccionado';
-    const cantidad = data.get('cantidad') || 'No seleccionado';
-
-    const messageContent = `
-      Nombre: ${name}
-      Email: ${email}
-      Teléfono: ${telefono}
-      Empresa: ${empresa}
-      Tipo de Calendario: ${tipo}
-      Medida: ${medida}
-      Cantidad: ${cantidad}
-    `;
-
-    const msg = {
-      to: {email},
-      from: 'noreply@reprodisseny.com',
-      replyTo: { email, name },
-      subject: `Solicitud de presupuesto de ${name}`,
-      text: messageContent,
-    };
-
-    await sendGrid.send(msg).then(() => {
-      console.log('Correo enviado correctamente');
-    }).catch((error) => {
-      console.error('Error al enviar el correo:', error);
-    });
-
-  } catch (error) {
-    console.error('Error al procesar el formulario:', error);
-  }
-}
-
-const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
-  tagline = await Astro.slots.render('tagline'),
-
-
-  id,
-  isDark = false,
-  classes = {},
-  bg = await Astro.slots.render('bg'),
-} = Astro.props;
+const disclaimer = { label: 'Acepto la política de privacidad.' };
+const button = 'Solicitar presupuesto';
+const description = 'Completa el formulario para solicitar un presupuesto.';
 ---
 
 <Layout metadata={metadata}>
-  <WidgetWrapper  id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
-    <Headline title="Solicitar presupuesto para tus Calendarios Personalizados" subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." />
-    <Headline title={title} subtitle={subtitle} tagline={tagline} />
-
-    <!-- Contenedor del formulario -->
-    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
+  <WidgetWrapper id="form-widget" isDark={false} containerClass="max-w-7xl mx-auto">
+    <Headline title="Solicita tu presupuesto personalizado" />
+    
+    <!-- Formulario dinámico -->
+    <div class="max-w-xl mx-auto bg-white shadow p-6">
       <FormContainer
-        id="contact-form"
         inputs={inputs}
         disclaimer={disclaimer}
-        button={button} 
+        button={button}
+        description={description}
       />
-      <div id="form-feedback" class="hidden mt-4 p-4 text-white bg-red-500 rounded"></div> <!-- Contenedor para mensajes al final del formulario -->
+      <div id="form-feedback" class="hidden mt-4"></div>
     </div>
   </WidgetWrapper>
 
@@ -170,15 +60,12 @@ const {
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.querySelector('#contact-form');
-      const tipoSelect = form?.querySelector('select[name="tipo"]');
-      const medidaSelect = form?.querySelector('select[name="medida"]');
-      const feedback = document.querySelector('#form-feedback');
+      const tipoSelect = form.querySelector('select[name="tipo"]');
+      const medidaSelect = form.querySelector('select[name="medida"]');
 
       const medidas = {
-        'mesa-espiral': ['15x15 cm', '21x10 cm', 'Din A5'],    
-        'mesa-triangular': ['15x15 cm', '21x10 cm', 'Din A5'],
+        'mesa-espiral': ['15x15 cm', '21x10 cm'],
         'pared-espiral': ['38x48 cm'],
-        'pared-revista': ['34 x 24 cm (cerrado)']
       };
 
       tipoSelect.addEventListener('change', (event) => {
@@ -191,48 +78,6 @@ const {
           medidaSelect.appendChild(option);
         });
       });
-
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Evita la redirección predeterminada
-
-        const formData = new FormData(form);
-        const jsonData = Object.fromEntries(formData.entries());
-
-        try {
-          const response = await fetch(window.location.href, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(jsonData).toString(),
-          });
-
-          if (response.ok) {
-            feedback.classList.remove('bg-red-500');
-            feedback.classList.add('bg-green-500');
-            feedback.innerHTML = 'Correo enviado correctamente.';
-            feedback.classList.remove('hidden');
-            form.reset();
-            redirectToHome()  // Restablecer formulario
-          } else {
-            feedback.innerHTML = 'Error al enviar el correo.';
-            feedback.classList.add('bg-red-500');
-            feedback.classList.remove('hidden');
-          }
-        } catch (error) {
-          console.error('Error en la solicitud:', error);
-          feedback.innerHTML = 'Error en el envío del formulario.';
-          feedback.classList.add('bg-red-500');
-          feedback.classList.remove('hidden');
-        }
-      });
     });
-
-    function redirectToHome() {
-      setTimeout(() => {
-      window.location.href = '/'; // Redirigir a la página de inicio (cambiar si es necesario)
-      }, 3000); // 3000 ms = 3 segundos
-    }
   </script>
 </Layout>
-

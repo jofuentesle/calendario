@@ -18,12 +18,15 @@ export const GET = async ({ request }) => {
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
 
+    // Obtener todos los parámetros del formulario
     const nombre = params.get('nombre');
     const email = params.get('email');
     const telefono = params.get('telefono');
+    const cantidad = params.get('cantidad');
+    const tipoCalendario = params.get('tipo_calendario');
 
     // Verificar que los campos requeridos están presentes
-    if (!nombre || !email || !telefono) {
+    if (!nombre || !email || !telefono || !cantidad || !tipoCalendario) {
       return new Response(
         JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }),
         { status: 400 }
@@ -32,24 +35,40 @@ export const GET = async ({ request }) => {
 
     // Construir el contenido del mensaje del correo
     const messageContent = `
-      Nombre: ${nombre}
-      Correo electrónico: ${email}
-      Teléfono: ${telefono}
+      **Solicitud de presupuesto**
+
+      Detalles del cliente:
+      - **Nombre**: ${nombre}
+      - **Correo electrónico**: ${email}
+      - **Teléfono**: ${telefono}
+
+      Detalles del calendario:
+      - **Cantidad solicitada**: ${cantidad}
+      - **Tipo de calendario**: ${tipoCalendario}
+
+      Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.
     `;
 
     // Configurar el mensaje a enviar
     const msg = {
-      to: email, // Cambia este correo al destinatario correcto
+      to: email,
       from: 'noreply@reprodisseny.com',
-      subject: `Solicitud de presupuesto de ${nombre}`,
-      text: messageContent,
+      subject: `Nueva solicitud de presupuesto de ${nombre}`,
+      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ""),
+      html: messageContent.replace(/\n/g, '<br/>'),
     };
 
     // Enviar el correo mediante SendGrid
     await sendGrid.send(msg);
 
-    // Responder con éxito si el correo se envió correctamente
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    // Redirigir al usuario a la página de agradecimiento
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': '/gracias'
+      }
+    });
+
   } catch (error) {
     console.error('Error al enviar el correo:', error);
     return new Response(

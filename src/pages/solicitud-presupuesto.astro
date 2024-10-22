@@ -1,18 +1,52 @@
---- 
-import Layout from '~/layouts/PageLayout.astro'; 
-import ContactUs from '~/components/widgets/Contact.astro'; 
+---
+import Layout from '~/layouts/PageLayout.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
 
-const metadata = { 
-  title: 'Solicitud de presupuesto para Calendarios', 
+const metadata = {
+  title: 'Solicitud de presupuesto para Calendarios',
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Calendarios Personalizados para empresa 2025",
+    "url": "https://calendarios.reprodisseny.com",
+    "logo": "",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+34 932 749 890",
+      "contactType": "Atención al Cliente",
+      "email": "comercial@reprodisseny.com",
+      "areaServed": "ES",
+      "availableLanguage": ["es", "en"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Juan de Mena, 19",
+      "addressLocality": "Barcelona",
+      "addressRegion": "Cataluña",
+      "postalCode": "08035",
+      "addressCountry": "ES"
+    },
+    "sameAs": [
+      "https://www.instagram.com/reprodissenybcn/?hl=es",
+      "https://es.linkedin.com/company/repro-disseny-s.l"
+    ],
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://calendarios.reprodisseny.com/busqueda?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
 };
-
 ---
 
 <Layout metadata={metadata}>
-  <Headline title="Solicitar presupuesto para tus Calendarios Personalizados" subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." />
-  
+  <Headline 
+    title="Solicitar presupuesto para tus Calendarios Personalizados" 
+    subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
+  />
+
   <ContactUs
     id="form-contact"
     method="GET"
@@ -36,31 +70,30 @@ const metadata = {
         required: true,
       },
       {
-      type: 'select',  // Select para las cantidades
-      name: 'cantidad',
-      label: 'Cantidad',
-      options: [
-        { value: '100', label: '100' },
-        { value: '200', label: '200' },
-        { value: '500', label: '500' },
-        { value: '750', label: '750' },
-        { value: '1000', label: '1000' },
-      ],
-      required: true,
-    },
-    {
-      type: 'select',  // Select para el tipo de calendario
-      name: 'tipo_calendario',
-      label: 'Tipo de calendario',
-      options: [
-        { value: 'mesa_espiral', label: 'Mesa Espiral' },
-        { value: 'mesa_triangular', label: 'Mesa Triangular' },
-        { value: 'pared_espiral', label: 'Pared Espiral' },
-        { value: 'pared_revista', label: 'Pared Revista' },
-      ],
-      required: true,
-    },
-      
+        type: 'select',
+        name: 'cantidad',
+        label: 'Cantidad',
+        options: [
+          { value: '100', label: '100' },
+          { value: '200', label: '200' },
+          { value: '500', label: '500' },
+          { value: '750', label: '750' },
+          { value: '1000', label: '1000' },
+        ],
+        required: true,
+      },
+      {
+        type: 'select',
+        name: 'tipo_calendario',
+        label: 'Tipo de calendario',
+        options: [
+          { value: 'mesa_espiral', label: 'Mesa Espiral' },
+          { value: 'mesa_triangular', label: 'Mesa Triangular' },
+          { value: 'pared_espiral', label: 'Pared Espiral' },
+          { value: 'pared_revista', label: 'Pared Revista' },
+        ],
+        required: true,
+      }
     ]}
     disclaimer={{
       label: 'Acepto las políticas de privacidad',
@@ -68,24 +101,23 @@ const metadata = {
     }}
     description="Nuestro equipo de soporte generalmente responde dentro de las 24 horas hábiles."
   />
+
   <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
-  
+
   <Features2
     title="¡Estamos aquí para ayudarte!"
     items={[
       {
         title: 'Atención al cliente',
-        description: `¿Tienes preguntas sobre cómo personalizar tus calendarios? Llámanos y uno de nuestros asesores te guiarán paso a paso en la creación del calendario ideal para tu empresa, desde la elección del tipo de calendario hasta los acabados finales. Te ayudamos a hacer realidad tu proyecto.`,
+        description: '¿Tienes preguntas sobre cómo personalizar tus calendarios? Llámanos y uno de nuestros asesores te guiarán paso a paso en la creación del calendario ideal para tu empresa, desde la elección del tipo de calendario hasta los acabados finales. Te ayudamos a hacer realidad tu proyecto.',
       },
       {
         title: 'Consulta de precios',
-        description:
-          '¿Necesitas un presupuesto? Contáctanos y te ayudaremos a obtener un precio personalizado para tus calendarios. Disponemos de múltiples opciones y ofertas especiales para grandes volúmenes.',
+        description: '¿Necesitas un presupuesto? Contáctanos y te ayudaremos a obtener un precio personalizado para tus calendarios. Disponemos de múltiples opciones y ofertas especiales para grandes volúmenes.',
       },
       {
         title: 'Asesoramiento en diseño',
-        description:
-          '¿Buscas el diseño perfecto para tus calendarios? Nuestro equipo de expertos puede orientarte en la selección de plantillas, combinaciones de colores, tipos de impresión y más para que tus calendarios tengan un impacto visual que destaque.',
+        description: '¿Buscas el diseño perfecto para tus calendarios? Nuestro equipo de expertos puede orientarte en la selección de plantillas, combinaciones de colores, tipos de impresión y más para que tus calendarios tengan un impacto visual que destaque.',
       },
       {
         title: 'Teléfono',
@@ -106,4 +138,40 @@ const metadata = {
   />
 </Layout>
 
+<script>
+  // Obtener referencias a los elementos del formulario con el tipo correcto
+  const form = document.getElementById('form-contact');
+  const emailInput = form?.querySelector('input[name="email"]') as HTMLInputElement;  // Cast a HTMLInputElement
+  const telefonoInput = form?.querySelector('input[name="telefono"]') as HTMLInputElement;  // Cast a HTMLInputElement
+  const privacidadInput = form?.querySelector('input[name="disclaimer"]') as HTMLInputElement;  // Cast a HTMLInputElement
+  const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;  // Cast a HTMLButtonElement
+
+  // Regex para validar el email y el teléfono
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const telefonoPattern = /^[0-9]{9}$/; // Ajustado para un número español
+
+  function validateEmail() {
+    return emailPattern.test(emailInput.value);  // Ahora puedes acceder correctamente a .value
+  }
+
+  function validateTelefono() {
+    return telefonoPattern.test(telefonoInput.value);  // Ahora puedes acceder correctamente a .value
+  }
+
+  function validateForm() {
+    if (validateEmail() && validateTelefono() && privacidadInput.checked) {
+      submitButton.disabled = false;  // Habilitar el botón si todo está correcto
+    } else {
+      submitButton.disabled = true;  // Deshabilitar si algo está mal
+    }
+  }
+
+  // Event listeners
+  emailInput.addEventListener('input', validateForm);
+  telefonoInput.addEventListener('input', validateForm);
+  privacidadInput.addEventListener('change', validateForm);
+
+  // Deshabilitar el botón de envío por defecto
+  submitButton.disabled = true;
+</script>
 

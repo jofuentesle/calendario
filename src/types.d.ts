@@ -182,14 +182,12 @@ export interface Testimonial {
 }
 
 export interface Input {
-  type: HTMLInputTypeAttribute | text | select | options;
+  type: 'text' | 'email' | 'tel' | 'select';  // Añadimos 'select' como tipo permitido
   name: string;
   label?: string;
   autocomplete?: string;
   placeholder?: string;
-  
-  options?: Array<{ value: string; label: string }>;
-  icons?: string;
+  options?: Array<{ value: string; label: string }>;  // Añadimos las opciones para los selects
   required?: boolean;
 }
 

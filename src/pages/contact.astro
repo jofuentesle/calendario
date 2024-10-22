@@ -1,39 +1,134 @@
 ---
-import FormContainer from '~/components/ui/Form.astro';
-import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-import type { Contact as Props } from '~/types';
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
 
-const {
-  id = 'default-id',
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
-  tagline = await Astro.slots.render('tagline'),
-  inputs,
-  textarea,
-  disclaimer,
-  button,
-  description,
-  isDark = false,
-  classes = {},
-  bg = await Astro.slots.render('bg'),
-} = Astro.props;
+const metadata = {
+  title: 'Contact',
+};
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
-  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+  <HeroText tagline="Contact" title="Let's Connect!" />
 
-  {
-    inputs && (
-      <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
-        <FormContainer
-          inputs={inputs}
-          textarea={textarea}
-          disclaimer={disclaimer}
-          button={button}
-          description={description}
-        />
-      </div>
-    )
-  }
-</WidgetWrapper>
+  <!-- Formulario de contacto -->
+  <ContactUs
+    id="contact-form"
+    title="Drop us a message today!"
+    subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking for right there! If not, our support team is delighted to help you."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email',
+      },
+    ]}
+    textarea={{
+      label: 'Message',
+    }}
+    disclaimer={{
+      label:
+        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
+    }}
+    description="Our support team typically responds within 24 business hours."
+  />
+
+  <!-- Mensaje de feedback -->
+  <p id="feedback-message" class="text-gray-600 mt-4"></p>
+
+  <!-- Features2 Widget ************** -->
+  <Features2
+    title="We are here to help!"
+    items={[
+      {
+        title: 'General support',
+        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
+      },
+      {
+        title: 'Contact sales',
+        description:
+          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
+      },
+      {
+        title: 'Technical support',
+        description:
+          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
+      },
+      {
+        title: 'Phone',
+        description: '+1 (234) 567-890',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Email',
+        description: 'contact@support.com',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Location',
+        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
+</Layout>
+
+<!-- Lógica de envío de formulario -->
+<script client:load>
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM cargado');
+
+    const form = document.querySelector('#contact-form');
+    const feedbackMessage = document.querySelector('#feedback-message');
+
+    if (form) {
+      console.log('Formulario encontrado:', form);
+
+      // Manejo del envío del formulario
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        console.log('Enviando datos:', JSON.stringify(data));
+
+        try {
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),  // Enviar los datos como JSON
+          });
+
+          console.log('Estado de respuesta:', response.status);
+
+          if (response.ok) {
+            feedbackMessage.textContent = 'Formulario enviado exitosamente.';
+            feedbackMessage.classList.add('text-green-600');
+            form.reset();  // Limpiar el formulario
+            console.log('Formulario enviado con éxito');
+          } else {
+            feedbackMessage.textContent = 'Error al enviar el formulario.';
+            feedbackMessage.classList.add('text-red-600');
+            console.log('Error en el servidor al enviar el formulario');
+          }
+        } catch (error) {
+          feedbackMessage.textContent = 'Error inesperado al enviar el formulario.';
+          feedbackMessage.classList.add('text-red-600');
+          console.error('Error en el envío del formulario:', error.message);
+        }
+      });
+    } else {
+      console.log('Formulario no encontrado');
+    }
+  });
+</script>

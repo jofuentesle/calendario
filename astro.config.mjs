@@ -15,7 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Configuración optimizada para Netlify
 export default defineConfig({
-  output: 'server',  // Usa 'server' si necesitas SSR o funciones
+  output: 'hybrid',  // Usa 'server' si necesitas SSR o funciones
   adapter: netlify(), // Cambiado a Netlify Functions
   integrations: [
     tailwind({

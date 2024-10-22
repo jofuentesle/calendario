@@ -14,22 +14,32 @@ sendGrid.setApiKey(apiKey);
 
 export const POST = async ({ request }) => {
   try {
-    // Obtener los datos del formulario
-    const { name, phone, email, company, quantity, privacy } = await request.json();
+    const contentType = request.headers.get('Content-Type') || '';
+    if (!contentType.includes('application/json')) {
+      console.error('Error: Se esperaba JSON en la solicitud');
+      return new Response(JSON.stringify({ success: false, error: 'Solicitud malformada, se esperaba JSON' }), { status: 400 });
+    }
 
-    // Verificar si los campos obligatorios están presentes
-    if (!phone || !email || !privacy || !quantity) {
+    const bodyText = await request.text();  // Leer el cuerpo de la solicitud como texto
+
+    if (!bodyText) {
+      console.error('Error: El cuerpo de la solicitud está vacío');
+      return new Response(JSON.stringify({ success: false, error: 'El cuerpo de la solicitud está vacío' }), { status: 400 });
+    }
+
+    const { name, email, message } = JSON.parse(bodyText);
+
+    // Verificación de campos obligatorios
+    if (!email || !message) {
+      console.error('Campos obligatorios faltantes: ', { email, message });
       return new Response(JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }), { status: 400 });
     }
 
     // Construir el contenido del correo
     const messageContent = `
       Nombre: ${name || 'No proporcionado'}
-      Teléfono: ${phone}
       Email: ${email}
-      Empresa: ${company || 'No proporcionado'}
-      Cantidad: ${quantity} unidades
-      Aceptación de Políticas de Privacidad: ${privacy ? 'Aceptada' : 'No aceptada'}
+      Mensaje: ${message}
     `;
 
     // Crear el mensaje a enviar
@@ -40,13 +50,13 @@ export const POST = async ({ request }) => {
       text: messageContent,
     };
 
-    // Enviar el correo
+    // Enviar el correo y verificar resultado
     await sendGrid.send(msg);
+    console.log('Correo enviado con éxito a ' + email);
 
-    // Responder con éxito
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
-    console.error('Error al enviar el correo:', error);
+    console.error('Error al enviar el correo:', error.message);
     return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
   }
 };

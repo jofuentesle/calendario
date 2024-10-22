@@ -14,30 +14,30 @@ sendGrid.setApiKey(apiKey);
 
 export const POST = async ({ request }) => {
   try {
-    // Obtener los datos del formulario enviados desde la solicitud
-    const { nombre, email, telefono, empresa, tipo, cantidad } = await request.json();
+    // Obtener los datos del formulario
+    const { name, phone, email, company, quantity, privacy } = await request.json();
 
-    // Verificar si los campos requeridos están presentes
-    if (!nombre || !email || !telefono || !tipo || !cantidad) {
+    // Verificar si los campos obligatorios están presentes
+    if (!phone || !email || !privacy || !quantity) {
       return new Response(JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }), { status: 400 });
     }
 
     // Construir el contenido del correo
     const messageContent = `
-      Nombre: ${nombre}
+      Nombre: ${name || 'No proporcionado'}
+      Teléfono: ${phone}
       Email: ${email}
-      Teléfono: ${telefono}
-      Empresa: ${empresa || 'No proporcionado'}
-      Tipo de Calendario: ${tipo}
-      Cantidad: ${cantidad}
+      Empresa: ${company || 'No proporcionado'}
+      Cantidad: ${quantity} unidades
+      Aceptación de Políticas de Privacidad: ${privacy ? 'Aceptada' : 'No aceptada'}
     `;
 
     // Crear el mensaje a enviar
     const msg = {
       to: 'jfuentesleiva@gmail.com',  // Cambiar al destinatario correcto
       from: 'noreply@reprodisseny.com',
-      subject: `Solicitud de presupuesto de ${nombre}`,
-      text: messageContent, // Enviar el mensaje de texto con todos los datos
+      subject: `Solicitud de contacto de ${email}`,
+      text: messageContent,
     };
 
     // Enviar el correo

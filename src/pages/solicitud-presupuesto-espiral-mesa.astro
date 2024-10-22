@@ -79,20 +79,17 @@
             <option value="Din A5">Din A5</option>
           </select>
         </div>
-
+        <div> 
         <!-- Cantidad de calendarios -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Cantidad</label>
-          <div id="cantidad-selector" class="flex justify-between flex-wrap gap-2 mt-2">
-            <!-- Botones para seleccionar cantidad -->
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="100">100</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="200">200</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="500">500</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="750">750</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="1000">1000</button>
-          </div>
-          <input type="hidden" name="cantidad" id="cantidad" required />
-        </div>
+        <label for="cantidad" class="block text-sm font-medium text-gray-700">Cantidad</label>
+        <select id="cantidad" name="cantidad" class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+          <option value="750">750</option>
+          <option value="1000">1000</option>
+        </select>
+      </div>
 
         <!-- Feedback messages -->
         <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
@@ -108,62 +105,28 @@
   </Layout>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('form-presupuesto');
-      const cantidadButtons = document.querySelectorAll('.cantidad-btn');
-      const cantidadInput = document.getElementById('cantidad');
-      const feedback = document.getElementById('feedback');
-
-      // Añadir funcionalidad para seleccionar cantidad al hacer clic en los botones
-      cantidadButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          // Quitar selección de todos los botones
-          cantidadButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
-          // Añadir selección al botón clicado
-          button.classList.add('bg-blue-500', 'text-white');
-          // Asignar el valor al campo oculto
-          cantidadInput.value = button.dataset.value;
+    document.getElementById('form-presupuesto').addEventListener('submit', async (e) => {
+      e.preventDefault();  // Evita recargar la página
+  
+      const formData = new FormData(e.target);  // Obtener los datos del formulario
+      const data = Object.fromEntries(formData.entries());  // Convertir a objeto
+  
+      try {
+        const response = await fetch('/api/send-email', {  // Llama a la función del servidor
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
         });
-      });
-
-      if (form) {
-        form.addEventListener('submit', async (event) => {
-          event.preventDefault();
-
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
-
-          try {
-            const response = await fetch('/api/send-email', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-              feedback.textContent = 'Correo enviado correctamente';
-              feedback.classList.remove('hidden', 'bg-red-500');
-              feedback.classList.add('bg-green-500');
-              form.reset();
-
-              // Redireccionar a la página de inicio después de 3 segundos
-              setTimeout(() => {
-                window.location.href = '/';
-              }, 3000);
-            } else {
-              feedback.textContent = 'Error al enviar el correo';
-              feedback.classList.remove('hidden', 'bg-green-500');
-              feedback.classList.add('bg-red-500');
-            }
-          } catch (error) {
-            console.error('Error en el envío del formulario:', error);
-            feedback.textContent = 'Error en el envío';
-            feedback.classList.remove('hidden', 'bg-green-500');
-            feedback.classList.add('bg-red-500');
-          }
-        });
-      } else {
-        console.error('Formulario no encontrado');
+  
+        if (response.ok) {
+          alert('Formulario enviado correctamente');
+          e.target.reset();  // Limpiar el formulario
+        } else {
+          alert('Error al enviar el formulario');
+        }
+      } catch (error) {
+        console.error('Error al enviar el formulario:', error);
+        alert('Error en el envío del formulario');
       }
     });
   </script>

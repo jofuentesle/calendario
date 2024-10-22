@@ -12,41 +12,68 @@ if (!apiKey) {
 
 sendGrid.setApiKey(apiKey);
 
-export const POST = async ({ request }) => {
+export const GET = async ({ request }) => {
   try {
-    // Obtener los datos del formulario enviados desde la solicitud
-    const { nombre, email, telefono,  } = await request.json();
+    // Extraer los parámetros de la URL
+    const url = new URL(request.url);
+    const params = new URLSearchParams(url.search);
 
-    console.log('Datos recibidos:', { nombre, email, telefono });
+    // Obtener todos los parámetros del formulario
+    const nombre = params.get('nombre');
+    const email = params.get('email');
+    const telefono = params.get('telefono');
+    const cantidad = params.get('cantidad');
+    const tipoCalendario = params.get('tipo_calendario');
 
-    // Verificar si los campos requeridos están presentes
-    if (!nombre || !email || !telefono ) {
-      return new Response(JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }), { status: 400 });
+    // Verificar que los campos requeridos están presentes
+    if (!nombre || !email || !telefono || !cantidad || !tipoCalendario) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }),
+        { status: 400 }
+      );
     }
 
-    // Construir el contenido del correo
+    // Construir el contenido del mensaje del correo
     const messageContent = `
-      Nombre: ${nombre}
-      Correo electrónico: ${email}
-      Teléfono: ${telefono}
-     
+      **Solicitud de presupuesto**
+
+      Detalles del cliente:
+      - **Nombre**: ${nombre}
+      - **Correo electrónico**: ${email}
+      - **Teléfono**: ${telefono}
+
+      Detalles del calendario:
+      - **Cantidad solicitada**: ${cantidad}
+      - **Tipo de calendario**: ${tipoCalendario}
+
+      Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.
     `;
 
-    // Crear el mensaje a enviar
+    // Configurar el mensaje a enviar
     const msg = {
-      to: 'jfuentesleiva@gmail.com',  // Cambiar al destinatario correcto
+      to: email,
       from: 'noreply@reprodisseny.com',
-      subject: `Solicitud de presupuesto de ${nombre}`,
-      text: messageContent, // Enviar el mensaje de texto con todos los datos
+      subject: `Nueva solicitud de presupuesto de ${nombre}`,
+      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ""),
+      html: messageContent.replace(/\n/g, '<br/>'),
     };
 
-    // Enviar el correo
+    // Enviar el correo mediante SendGrid
     await sendGrid.send(msg);
 
-    // Responder con éxito
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    // Redirigir al usuario a la página de agradecimiento
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': '/gracias'
+      }
+    });
+
   } catch (error) {
     console.error('Error al enviar el correo:', error);
-    return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
+    return new Response(
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500 }
+    );
   }
 };

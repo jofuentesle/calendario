@@ -182,13 +182,12 @@ export interface Testimonial {
 }
 
 export interface Input {
-  type: HTMLInputTypeAttribute | text | select | options;
+  type: 'text' | 'email' | 'tel' | 'select';  // Añadimos 'select' como tipo permitido
   name: string;
   label?: string;
   autocomplete?: string;
   placeholder?: string;
-  options?:{value: string, label:string,  image?: string }[];
-  icons?: string;
+  options?: Array<{ value: string; label: string }>;  // Añadimos las opciones para los selects
   required?: boolean;
 }
 
@@ -228,12 +227,30 @@ export interface Collapse {
 }
 
 export interface Form {
-  inputs?: Array<Input>;
-  selects?:Array<Options>,
-  textarea?: Textarea;
-  disclaimer?: Disclaimer;
-  button?: string;
-  description?: string;
+  id: string;  // Identificador del formulario
+  method: string;  // Aquí definimos el método (GET, POST)
+  action: string;  // La URL de destino para el envío del formulario
+  inputs: Array<{ 
+    type: HTMLInputTypeAttribute;
+    name: string; 
+    label: string; 
+    placeholder?: string; 
+    autocomplete?: string; 
+    required?: boolean; 
+  }>;
+  textarea?: { 
+    name?: string; 
+    label: string; 
+    placeholder?: string; 
+    rows?: number 
+  };
+  disclaimer?: { 
+    label: string; 
+    required?: boolean; 
+  };
+  button?: string;  // Texto del botón
+  description?: string;  // Descripción del formulario
+  requiredFields?: string[];  // Lista de campos obligatorios
 }
 
 // WIDGETS
@@ -316,19 +333,9 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   icons?: string;
   buttonText?: string;
   options?: Array<{ value: string; label: string; image: string }>;
-  medidas?: string[];
+  requiredFields?: string[];
   method?:string;
-  requiredFields: {
-    modeloCalendario: string;
-    medidas: string[];
-    cantidad: string;
-    name: string;
-    telefono: string;
-    email: string;
-  };
-  optionalFields?: {
-    empresa?: string;
-  };
+  action?: string;
 }
 
 export interface InputOption {

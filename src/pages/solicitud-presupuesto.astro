@@ -1,6 +1,7 @@
 --- 
 import Layout from '~/layouts/PageLayout.astro'; 
 import ContactUs from '~/components/widgets/Contact.astro'; 
+import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = { 
   title: 'Solicitud de presupuesto para Calendarios', 
@@ -31,6 +32,32 @@ const metadata = {
         label: 'Teléfono',
         required: true,
       },
+      {
+      type: 'select',  // Select para las cantidades
+      name: 'cantidad',
+      label: 'Cantidad',
+      options: [
+        { value: '100', label: '100' },
+        { value: '200', label: '200' },
+        { value: '500', label: '500' },
+        { value: '750', label: '750' },
+        { value: '1000', label: '1000' },
+      ],
+      required: true,
+    },
+    {
+      type: 'select',  // Select para el tipo de calendario
+      name: 'tipo_calendario',
+      label: 'Tipo de calendario',
+      options: [
+        { value: 'mesa_espiral', label: 'Mesa Espiral' },
+        { value: 'mesa_triangular', label: 'Mesa Triangular' },
+        { value: 'pared_espiral', label: 'Pared Espiral' },
+        { value: 'pared_revista', label: 'Pared Revista' },
+      ],
+      required: true,
+    },
+      
     ]}
     disclaimer={{
       label: 'Acepto las políticas de privacidad',
@@ -40,5 +67,38 @@ const metadata = {
   />
   <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
 </Layout>
-
+<Features2
+    title="We are here to help!"
+    items={[
+      {
+        title: 'General support',
+        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
+      },
+      {
+        title: 'Contact sales',
+        description:
+          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
+      },
+      {
+        title: 'Technical support',
+        description:
+          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
+      },
+      {
+        title: 'Phone',
+        description: '+1 (234) 567-890',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Email',
+        description: 'contact@support.com',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Location',
+        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
 

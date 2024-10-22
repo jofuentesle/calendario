@@ -38,17 +38,28 @@ const { id, method = 'GET', action, inputs, textarea, disclaimer, button = 'Cons
   )}
   {disclaimer && (
     <div class="mt-3 flex items-start">
-      <input
-        id="disclaimer"
-        name="disclaimer"
-        type="checkbox"
-        class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-        required
-      />
+      <div class="flex mt-0.5">
+        <input
+          id="disclaimer"
+          name="disclaimer"
+          type="checkbox"
+          class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+        />
+      </div>
       <div class="ml-3">
-        <label for="disclaimer">{disclaimer.label}</label>
+        <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
+          {disclaimer.label}
+        </label>
       </div>
     </div>
   )}
-  <Button type="submit">{button}</Button>
+  {
+    button && (
+      <div class="mt-10 grid">
+        <Button variant="primary" type="submit">
+          {button}
+        </Button>
+      </div>
+    )
+  }
 </form>

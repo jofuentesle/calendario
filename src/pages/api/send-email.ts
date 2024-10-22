@@ -39,7 +39,7 @@ export const GET = async ({ request }) => {
 
     // Configurar el mensaje a enviar
     const msg = {
-      to: 'jfuentesleiva@gmail.com', // Cambia este correo al destinatario correcto
+      to: email, // Cambia este correo al destinatario correcto
       from: 'noreply@reprodisseny.com',
       subject: `Solicitud de presupuesto de ${nombre}`,
       text: messageContent,

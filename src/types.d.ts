@@ -187,7 +187,8 @@ export interface Input {
   label?: string;
   autocomplete?: string;
   placeholder?: string;
-  options?:{value: string, label:string,  image?: string }[];
+  
+  options?: Array<{ value: string; label: string }>;
   icons?: string;
   required?: boolean;
 }

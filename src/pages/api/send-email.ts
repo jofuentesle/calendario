@@ -15,22 +15,21 @@ sendGrid.setApiKey(apiKey);
 export const POST = async ({ request }) => {
   try {
     // Obtener los datos del formulario enviados desde la solicitud
-    const { nombre, email, telefono, empresa, tipo, cantidad } = await request.json();
-    console.log('Datos recibidos:', { nombre, email, telefono, empresa, tipo, cantidad });
+    const { nombre, email, telefono,  } = await request.json();
+
+    console.log('Datos recibidos:', { nombre, email, telefono });
 
     // Verificar si los campos requeridos están presentes
-    if (!nombre || !email || !telefono || !tipo || !cantidad) {
+    if (!nombre || !email || !telefono ) {
       return new Response(JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }), { status: 400 });
     }
 
     // Construir el contenido del correo
     const messageContent = `
       Nombre: ${nombre}
-      Email: ${email}
+      Correo electrónico: ${email}
       Teléfono: ${telefono}
-      Empresa: ${empresa || 'No proporcionado'}
-      Tipo de Calendario: ${tipo}
-      Cantidad: ${cantidad}
+     
     `;
 
     // Crear el mensaje a enviar

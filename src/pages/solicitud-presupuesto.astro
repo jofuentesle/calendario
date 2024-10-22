@@ -1,88 +1,117 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import sendGrid from '@sendgrid/mail';
-import FormContainer from '~/components/ui/Form.astro';
-import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-
-// Configuración de SendGrid
-sendGrid.setApiKey(import.meta.env.SENDGRID_API_KEY);
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
 
 const metadata = {
-  title: 'Solicitar presupuesto calendarios',
+  title: 'Solicitud de presupuesto para Calendarios',
 };
 
-// Obtener el parámetro 'tipo' de la URL
-const tipoCalendario = Astro.url.searchParams.get('tipo') || 'mesa-espiral';
-
-// Definir los valores por defecto para cada tipo de calendario
-const calendarOptions = {
-  'mesa-espiral': {
-    title: 'Mesa Espiral',
-    subtitle: 'Personaliza tus calendarios de mesa con espiral y promociona tu marca durante todo el año.',
-    medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
-  },
-  'mesa-triangular': {
-    title: 'Mesa Triangular',
-    subtitle: 'Perfectos para oficinas y mesas de trabajo, personaliza tus calendarios triangulares.',
-    medidas: ['15x15 cm', '21x10 cm', 'Din A5'],
-  },
-  'pared-espiral': {
-    title: 'Pared Espiral',
-    subtitle: 'Promociona tu marca durante todo el año con nuestros calendarios de pared con espiral.',
-    medidas: ['38x48 cm'],
-  },
-  'pared-revista': {
-    title: 'Pared Revista',
-    subtitle: 'Nuestros calendarios tipo revista son perfectos para destacar tu marca de manera elegante.',
-    medidas: ['34 x 24 cm (cerrado)'],
-  },
-};
-
-// Entradas del formulario
-const inputs = [
-  { type: 'select', name: 'tipo', label: 'Tipo Calendario', options: [
-      { value: 'mesa-espiral', label: 'Mesa Espiral' },
-      { value: 'mesa-triangular', label: 'Mesa Triangular' },
-      { value: 'pared-espiral', label: 'Pared Espiral' },
-      { value: 'pared-revista', label: 'Pared Revista' },
-    ]
-  },
-  { type: 'select', name: 'medida', label: 'Medida Calendario', options: calendarOptions[tipoCalendario].medidas },
-  // Otros inputs...
-];
-
-function updateMeasures(tipo) {
-  const medidaSelect = document.querySelector('select[name="medida"]');
-  medidaSelect.innerHTML = ''; // Limpiar las opciones actuales
-
-  const medidasDelTipo = calendarOptions[tipo].medidas || [];
-  medidasDelTipo.forEach(medida => {
-    const option = document.createElement('option');
-    option.value = medida;
-    option.textContent = medida;
-    medidaSelect.appendChild(option);
-  });
-}
-
-function handleTipoChange(event) {
-  updateMeasures(event.target.value);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const tipoSelect = document.querySelector('select[name="tipo"]');
-  tipoSelect.addEventListener('change', handleTipoChange);
-
-  // Inicializar las medidas para el tipo seleccionado inicialmente
-  updateMeasures(tipoSelect.value);
-});
+const title = 'Solicita tu presupuesto para Calendarios 2024';
+const subtitle = 'Rellena el formulario para obtener un presupuesto personalizado para tus calendarios.';
 ---
 
 <Layout metadata={metadata}>
-  <WidgetWrapper containerClass="max-w-7xl mx-auto">
-    <Headline title="Solicitar presupuesto para tus Calendarios Personalizados" subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." />
+  <HeroText title={title} subtitle={subtitle} />
+
+  <ContactUs
+    id="form-contact"
+    title={title}
+    subtitle={subtitle}
+    inputs={[
+      {
+        type: 'text',
+        name: 'nombre',
+        label: 'Name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email',
+      },
+      {
+        type: 'tel',
+        name: 'telefono',
+        label: 'Phone',
+      },
+      {
+        type: 'select',
+        name: 'tipo',
+        label: 'Calendar Type',
+        options: [
+          { value: 'mesa-espiral', label: 'Mesa con Espiral' },
+          { value: 'pared-revista', label: 'Pared Tipo Revista' },
+          { value: 'triangular-mesa', label: 'Triangular de Mesa' },
+        ],
+      },
+      {
+        type: 'select',
+        name: 'cantidad',
+        label: 'Quantity',
+        options: [
+          { value: '100', label: '100' },
+          { value: '200', label: '200' },
+          { value: '500', label: '500' },
+          { value: '750', label: '750' },
+          { value: '1000', label: '1000' },
+        ],
+      },
+    ]}
+    textarea={{
+      label: 'Message',
+    }}
+    disclaimer={{
+      label:
+        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
+    }}
+    description="Our support team typically responds within 24 business hours."
     
-    <!-- Formulario -->
-    <FormContainer inputs={inputs} />
-  </WidgetWrapper>
+  />
+  <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
+  
 </Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form-contact');  // Usar el ID correcto
+    const feedback = document.getElementById('feedback');
+
+    if (form && feedback) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();  // Evita recargar la página
+
+        const formData = new FormData(e.target);  // Obtener los datos del formulario
+        const data = Object.fromEntries(formData.entries());  // Convertir a objeto
+
+        try {
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            feedback.textContent = 'Correo enviado correctamente';
+            feedback.classList.remove('hidden');
+            feedback.classList.remove('bg-red-500');
+            feedback.classList.add('bg-green-500');
+            e.target.reset();  // Limpiar el formulario
+          } else {
+            feedback.textContent = 'Error al enviar el correo';
+            feedback.classList.remove('hidden');
+            feedback.classList.remove('bg-green-500');
+            feedback.classList.add('bg-red-500');
+          }
+        } catch (error) {
+          console.error('Error al enviar el formulario:', error);
+          feedback.textContent = 'Error en el envío del formulario';
+          feedback.classList.remove('hidden');
+          feedback.classList.remove('bg-green-500');
+          feedback.classList.add('bg-red-500');
+        }
+      });
+    } else {
+      console.error('Formulario o feedback no encontrado');
+    }
+  });
+</script>

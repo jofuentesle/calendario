@@ -16,6 +16,7 @@ export const POST = async ({ request }) => {
   try {
     // Obtener los datos del formulario enviados desde la solicitud
     const { nombre, email, telefono, empresa, tipo, cantidad } = await request.json();
+    console.log('Datos recibidos:', { nombre, email, telefono, empresa, tipo, cantidad });
 
     // Verificar si los campos requeridos están presentes
     if (!nombre || !email || !telefono || !tipo || !cantidad) {

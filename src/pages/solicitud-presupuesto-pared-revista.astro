@@ -1,25 +1,26 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
 
 const metadata = {
-  title: 'Solicitud de presupuesto para Calendarios de Pared tipo Revista',
+  title: 'Solicitud de presupuesto para Calendarios de Mesa',
 };
 
-// Constante para el tipo de calendario
-const tipoCalendario = 'pared-revista';
-
+const tipoCalendario = 'mesa-espiral';
+const title = 'Solicita tu presupuesto para Calendarios de Mesa con Espiral';
+const subtitle = 'Rellena el formulario para obtener un presupuesto personalizado para tus calendarios de mesa.';
 ---
 
 <Layout metadata={metadata}>
-  
+  <HeroText title={title} subtitle={subtitle} />
   <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <form id="form-presupuesto-pared-revista" class="space-y-6"> <!-- ID actualizado -->
+    <form id="form-presupuesto-pared-revista" class="space-y-6"> 
       <div>
         <label for="nombre-pared-revista" class="block text-sm font-medium text-gray-700">Nombre</label>
         <input
           type="text"
           name="nombre"
-          id="nombre-pared-revista" <!-- ID actualizado -->
+          id="nombre-pared-revista"
           class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           placeholder="Tu nombre"
           required
@@ -31,7 +32,7 @@ const tipoCalendario = 'pared-revista';
         <input
           type="email"
           name="email"
-          id="email-pared-revista" <!-- ID actualizado -->
+          id="email-pared-revista"
           class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           placeholder="Tu correo"
           required
@@ -43,7 +44,7 @@ const tipoCalendario = 'pared-revista';
         <input
           type="tel"
           name="telefono"
-          id="telefono-pared-revista" <!-- ID actualizado -->
+          id="telefono-pared-revista"
           class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           placeholder="Tu teléfono"
           required
@@ -55,7 +56,7 @@ const tipoCalendario = 'pared-revista';
         <input
           type="text"
           name="empresa"
-          id="empresa-pared-revista" <!-- ID actualizado -->
+          id="empresa-pared-revista"
           class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           placeholder="Tu empresa"
         />
@@ -79,6 +80,18 @@ const tipoCalendario = 'pared-revista';
           <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="1000">1000</button>
         </div>
         <input type="hidden" name="cantidad" id="cantidad-pared-revista" required /> <!-- ID actualizado -->
+      </div>
+      <div class="flex items-center">
+        <input
+          type="checkbox"
+          id="politicas-privacidad"
+          name="politicas-privacidad"
+          required
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        />
+        <label for="politicas-privacidad" class="ml-2 block text-sm text-gray-700">
+          He leído y acepto las <a href="/politicas-de-privacidad" class="text-blue-500 underline" target="_blank">Políticas de Privacidad</a>.
+        </label>
       </div>
 
       <!-- Feedback messages -->

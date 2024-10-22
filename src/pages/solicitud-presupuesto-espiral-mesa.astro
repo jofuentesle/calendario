@@ -1,169 +1,165 @@
-  ---
-  import Layout from '~/layouts/PageLayout.astro';
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
 
-  const metadata = {
-    title: 'Solicitud de presupuesto',
-  };
+const metadata = {
+  title: 'Solicitud de presupuesto para Calendarios de Mesa',
+};
 
-  // Constante para el tipo de calendario
-  const tipoCalendario = 'mesa-espiral';
+const tipoCalendario = 'mesa-espiral';
+const title = 'Solicita tu presupuesto para Calendarios de Mesa con Espiral';
+const subtitle = 'Rellena el formulario para obtener un presupuesto personalizado para tus calendarios de mesa.';
+---
 
+<Layout metadata={metadata}>
+  <HeroText title={title} subtitle={subtitle} />
 
-  ---
+  <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <form id="form-presupuesto" class="space-y-6">
+      <!-- Nombre -->
+      <div>
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu nombre"
+          required
+        />
+      </div>
 
-  <Layout metadata={metadata}>
-    
-    <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <form id="form-presupuesto" class="space-y-6">
-        <div>
-          <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-          <input
-            type="text"
-            name="nombre"
-            id="nombre"
-            class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Tu nombre"
-            required
-          />
-        </div>
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu correo"
+          required
+        />
+      </div>
 
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Tu correo"
-            required
-          />
-        </div>
+      <!-- Teléfono -->
+      <div>
+        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+        <input
+          type="tel"
+          name="telefono"
+          id="telefono"
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu teléfono"
+          required
+        />
+      </div>
 
-        <div>
-          <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-          <input
-            type="tel"
-            name="telefono"
-            id="telefono"
-            class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Tu teléfono"
-            required
-          />
-        </div>
+      <!-- Empresa -->
+      <div>
+        <label for="empresa" class="block text-sm font-medium text-gray-700">Empresa (Opcional)</label>
+        <input
+          type="text"
+          name="empresa"
+          id="empresa"
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Tu empresa"
+        />
+      </div>
 
-        <div>
-          <label for="empresa" class="block text-sm font-medium text-gray-700">Empresa (Opcional)</label>
-          <input
-            type="text"
-            name="empresa"
-            id="empresa"
-            class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Tu empresa"
-          />
-        </div>
+      <!-- Campo oculto para el tipo de calendario -->
+      <input type="hidden" name="tipo" value={tipoCalendario} />
 
-        <!-- Campo oculto para el tipo de calendario -->
-        <input type="hidden" name="tipo" value={tipoCalendario} />
-
-        <!-- Selector de medidas -->
-        <div>
-          <label for="medida" class="block text-sm font-medium text-gray-700">Medida</label>
-          <select
-            id="medida"
-            name="medida"
-            class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            required
-          >
-            <option value="15x15 cm">15x15 cm</option>
-            <option value="21x10 cm">21x10 cm</option>
-            <option value="Din A5">Din A5</option>
-          </select>
-        </div>
-
-        <!-- Cantidad de calendarios -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Cantidad</label>
-          <div id="cantidad-selector" class="flex justify-between flex-wrap gap-2 mt-2">
-            <!-- Botones para seleccionar cantidad -->
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="100">100</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="200">200</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="500">500</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="750">750</button>
-            <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="1000">1000</button>
-          </div>
-          <input type="hidden" name="cantidad" id="cantidad" required />
-        </div>
-
-        <!-- Feedback messages -->
-        <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
-
-        <button
-          type="submit"
-          class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      <!-- Selector de medidas -->
+      <div>
+        <label for="medida" class="block text-sm font-medium text-gray-700">Medida</label>
+        <select
+          id="medida"
+          name="medida"
+          class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          required
         >
-          Enviar
-        </button>
-      </form>
-    </div>
-  </Layout>
+          <option value="15x15 cm">15x15 cm</option>
+          <option value="21x10 cm">21x10 cm</option>
+          <option value="Din A5">Din A5</option>
+        </select>
+      </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('form-presupuesto');
-      const cantidadButtons = document.querySelectorAll('.cantidad-btn');
-      const cantidadInput = document.getElementById('cantidad');
-      const feedback = document.getElementById('feedback');
+      <!-- Selector de cantidad -->
+      <div>
+        <label for="cantidad" class="block text-sm font-medium text-gray-700">Cantidad</label>
+        <select id="cantidad" name="cantidad" class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+          <option value="750">750</option>
+          <option value="1000">1000</option>
+        </select>
+      </div>
+      <div class="flex items-center">
+        <input
+          type="checkbox"
+          id="politicas-privacidad"
+          name="politicas-privacidad"
+          required
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        />
+        <label for="politicas-privacidad" class="ml-2 block text-sm text-gray-700">
+          He leído y acepto las políticas de Privacidad.
+        </label>
+      </div>
 
-      // Añadir funcionalidad para seleccionar cantidad al hacer clic en los botones
-      cantidadButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          // Quitar selección de todos los botones
-          cantidadButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
-          // Añadir selección al botón clicado
-          button.classList.add('bg-blue-500', 'text-white');
-          // Asignar el valor al campo oculto
-          cantidadInput.value = button.dataset.value;
-        });
-      });
+      <!-- Feedback messages -->
+      <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
 
-      if (form) {
-        form.addEventListener('submit', async (event) => {
-          event.preventDefault();
+      <button
+        type="submit"
+        class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Solicitud de precio
+      </button>
+    </form>
+  </div>
+</Layout>
 
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form-presupuesto');
+    const feedback = document.getElementById('feedback');
 
-          try {
-            const response = await fetch('/api/send-email', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data),
-            });
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();  // Evita recargar la página
 
-            if (response.ok) {
-              feedback.textContent = 'Correo enviado correctamente';
-              feedback.classList.remove('hidden', 'bg-red-500');
-              feedback.classList.add('bg-green-500');
-              form.reset();
+        const formData = new FormData(e.target as HTMLFormElement);  // Obtener los datos del formulario
+        const data = Object.fromEntries(formData.entries());  // Convertir a objeto
 
-              // Redireccionar a la página de inicio después de 3 segundos
-              setTimeout(() => {
-                window.location.href = '/';
-              }, 3000);
-            } else {
-              feedback.textContent = 'Error al enviar el correo';
-              feedback.classList.remove('hidden', 'bg-green-500');
-              feedback.classList.add('bg-red-500');
-            }
-          } catch (error) {
-            console.error('Error en el envío del formulario:', error);
-            feedback.textContent = 'Error en el envío';
-            feedback.classList.remove('hidden', 'bg-green-500');
-            feedback.classList.add('bg-red-500');
+        try {
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            feedback.textContent = 'Correo enviado correctamente';
+            feedback?.classList.remove('hidden', 'bg-red-500');
+            feedback?.classList.add('bg-green-500');
+            (e.target as HTMLFormElement).reset();
+          } else {
+            feedback.textContent = 'Error al enviar el correo';
+            feedback?.classList.remove('hidden', 'bg-green-500');
+            feedback?.classList.add('bg-red-500');
           }
-        });
-      } else {
-        console.error('Formulario no encontrado');
-      }
-    });
-  </script>
+        } catch (error) {
+          console.error('Error al enviar el formulario:', error);
+          feedback.textContent = 'Error en el envío del formulario';
+          feedback?.classList.remove('hidden', 'bg-green-500');
+          feedback?.classList.add('bg-red-500');
+        }
+      });
+    } else {
+      console.error('Formulario no encontrado');
+    }
+  });
+</script>

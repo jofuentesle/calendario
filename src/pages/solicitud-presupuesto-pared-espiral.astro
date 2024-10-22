@@ -1,19 +1,22 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
 
 const metadata = {
   title: 'Solicitud de presupuesto para Calendarios de Pared con Espiral',
 };
 
-// Constante para el tipo de calendario
 const tipoCalendario = 'pared-espiral';
-
+const title = 'Solicita tu presupuesto para Calendarios de Pared con Espiral';
+const subtitle = 'Rellena el formulario para obtener un presupuesto personalizado para tus calendarios de pared con espiral.';
 ---
 
 <Layout metadata={metadata}>
-  
+  <HeroText title={title} subtitle={subtitle} />
+
   <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <form id="form-presupuesto-pared-espiral" class="space-y-6"> <!-- ID actualizado -->
+    <form id="form-presupuesto-pared-espiral" class="space-y-6">
+      <!-- Nombre -->
       <div>
         <label for="nombre-pared-espiral" class="block text-sm font-medium text-gray-700">Nombre</label>
         <input
@@ -26,6 +29,7 @@ const tipoCalendario = 'pared-espiral';
         />
       </div>
 
+      <!-- Email -->
       <div>
         <label for="email-pared-espiral" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
         <input
@@ -38,6 +42,7 @@ const tipoCalendario = 'pared-espiral';
         />
       </div>
 
+      <!-- Teléfono -->
       <div>
         <label for="telefono-pared-espiral" class="block text-sm font-medium text-gray-700">Teléfono</label>
         <input
@@ -50,6 +55,7 @@ const tipoCalendario = 'pared-espiral';
         />
       </div>
 
+      <!-- Empresa -->
       <div>
         <label for="empresa-pared-espiral" class="block text-sm font-medium text-gray-700">Empresa (Opcional)</label>
         <input
@@ -65,24 +71,36 @@ const tipoCalendario = 'pared-espiral';
       <input type="hidden" name="tipo" value={tipoCalendario} />
 
       <!-- Campo oculto para la medida fija -->
-      <input type="hidden" name="medida" value="38x48 cm" />
+      <input type="hidden" name="medida" value="34 x 24 cm (cerrado)" />
 
-      <!-- Cantidad de calendarios -->
+      <!-- Selector de cantidad -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Cantidad</label>
-        <div id="cantidad-selector-pared-espiral" class="flex justify-between flex-wrap gap-2 mt-2"> <!-- ID actualizado -->
-          <!-- Botones para seleccionar cantidad -->
-          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="100">100</button>
-          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="200">200</button>
-          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="500">500</button>
-          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="750">750</button>
-          <button type="button" class="cantidad-btn py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" data-value="1000">1000</button>
-        </div>
-        <input type="hidden" name="cantidad" id="cantidad-pared-espiral" required /> <!-- ID actualizado -->
+        <label for="cantidad-pared-espiral" class="block text-sm font-medium text-gray-700">Cantidad</label>
+        <select id="cantidad-pared-espiral" name="cantidad" class="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+          <option value="750">750</option>
+          <option value="1000">1000</option>
+        </select>
+      </div>
+
+      <!-- Políticas de privacidad -->
+      <div class="flex items-center">
+        <input
+          type="checkbox"
+          id="politicas-privacidad-pared-espiral"
+          name="politicas-privacidad"
+          required
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        />
+        <label for="politicas-privacidad-pared-espiral" class="ml-2 block text-sm text-gray-700">
+          He leído y acepto las <a href="/politicas-de-privacidad" class="text-blue-500 underline" target="_blank">Políticas de Privacidad</a>.
+        </label>
       </div>
 
       <!-- Feedback messages -->
-      <div id="feedback-pared-espiral" class="hidden p-4 text-white rounded-md"></div> <!-- ID actualizado -->
+      <div id="feedback-pared-espiral" class="hidden p-4 text-white rounded-md"></div>
 
       <button
         type="submit"
@@ -96,29 +114,15 @@ const tipoCalendario = 'pared-espiral';
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('form-presupuesto-pared-espiral'); // ID actualizado
-    const cantidadButtons = document.querySelectorAll('.cantidad-btn');
-    const cantidadInput = document.getElementById('cantidad-pared-espiral'); // ID actualizado
-    const feedback = document.getElementById('feedback-pared-espiral'); // ID actualizado
-
-    // Añadir funcionalidad para seleccionar cantidad al hacer clic en los botones
-    cantidadButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Quitar selección de todos los botones
-        cantidadButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
-        // Añadir selección al botón clicado
-        button.classList.add('bg-blue-500', 'text-white');
-        // Asignar el valor al campo oculto
-        cantidadInput.value = button.dataset.value;
-      });
-    });
+    const form = document.getElementById('form-presupuesto-pared-espiral');
+    const feedback = document.getElementById('feedback-pared-espiral');
 
     if (form) {
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+        const formData = new FormData(e.target);  // Obtener los datos del formulario
+        const data = Object.fromEntries(formData.entries());  // Convertir a objeto
 
         try {
           const response = await fetch('/api/send-email', {
@@ -143,8 +147,8 @@ const tipoCalendario = 'pared-espiral';
             feedback.classList.add('bg-red-500');
           }
         } catch (error) {
-          console.error('Error en el envío del formulario:', error);
-          feedback.textContent = 'Error en el envío';
+          console.error('Error al enviar el formulario:', error);
+          feedback.textContent = 'Error en el envío del formulario';
           feedback.classList.remove('hidden', 'bg-green-500');
           feedback.classList.add('bg-red-500');
         }

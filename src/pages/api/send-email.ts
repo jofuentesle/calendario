@@ -12,41 +12,49 @@ if (!apiKey) {
 
 sendGrid.setApiKey(apiKey);
 
-export const POST = async ({ request }) => {
+export const GET = async ({ request }) => {
   try {
-    // Obtener los datos del formulario enviados desde la solicitud
-    const { nombre, email, telefono,  } = await request.json();
+    // Extraer los parámetros de la URL
+    const url = new URL(request.url);
+    const params = new URLSearchParams(url.search);
 
-    console.log('Datos recibidos:', { nombre, email, telefono });
+    const nombre = params.get('nombre');
+    const email = params.get('email');
+    const telefono = params.get('telefono');
 
-    // Verificar si los campos requeridos están presentes
-    if (!nombre || !email || !telefono ) {
-      return new Response(JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }), { status: 400 });
+    // Verificar que los campos requeridos están presentes
+    if (!nombre || !email || !telefono) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }),
+        { status: 400 }
+      );
     }
 
-    // Construir el contenido del correo
+    // Construir el contenido del mensaje del correo
     const messageContent = `
       Nombre: ${nombre}
       Correo electrónico: ${email}
       Teléfono: ${telefono}
-     
     `;
 
-    // Crear el mensaje a enviar
+    // Configurar el mensaje a enviar
     const msg = {
-      to: 'jfuentesleiva@gmail.com',  // Cambiar al destinatario correcto
+      to: 'jfuentesleiva@gmail.com', // Cambia este correo al destinatario correcto
       from: 'noreply@reprodisseny.com',
       subject: `Solicitud de presupuesto de ${nombre}`,
-      text: messageContent, // Enviar el mensaje de texto con todos los datos
+      text: messageContent,
     };
 
-    // Enviar el correo
+    // Enviar el correo mediante SendGrid
     await sendGrid.send(msg);
 
-    // Responder con éxito
+    // Responder con éxito si el correo se envió correctamente
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
     console.error('Error al enviar el correo:', error);
-    return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
+    return new Response(
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500 }
+    );
   }
 };

@@ -13,6 +13,15 @@ import astroIcon from 'astro-icon';
 import astrowind from './vendor/integration';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+//Analytics 4
+const ANALYTICS = {
+  vendors: {
+    googleAnalytics: {
+      id: 'G-670WKWQ591', // Tu ID de Google Analytics
+      partytown: true // Partytown si lo deseas
+    }
+  }
+};
 // Configuración optimizada para Netlify
 export default defineConfig({
   output: 'server',  // Usa 'server' si necesitas SSR o funciones
@@ -74,6 +83,9 @@ export default defineConfig({
   },
 
   vite: {
+     define: {
+      ANALYTICS: JSON.stringify(ANALYTICS),
+    },
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),

@@ -54,22 +54,18 @@ const metadata = {
 
 
 // Mejorar contenido SEO
-//const title = "Solicita Presupuesto para Calendarios de Pared Tipo Revista";
+const title = "Calendarios de Pared Personalizados Tipo Revista";
 const subtitle = "Consigue calendarios de pared tipo revista personalizados para 2025. Ideales para empresas que quieren promocionar su marca con calendarios de alta calidad. Pide tu oferta personalizada hoy.";
-const tagline = "calendarios de pared tipo revista personalizados";
-
-const params = new URLSearchParams(Astro.url.searchParams);
-const tipo = params.get('tipo');
-const title = `Solicitar presupuesto para ${tipo || 'calendarios personalizados'}`;
+const tagline = "calendarios pared revista";
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->
 
   <Hero2
-    tagline="Calendario tipo revista"
-    title="Calendarios de pared 2025 personalizados"
-    subtitle="Impresión de alta calidad y diseño atractivo para promocionar tu marca en Barcelona."
+    tagline={tagline}
+    title={title}
+    subtitle={subtitle}
     actions={[
       { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
       { text: 'Saber más', href: '#features' },

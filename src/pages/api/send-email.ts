@@ -24,14 +24,18 @@ export const GET = async ({ request }) => {
     const telefono = params.get('telefono');
     const cantidad = params.get('cantidad');
     const tipoCalendario = params.get('tipo_calendario');
+    const privacidadAceptada = params.get('disclaimer');
 
-    // Verificar que los campos requeridos están presentes
-    if (!nombre || !email || !telefono || !cantidad || !tipoCalendario) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Faltan campos obligatorios' }),
-        { status: 400 }
-      );
-    }
+   // Verificar que la política de privacidad ha sido aceptada (único campo obligatorio)
+   if (!privacidadAceptada) {
+    
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': '/nogracias'
+      }
+    });
+  }
 
     // Construir el contenido del mensaje del correo
     const messageContent = `

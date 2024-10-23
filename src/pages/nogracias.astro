@@ -2,7 +2,7 @@
 import Layout from '~/layouts/Layout.astro';
 import { getHomePermalink } from '~/utils/permalinks';
 
-const title = `Página no encontrada`;
+const title = `Error 404`;
 ---
 
 <Layout metadata={{ title }}>
@@ -13,11 +13,12 @@ const title = `Página no encontrada`;
           <span class="sr-only">Error</span>
           <span class="text-primary">404</span>
         </h2>
-        <p class="text-3xl font-semibold md:text-3xl">¡Algo ha salido mal!.</p>
+        <p class="text-3xl font-semibold md:text-3xl">Lo sentimos, ha ocurrido un error en el formulario</p>
         <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
+          Por favor, revisa los campos y vuelve a enviarnos tu consulta
         </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Inicio</a>
+
+        <a rel="noopener noreferrer" href=/solicitud-presupuesto class="btn ml-4">Vuelve al formulario</a>
       </div>
     </div>
   </section>

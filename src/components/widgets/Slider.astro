@@ -2,39 +2,40 @@
 const { images = [] } = Astro.props;
 ---
 
+<!-- Importar Swiper y los módulos necesarios -->
 <script>
-  // Importar Swiper y los módulos necesarios
-  import Swiper, {Swiper as SwiperInstance } from 'swiper';
-  import { Autoplay, Navigation} from 'swiper/modules';
+  import Swiper, { Swiper as SwiperInstance } from 'swiper';
+  import { Autoplay, Navigation } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
 
-  let mainSwiper: SwiperInstance|null = null;
+  let mainSwiper = null;
 
-  // Función para inicializar Swiper
   function initializeSwiper() {
-    // Destruir instancias anteriores si existen
     if (mainSwiper) {
       mainSwiper.destroy();
       mainSwiper = null;
     }
 
-    mainSwiper = new Swiper(".swiper", {
+    mainSwiper = new Swiper('.swiper', {
       modules: [Navigation, Autoplay],
       spaceBetween: 40,
       centeredSlides: true,
       autoplay: {
-        delay: 2000, // Ajustado a 5 segundos
+        delay: 3000,  // Transición más lenta (3 segundos)
         disableOnInteraction: false,
       },
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
-      }
+      },
+      effect: 'fade',  // Efecto de transición suave
+      fadeEffect: {
+        crossFade: true,
+      },
     });
   }
 
-  // Esperar a que el DOM esté listo antes de inicializar Swiper
   document.addEventListener('DOMContentLoaded', () => {
     initializeSwiper();
   });
@@ -44,29 +45,31 @@ const { images = [] } = Astro.props;
 <div class="slider-container relative">
   <div class="swiper">
     <div class="swiper-wrapper">
-    {images.map(image => (
-      <div class="swiper-slide">
-        <img src={image.src} alt={image.alt} class="w-full h-auto object-cover" />
-      </div>
-    ))}
+      {images.map(image => (
+        <div class="swiper-slide">
+          <img src={image.src} alt={image.alt} class="w-full h-auto object-cover rounded-xl shadow-lg" />
+        </div>
+      ))}
+    </div>
   </div>
-  </div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
 </div>
-<style>
 
+<style>
   .slider-container {
     position: absolute;
     inset: 0;
     z-index: -2;
     overflow: hidden;
     height: auto;
-    opacity: 0.8;
-    filter: grayscale(100%) blur(2px);
+    opacity: 0.9; /* Aumentar la opacidad para que se vean mejor los colores */
+    filter: grayscale(20%) blur(1px); /* Menos desenfoque y filtro de color */
   }
+
   .swiper {
     width: 100%;
     height: 100%;
-    
   }
 
   .swiper-wrapper {
@@ -84,10 +87,15 @@ const { images = [] } = Astro.props;
     width: auto;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s ease; /* Animación de zoom suave */
+  }
+
+  .swiper-slide:hover img {
+    transform: scale(1.05); /* Efecto zoom al pasar el cursor */
   }
 
   .swiper-button-next, .swiper-button-prev {
-    color: #333333; /* Estilo para los botones de navegación */
+    color: #555555; /* Color más elegante para los botones de navegación */
   }
 
   @media (max-width: 768px) {

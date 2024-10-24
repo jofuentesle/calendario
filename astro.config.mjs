@@ -54,7 +54,7 @@ export default defineConfig({
       },
     }),
     partytown({
-      config: { forward: ['dataLayer.push'] },
+      config: { forward: ['gtag'] },
     }),
     compress({
       CSS: true,

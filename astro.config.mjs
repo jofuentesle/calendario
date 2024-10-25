@@ -17,11 +17,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ANALYTICS = {
   vendors: {
     googleAnalytics: {
-      id: 'G-670WKWQ591', // Tu ID de Google Analytics
+      id: 'G-302RJDGZTB', // Tu ID de Google Analytics
       partytown: true // Partytown si lo deseas
     }
   }
 };
+
 // Configuración optimizada para Netlify
 export default defineConfig({
   output: 'server',  // Usa 'server' si necesitas SSR o funciones

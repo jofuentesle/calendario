@@ -10,11 +10,12 @@ import Img3 from '~/assets/images/pared/ParedRevista2.jpg';
 import Img4 from '~/assets/images/pared/ParedRevista3.jpg';
 
 const galleryImages = [
-    { src: Img1.src, alt: 'Calendario de pared tipo revista 2025' },
-    { src: Img2.src, alt: 'Calendario de pared 2025 con espiral, diseño personalizado' },
-    { src: Img3.src, alt: 'Calendario tipo revista personalizado para empresas 2025' },
-    { src: Img4.src, alt: 'Calendario promocional de pared con espiral 2025' },
+    { src: Img1.src, alt: 'Calendario de pared tipo revista 2025', title: 'Calendario de pared tipo revista 2025' },
+    { src: Img2.src, alt: 'Calendario de pared 2025 con espiral, diseño personalizado', title: 'Calendario de pared 2025 con espiral, diseño personalizado' },
+    { src: Img3.src, alt: 'Calendario tipo revista personalizado para empresas 2025', title: 'Calendario tipo revista personalizado para empresas 2025' },
+    { src: Img4.src, alt: 'Calendario promocional de pared con espiral 2025', title: 'Calendario promocional de pared con espiral 2025' },
 ];
+
 
 const metadata = {
   title: "Calendarios Personalizados para Pared | Reprodisseny en Barcelona",
@@ -28,14 +29,18 @@ const metadata = {
     "Calendarios de empresa 2025",
     "Calendarios de pared personalizados",
     "Calendarios de diseño para empresas",
-    "Calendarios de pared de calidad en Barcelona"
+    "Calendarios de pared de calidad en Barcelona",
+    "calendarios pared revista",
+    "calendarios baratos",
+    "calendarios de calidad",
+    "calendarios elegantes"
   ],
   canonical: "https://calendarios.reprodisseny.com/calendarios-pared-revista",
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": "Calendarios de Mesa con Espiral Personalizados ",
-    "description": "Personaliza calendarios de mesa personalizados para empresas y oficinas. Perfectos para promocionar tu marca durante todo el año.",
+    "name": "Calendarios de Pared Tipo Revista Personalizados",
+    "description": "Personaliza calendarios de pared tipo revista para empresas y oficinas. Perfectos para promocionar tu marca durante todo el año.",
     "image": `${Img1.src}`,
     "brand": {
       "@type": "Brand",
@@ -54,9 +59,10 @@ const metadata = {
 
 
 // Mejorar contenido SEO
-const title = "Calendarios de Pared Personalizados Tipo Revista";
+const title = "Calendarios de Pared Personalizados";
 const subtitle = "Consigue calendarios de pared tipo revista personalizados para 2025. Ideales para empresas que quieren promocionar su marca con calendarios de alta calidad. Pide tu oferta personalizada hoy.";
 const tagline = "calendarios pared revista";
+const tipoCalendario = "pared-revista"; // Tipo de calendario
 ---
 
 <Layout metadata={metadata}>
@@ -67,7 +73,12 @@ const tagline = "calendarios pared revista";
     title={title}
     subtitle={subtitle}
     actions={[
-      { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
+      { 
+        variant: 'primary', 
+        text: 'Pide tu oferta!', 
+        href: `/solicitud-presupuesto?tipo_calendario=${tipoCalendario}`, 
+        icon: 'tabler:square-rounded-arrow-right' 
+      },
       { text: 'Saber más', href: '#features' },
     ]}
     galleryImages={galleryImages}
@@ -128,7 +139,7 @@ const tagline = "calendarios pared revista";
         {
           variant: 'primary',
           text: 'Solicita tu presupuesto personalizado',
-          href: `/solicitud-presupuesto`,
+          href: `/solicitud-presupuesto?tipo_calendario=${tipoCalendario}`,
           icon: 'tabler:mail', // Icono SVG
         },
       ]}  

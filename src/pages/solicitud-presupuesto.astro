@@ -5,7 +5,7 @@ import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
 
 const metadata = {
-  title: 'Solicitud de presupuesto para Calendarios',
+  title: 'Solicitud de presupuesto para Calendarios para empresas 2025',
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -39,67 +39,35 @@ const metadata = {
     }
   }
 };
+
+// Obtener `tipo_calendario` en el servidor para el título y la lógica del formulario
+const url = new URL(Astro.request.url);
+const tipoCalendario = url.searchParams.get('tipo_calendario') || 'Calendario de Pared Tipo Revista'; // Valor por defecto si no se proporciona
+
+// Definir campos del formulario sin incluir "tipo_calendario"
+const inputs = [
+  { type: 'text', name: 'nombre', label: 'Nombre' },
+  { type: 'email', name: 'email', label: 'Correo electrónico', required: true },
+  { type: 'tel', name: 'telefono', label: 'Teléfono', required: true, pattern: '^[0-9]{9}$' },
+  { type: 'select', name: 'cantidad', label: 'Cantidad', options: [{ value: '100', label: '100' }, { value: '200', label: '200' }, { value: '500', label: '500' }, { value: '750', label: '750' }, { value: '1000', label: '1000' }], required: true },
+];
+
 ---
 
 <Layout metadata={metadata}>
   <Headline 
-    title="Solicitar presupuesto para tus Calendarios Personalizados" 
-    subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
-  />
+  title={`Solicitar presupuesto para Calendarios ${tipoCalendario ? tipoCalendario.replace('-', ' ') : ''}`} 
+  subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
+/>
 
+  <!-- Componente ContactUs -->
   <ContactUs
     id="form-contact"
     method="GET"
     action="/api/send-email"
-    inputs={[
-      {
-        type: 'text',
-        name: 'nombre',
-        label: 'Nombre',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-        required: true,
-      },
-      {
-        type: 'tel',
-        name: 'telefono',
-        label: 'Teléfono',
-        required: true,
-        pattern: '^[0-9]{9}$',
-      },
-      {
-        type: 'select',
-        name: 'cantidad',
-        label: 'Cantidad',
-        options: [
-          { value: '100', label: '100' },
-          { value: '200', label: '200' },
-          { value: '500', label: '500' },
-          { value: '750', label: '750' },
-          { value: '1000', label: '1000' },
-        ],
-        required: true,
-      },
-      {
-        type: 'select',
-        name: 'tipo_calendario',
-        label: 'Tipo de calendario',
-        options: [
-          { value: 'mesa_espiral', label: 'Mesa Espiral' },
-          { value: 'mesa_triangular', label: 'Mesa Triangular' },
-          { value: 'pared_espiral', label: 'Pared Espiral' },
-          { value: 'pared_revista', label: 'Pared Revista' },
-        ],
-        required: true,
-      }
-    ]}
-    disclaimer={{
-      label: 'Acepto las políticas de privacidad',
-      required: true,
-    }}
+    inputs={inputs}
+    tipo={tipoCalendario}
+    disclaimer={{ label: 'Acepto las políticas de privacidad', required: true }}
     description="Nuestro equipo de soporte generalmente responde dentro de las 24 horas hábiles."
   />
 
@@ -138,103 +106,27 @@ const metadata = {
     ]}
   />
 </Layout>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Obtener referencias a los elementos del formulario
+    const urlParams = new URLSearchParams(window.location.search);
+    const tipoCalendario = urlParams.get('tipo_calendario');
+
     const form = document.getElementById('form-contact');
     
-    // Verificar que el formulario existe y que es un HTMLFormElement
-    if (!form || !(form instanceof HTMLFormElement)) {
-      console.error("Error: El formulario no fue encontrado o no es del tipo HTMLFormElement.");
-      return;
-    }
+    if (form && tipoCalendario) {
+      // Crear un input oculto para "tipo_calendario"
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'tipo_calendario';
+      hiddenInput.value = tipoCalendario;
+      form.appendChild(hiddenInput);
 
-    const telefonoInput = form.querySelector('input[name="telefono"]') as HTMLInputElement;
-    const privacidadInput = form.querySelector('input[name="disclaimer"]') as HTMLInputElement;
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    const feedback = document.getElementById('feedback');
-
-    // Crear mensajes de error
-    const telefonoError = document.createElement('div');
-    telefonoError.classList.add('text-red-500', 'text-sm', 'mt-1');
-    telefonoInput.parentNode?.appendChild(telefonoError);
-
-    const privacidadError = document.createElement('div');
-    privacidadError.classList.add('text-red-500', 'text-sm', 'mt-1');
-    privacidadInput.parentNode?.appendChild(privacidadError);
-
-    // Regex para validar el teléfono
-    const telefonoPattern = /^[0-9]{9}$/;
-
-    function validateTelefono(showError = false) {
-      const telefonoValue = telefonoInput.value.trim();
-      const isValid = telefonoPattern.test(telefonoValue);
-      if (showError || telefonoValue !== '') {
-        telefonoError.textContent = isValid ? '' : 'Por favor, introduce un número de teléfono válido.';
-        telefonoInput.classList.toggle('border-red-500', !isValid);
+      // Ocultar el selector de tipo_calendario si está presente
+      const tipoSelect = form.querySelector('select[name="tipo_calendario"]');
+      if (tipoSelect && tipoSelect.parentNode instanceof HTMLElement) {
+      tipoSelect.parentNode.style.display = 'none';
       }
-      telefonoInput.classList.toggle('border-gray-300', isValid); // Restaurar borde cuando es válido
-      return isValid;
     }
-
-    function validatePrivacidad(showError = false) {
-      const isValid = privacidadInput.checked;
-      if (showError) {
-        privacidadError.textContent = isValid ? '' : 'Debes aceptar las políticas de privacidad.';
-        privacidadInput.classList.toggle('border-red-500', !isValid);
-      }
-      privacidadInput.classList.toggle('border-gray-300', isValid); // Restaurar borde cuando es válido
-      return isValid;
-    }
-
-    function validateForm(showErrors = false) {
-      const isTelefonoValid = validateTelefono(showErrors);
-      const isPrivacidadValid = validatePrivacidad(showErrors);
-      submitButton.disabled = !(isTelefonoValid && isPrivacidadValid); // Deshabilitar botón si los campos no son válidos
-      return isTelefonoValid && isPrivacidadValid;
-    }
-
-    // Event listeners para cada campo
-    telefonoInput.addEventListener('input', () => validateForm(false));
-    privacidadInput.addEventListener('change', () => validateForm(false));
-
-    // Manejar envío del formulario
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Prevenir el envío por defecto
-
-      if (validateForm(true)) {  // Mostrar errores si los campos no son válidos
-        try {
-          const formData = new FormData(form);
-
-          const response = await fetch('/api/send-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(Object.fromEntries(formData.entries())),
-          });
-
-          if (response.ok) {
-            feedback.textContent = 'Correo enviado correctamente';
-            feedback?.classList.remove('hidden', 'bg-red-500');
-            feedback?.classList.add('bg-green-500');
-            // Limpiar el formulario
-            form.reset();
-            submitButton.disabled = true; // Deshabilitar el botón nuevamente
-          } else {
-            feedback.textContent = 'Error al enviar el correo';
-            feedback?.classList.remove('hidden', 'bg-green-500');
-            feedback?.classList.add('bg-red-500');
-          }
-        } catch (error) {
-          feedback.textContent = 'Error en el envío del formulario';
-          feedback?.classList.remove('hidden', 'bg-green-500');
-          feedback?.classList.add('bg-red-500');
-          console.error('Error:', error);
-        }
-      }
-    });
-
-    // Validar formulario al cargar para deshabilitar el botón si es necesario
-    validateForm(false);
   });
 </script>
-

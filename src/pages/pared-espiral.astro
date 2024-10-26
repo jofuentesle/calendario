@@ -4,7 +4,7 @@ import Hero2 from '~/components/widgets/Hero2.astro';
 import Features from '~/components/widgets/Features.astro';
 import CallToActionProps from '~/components/widgets/CallToAction.astro';
 
-//Importamos images para las rutas
+//Importamos imágenes para las rutas
 import Img1 from '~/assets/images/pared/ParedEspiral.jpg';
 import Img2 from '~/assets/images/pared/ParedEspiral1.jpg';
 import Img3 from '~/assets/images/pared/ParedEspiral2.jpg';
@@ -54,21 +54,20 @@ const metadata = {
   }
 };
 
-
-// Mejorar contenido SEO
 const title = "Calendarios de Pared con Espiral personalizados";
 const subtitle = "Imprime calendarios de pared con espiral personalizados para promocionar tu empresa todo el año. Ideal para promociones empresariales y marketing. Solicita tu presupuesto hoy y destaca con un diseño único.";
 const tagline = "calendarios pared";
+const tipoCalendario = "pared-espiral";
 ---
+
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->
-
   <Hero2
     tagline={tagline}
     title={title}
     subtitle={subtitle}
     actions={[
-      { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
+      { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto?tipo_calendario=${tipoCalendario}`, icon: 'tabler:square-rounded-arrow-right' },
       { text: 'Saber más', href: '#features' },
     ]}
     galleryImages={galleryImages}
@@ -76,71 +75,58 @@ const tagline = "calendarios pared";
 
   <Features 
     id="features"
-    tagline="Caracteristicas Clave"
+    tagline="Características Clave"
     title="Calendarios de Pared con Espiral Personalizados para Empresas" 
-    subtitle="Nuestros calendarios de pared con espiral están diseñados para promocionar tu empresa de manera efectiva y visual durante todo el año. Ofrecemos impresión de alta calidad con las útlimas tecnologías, tanto digital como offset en Barcelona."
+    subtitle="Nuestros calendarios de pared con espiral están diseñados para promocionar tu empresa de manera efectiva y visual durante todo el año. Ofrecemos impresión de alta calidad con las últimas tecnologías, tanto digital como offset en Barcelona."
     items={[
       {
         title: 'Impresión Personalizada',
-        description:
-          'Personaliza tus calendarios de pared con espiral, incluyendo el logotipo y diseño de tu empresa. Perfectos para promocionar tu marca durante todo el año.',
+        description: 'Personaliza tus calendarios de pared con espiral, incluyendo el logotipo y diseño de tu empresa. Perfectos para promocionar tu marca durante todo el año.',
         icon: 'tabler:calendar',
       },
       {
         title: 'Alta Calidad de Impresión',
-        description:
-          'Utilizamos tecnología de impresión en cuatricromía para asegurar que tus calendarios se vean profesionales y duraderos.',
+        description: 'Utilizamos tecnología de impresión en cuatricromía para asegurar que tus calendarios se vean profesionales y duraderos.',
         icon: 'tabler:printer',
       },
       {
         title: 'Diseño Promocional',
-        description:
-          'Crea un calendario promocional que destaque tu marca todo el año con nuestros calendarios anuales de pared personalizados.',
+        description: 'Crea un calendario promocional que destaque tu marca todo el año con nuestros calendarios anuales de pared personalizados.',
         icon: 'tabler:file-signal',
       },
       {
         title: 'Entrega en Barcelona',
-        description:
-          'Ofrecemos tiempos de entrega rápidos y eficientes para pedidos de calendarios de pared promocionales en península.',
+        description: 'Ofrecemos tiempos de entrega rápidos y eficientes para pedidos de calendarios de pared promocionales en península.',
         icon: 'tabler:truck',
       },
       {
         title: 'Ideal para Empresas',
-        description:
-          'Nuestros calendarios son perfectos para empresas que buscan una solución publicitaria efectiva y duradera.',
+        description: 'Nuestros calendarios son perfectos para empresas que buscan una solución publicitaria efectiva y duradera.',
         icon: 'tabler:building',
       },
       {
         title: 'Fácil de Colgar',
-        description:
-          'El formato con espiral hace que los calendarios de pared sean fáciles de colgar y utilizar en cualquier entorno corporativo o de oficina.',
+        description: 'El formato con espiral hace que los calendarios de pared sean fáciles de colgar y utilizar en cualquier entorno corporativo o de oficina.',
         icon: 'tabler:wall',
       },
     ]}
   />
-       <!-- Formulario de solicitud -->
-  <div id="form-section">
-    <form id="calendar-form" method="POST" action="/api/send-form">
-      <!-- Formulario generado arriba -->
-    </form>
-  </div>
-
+  
+  <!-- CallToActionProps Widget ******************* -->
   <CallToActionProps 
-  title={title}
-  subtitle={subtitle}
-  tagline={tagline}
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Solicita tu presupuesto personalizado',
-      href: `/solicitud-presupuesto`,
-      icon: 'tabler:mail', // Icono SVG
-    },
-  ]}
-  tipo="mesa-espiral" 
-  id="cta-calendarios-pared-espiral"
-  isDark={false}
-  classes={{ container: 'custom-container-class' }}
-/>
- 
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Solicita tu presupuesto personalizado',
+        href: `/solicitud-presupuesto?tipo_calendario=${tipoCalendario}`,
+        icon: 'tabler:mail',
+      },
+    ]}  
+    id="cta-calendarios-pared-espiral"
+    isDark={false}
+    classes={{ container: 'custom-container-class' }}
+  /> 
 </Layout>

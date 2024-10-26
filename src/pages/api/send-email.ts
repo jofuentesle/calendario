@@ -14,30 +14,26 @@ sendGrid.setApiKey(apiKey);
 
 export const GET = async ({ request }) => {
   try {
-    // Extraer los parámetros de la URL
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
 
-    // Obtener todos los parámetros del formulario
+    const tipoCalendario = params.get('tipoCalendario') || 'No especificado'; // Recoger valor tipoCalendario
+
     const nombre = params.get('nombre');
     const email = params.get('email');
     const telefono = params.get('telefono');
     const cantidad = params.get('cantidad');
-    const tipoCalendario = params.get('tipo_calendario');
     const privacidadAceptada = params.get('disclaimer');
 
-   // Verificar que la política de privacidad ha sido aceptada (único campo obligatorio)
-   if (!privacidadAceptada) {
-    
-    return new Response(null, {
-      status: 302,
-      headers: {
-        'Location': '/nogracias'
-      }
-    });
-  }
+    if (!privacidadAceptada) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          'Location': '/nogracias'
+        }
+      });
+    }
 
-    // Construir el contenido del mensaje del correo
     const messageContent = `
       **Solicitud de presupuesto**
 
@@ -53,19 +49,16 @@ export const GET = async ({ request }) => {
       Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.
     `;
 
-    // Configurar el mensaje a enviar
     const msg = {
       to: 'jordi@reprodisseny.com',
       from: 'noreply@reprodisseny.com',
       subject: `Nueva solicitud de presupuesto de ${nombre}`,
-      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ""),
-      html: messageContent.replace(/\n/g, '<br/>'),
+      text: messageContent.replace(/<\\/?[^>]+(>|$)/g, ""),
+      html: messageContent.replace(/\\n/g, '<br/>'),
     };
 
-    // Enviar el correo mediante SendGrid
     await sendGrid.send(msg);
 
-    // Redirigir al usuario a la página de agradecimiento
     return new Response(null, {
       status: 302,
       headers: {

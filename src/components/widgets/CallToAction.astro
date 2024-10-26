@@ -19,6 +19,7 @@ const {
   tagline = await Astro.slots.render('tagline'),
   actions = await Astro.slots.render('actions'),
   id,
+  tipo,
   isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
@@ -45,7 +46,11 @@ const {
           {Array.isArray(actions) ? (
             actions.map((action) => (
               <div class="flex w-full sm:w-auto">
-                <Button {...(action || {})} class="w-full sm:mb-0" />
+                <Button 
+                  {...(action || {})} 
+                  class="w-full sm:mb-0"
+                  href={`${action.href}?tipo_calendario=${tipo}`}
+                  />
               </div>
             ))
           ) : (

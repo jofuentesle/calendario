@@ -1,54 +1,70 @@
---- 
-import type { Form as Props } from '~/types'; 
-import Button from '~/components/ui/Button.astro'; 
+---
+import type { Form as Props } from '~/types';
+import Button from '~/components/ui/Button.astro';
 
-const { id, method = 'GET', action, inputs = [], textarea, disclaimer, button = 'Consulta precio', requiredFields = [] } = Astro.props; 
+const {
+  id,
+  method = 'GET',
+  action,
+  inputs = [],
+  textarea,
+  disclaimer,
+  button = 'Consulta precio',
+  requiredFields = [],
+  tipo // Recibido como prop para personalizar el formulario
+} = Astro.props;
 ---
 
 <form id={id} method={method} action={action}>
-  {inputs && inputs.map(({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', options = [],  required = false, pattern = ''  }) => name && (
-    <div class="mb-6">
-      {label && (
-        <label for={name} class="block text-sm font-medium">
-          {label}
-        </label>
-      )}
-      
-      {type === 'select' ? (
-        <select
-          name={name}
-          id={name}
-          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-          required={required}
-        >
-          {options.map(({ value, label }) => (
-            <option value={value}>{label}</option>
-          ))}
-        </select>
-      ) : (
-        <input
-          type={type}
-          name={name}
-          id={name}
-          autocomplete={autocomplete}
-          placeholder={placeholder}
-          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-          required={required}
-          {...(pattern ? { pattern } : {})}
-        />
-      )}
-    </div>
-  ))}
-  
+
+  <!-- Campo oculto para enviar el tipo de calendario -->
+  <input type="hidden" name="tipoCalendario" value={tipo} />
+
+  {inputs &&
+    inputs.map(({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', options = [] }) =>
+      name && (
+        <div class="mb-6">
+          {label && (
+            <label for={name} class="block text-sm font-medium">
+              {label}
+            </label>
+          )}
+
+          {type === 'select' ? (
+            <select
+              name={name}
+              id={name}
+              class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 bg-white dark:bg-slate-900"
+              required={requiredFields.includes(name)}
+            >
+              {options.map(({ value, label }) => (
+                <option value={value}>{label}</option>
+              ))}
+            </select>
+          ) : (
+            <input
+              type={type}
+              name={name}
+              id={name}
+              autocomplete={autocomplete}
+              placeholder={placeholder}
+              class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 bg-white dark:bg-slate-900"
+              required={requiredFields.includes(name)}
+            />
+          )}
+        </div>
+      )
+    )}
+
   {textarea && (
     <div>
       <label for="textarea" class="block text-sm font-medium">{textarea.label}</label>
       <textarea
         id="textarea"
-        name={textarea.name ? textarea.name : 'message'}
-        rows={textarea.rows ? textarea.rows : 4}
+        name={textarea.name || 'message'}
+        rows={textarea.rows || 4}
         placeholder={textarea.placeholder}
-        class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+        class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 bg-white dark:bg-slate-900"
       />
     </div>
   )}
@@ -60,8 +76,7 @@ const { id, method = 'GET', action, inputs = [], textarea, disclaimer, button = 
           id="disclaimer"
           name="disclaimer"
           type="checkbox"
-          class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-          { ...(disclaimer.required ? { required: true } : {}) }
+          class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 bg-white dark:bg-slate-900"
         />
       </div>
       <div class="ml-3">
@@ -71,14 +86,12 @@ const { id, method = 'GET', action, inputs = [], textarea, disclaimer, button = 
       </div>
     </div>
   )}
-  
-  {
-    button && (
-      <div class="mt-10 grid">
-        <Button variant="primary" type="submit">
-          {button}
-        </Button>
-      </div>
-    )
-  }
+
+  {button && (
+    <div class="mt-10 grid">
+      <Button variant="primary" type="submit">
+        {button}
+      </Button>
+    </div>
+  )}
 </form>

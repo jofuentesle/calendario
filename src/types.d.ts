@@ -250,7 +250,8 @@ export interface Form {
   };
   button?: string;  // Texto del botón
   description?: string;  // Descripción del formulario
-  requiredFields?: string[];  // Lista de campos obligatorios
+  requiredFields?: string[];
+  tipo:string;  // Lista de campos obligatorios
 }
 
 // WIDGETS
@@ -336,6 +337,7 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   requiredFields?: string[];
   method?:string;
   action?: string;
+  tipo?:string;
 }
 
 export interface InputOption {

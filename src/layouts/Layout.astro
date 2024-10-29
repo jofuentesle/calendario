@@ -32,23 +32,22 @@ const { language, textDirection } = I18N;
       transition:animate="none"
 >
   <head>
+
+    <!-- Google tag (gtag.js) -->
+    <script  type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
+    <script  type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-302RJDGZTB');
+    </script>
     <CommonMeta />
     <Favicons />
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
     <SiteVerification />
-    <!-- Otros elementos del head -->
-    <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-670WKWQ591" async></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(...args) { // Usa el parámetro rest en lugar de arguments
-        dataLayer.push(...args); // Expande los argumentos dentro de dataLayer.push
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-670WKWQ591'); // Reemplaza con tu ID de Google Analytics
-    </script>
-
     <!-- Comment the line below to disable View Transitions -->
     <ViewTransitions />
   </head>

@@ -13,18 +13,10 @@ import astroIcon from 'astro-icon';
 import astrowind from './vendor/integration';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-//Analytics 4
-const ANALYTICS = {
-  vendors: {
-    googleAnalytics: {
-      id: 'G-302RJDGZTB', // Tu ID de Google Analytics
-      partytown: true // Partytown si lo deseas
-    }
-  }
-};
 
 // Configuración optimizada para Netlify
 export default defineConfig({
+  site: 'https://calendarios.reprodisseny.com/',
   output: 'server',  // Usa 'server' si necesitas SSR o funciones
   adapter: netlify(), // Cambiado a Netlify Functions
   integrations: [
@@ -55,7 +47,7 @@ export default defineConfig({
       },
     }),
     partytown({
-      config: { forward: ['gtag'] },
+      config: { forward: ['dataLayer.push'] },
     }),
     compress({
       CSS: true,
@@ -85,7 +77,6 @@ export default defineConfig({
 
   vite: {
      define: {
-      ANALYTICS: JSON.stringify(ANALYTICS),
     },
     resolve: {
       alias: {

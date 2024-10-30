@@ -17,39 +17,28 @@ const galleryImages = [
 ];
 
 const metadata = {
-  title: "Calendarios Personalizados para Pared | Reprodisseny en Barcelona",
-  description: "Compra calendarios tipo revista para pared 2025 personalizados y de alta calidad en Barcelona.",
+  title: "Calendarios de Pared Tipo Revista Personalizados | Diseños Elegantes en Barcelona",
+  description: "Calendarios de pared tipo revista personalizados. Ofrecemos diseños elegantes y de alta calidad para promocionar tu marca en Barcelona. Pide tu presupuesto.",
   keywords: [
-    "Calendarios personalizados Barcelona",
-    "Calendarios tipo revista para pared 2025",
-    "Impresión de calendarios en Barcelona",
-    "Calendarios de pared publicitarios",
-    "Compra calendarios tipo revista online",
-    "Calendarios de empresa 2025",
-    "Calendarios de pared personalizados",
-    "Calendarios de diseño para empresas",
-    "Calendarios de pared de calidad en Barcelona"
+    "calendarios de pared tipo revista", 
+    "calendarios personalizados Barcelona", 
+    "calendarios publicitarios", 
+    "diseños elegantes para calendarios"
   ],
-  canonical: "https://calendarios.reprodisseny.com/calendarios-pared-revista",
-  jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Calendarios de Mesa con Espiral Personalizados ",
-    "description": "Personaliza calendarios de mesa personalizados para empresas y oficinas. Perfectos para promocionar tu marca durante todo el año.",
-    "image": `${Img1.src}`,
-    "brand": {
-      "@type": "Brand",
-      "name": "Repro Disseny" 
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": "https://calendarios.reprodisseny.com/landing/calendario-pared-revista",
-      "priceCurrency": "EUR",
-      "price": "5.99",
-      "availability": "https://schema.org/InStock"
-    },
-    "keywords": "Calendarios personalizados Barcelona, Calendarios tipo revista para pared 2025, Impresión de calendarios en Barcelona, Calendarios de pared publicitarios, Compra calendarios tipo revista online, Calendarios de empresa 2025, Calendarios de pared personalizados, Calendarios de diseño para empresas, Calendarios de pared de calidad en Barcelona"
-  }
+  openGraph: {
+    type: "website",
+    url: "https://calendarios.reprodisseny.com/pared-revista",
+    images: [
+      { url: "https://calendarios.reprodisseny.com/assets/images/pared/ParedRevista.jpg", alt: "Calendario de pared tipo revista personalizado" }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@reprodisseny",
+    title: "Calendarios de Pared Tipo Revista Personalizados",
+    description: "Calendarios de pared con diseño de revista, personalizados para empresas. Promociona tu negocio todo el año.",
+    image: "https://calendarios.reprodisseny.com/assets/images/pared/ParedRevista.jpg",
+  },
 };
 
 

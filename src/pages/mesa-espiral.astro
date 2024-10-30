@@ -22,51 +22,35 @@ const galleryImages = [
 
 //SEO
 const metadata = {
-  title: "Calendarios de Mesa Personalizados con Espiral para Empresas | Regalos Corporativos en Barcelona",
-  description: "Personaliza calendarios de mesa con espiral, perfectos para empresas que buscan regalos corporativos únicos. Impresión de alta calidad en Barcelona, ideales para promocionar tu marca durante todo el año.",
+  title: "Calendarios de Mesa con Espiral Personalizados | Regalos Corporativos en Barcelona",
+  description: "Imprime calendarios de mesa personalizados con espiral en Barcelona. Ideales para regalos corporativos y promociones de marca. Solicita tu presupuesto hoy mismo.",
   keywords: [
-    "calendario mesa personalizado", 
-    "calendario sobremesa personalizado", 
     "calendarios de mesa personalizados", 
+    "calendarios con espiral", 
+    "regalos corporativos Barcelona", 
     "calendarios de sobremesa", 
-    "calendarios sobremesa", 
-    "calendarios de mesa", 
-    "calendario personalizado", 
-    "calendarios económicos", 
-    "calendario publicitario", 
-    "calendarios corporativos", 
-    "imprimir calendarios sobremesa Barcelona",
-    "calendarios de mesa personalizados",
-    "calendarios corporativos personalizados",
-    "regalos corporativos personalizados" 
-
+    "calendarios personalizados para empresas"
   ],
-  canonical: "https://calendarios.reprodisseny.com/calendario-mesa-espiral-personalizado",
-  jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Calendarios de Mesa con Espiral Personalizados ",
-    "description": "Personaliza calendarios de mesa personalizados para empresas y oficinas. Perfectos para promocionar tu marca durante todo el año.",
-    "image": `${Img1.src}`,
-    "brand": {
-      "@type": "Brand",
-      "name": "Repro Disseny" 
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": "https://calendarios.reprodisseny.com/landing/calendario-mesa-espiral",
-      "priceCurrency": "EUR",
-      "price": "5.99",
-      "availability": "https://schema.org/InStock"
-    },
-    "keywords": "calendario mesa personalizado, calendario sobremesa personalizado, calendarios de mesa personalizados, calendarios de sobremesa, alendarios sobremesa, calendarios de mesa, calendario personalizado, calendarios económicos, calendario publicitario,calendarios corporativos,imprimir calendarios sobremesa Barcelona"
-  }
+  openGraph: {
+    type: "website",
+    url: "https://calendarios.reprodisseny.com/mesa-espiral",
+    images: [
+      { url: "https://calendarios.reprodisseny.com/assets/images/mesa/SobremesaEspiral.jpg", alt: "Calendario de mesa personalizado con espiral" }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@reprodisseny",
+    title: "Calendarios de Mesa Personalizados con Espiral",
+    description: "Personaliza calendarios de mesa con espiral para empresas. Ideales para regalos corporativos y promociones.",
+    image: "https://calendarios.reprodisseny.com/assets/images/mesa/SobremesaEspiral.jpg",
+  },
 };
 
 // Mejorar contenido SEO
 const title = "Calendarios de Mesa Personalizados con Espiral";
 const subtitle = "Imprime calendarios de mesa personalizados con espiral para oficinas y promociones. Ideal para empresas que buscan calendarios de sobremesa de alta calidad, económicos y publicitarios. ¡Crea el tuyo hoy mismo!";
-const tagline = "calendarios de mesa triangualares";
+const tagline = "calendarios de sobremesa";
 ---
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->

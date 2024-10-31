@@ -228,23 +228,16 @@ export interface Collapse {
 
 export interface Form {
   id: string;  // Identificador del formulario
-  method: string;  // Aquí definimos el método (GET, POST)
-  action: string;  // La URL de destino para el envío del formulario
-  inputs: Array<{ 
-    type: HTMLInputTypeAttribute;
-    name: string; 
-    label: string; 
-    placeholder?: string; 
-    autocomplete?: string; 
-    required?: boolean; 
-  }>;
-  textarea?: { 
+  method: string;  // Método del formulario (GET, POST)
+  action: string;  // URL de destino para el envío del formulario
+  inputs: FormInput[];  // Array de campos del formulario
+  textarea?: {
     name?: string; 
     label: string; 
     placeholder?: string; 
     rows?: number 
   };
-  disclaimer?: { 
+  disclaimer?: {
     label: string; 
     required?: boolean; 
   };
@@ -336,16 +329,24 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   requiredFields?: string[];
   method?:string;
   action?: string;
+  icon?:string;
 }
 
 export interface InputOption {
   value: string;
   label: string;
+  icon?:string;
 }
 
 export interface FormInput {
-  type: string;
+  type: HTMLInputTypeAttribute;
   name: string;
   label?: string;
-  options?: InputOption[]; // Aquí definimos que "options" es un array de objetos con value y label
+  autocomplete?: string;
+  placeholder?: string;
+  options?: Array<{ value: string; label: string }>;
+  required?: boolean;
+  pattern?: string;
+  value?: string;
+  icon?: string;  // Nueva propiedad opcional para el ícono
 }

@@ -3,6 +3,7 @@ import Layout from '~/layouts/LandingLayout2.astro';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Features from '~/components/widgets/Features.astro';
 import CallToActionProps from '~/components/widgets/CallToAction.astro';
+import { AstroSeo } from '@astrolib/seo';
 
 //Importamos images para las rutas
 import Img1 from '~/assets/images/pared/ParedEspiral.jpg';
@@ -17,42 +18,23 @@ const galleryImages = [
   { src: Img4.src, alt: 'Comprar calendarios de pared con espiral online' },
 ];
 
+// Metadatos optimizados
 const metadata = {
   title: "Calendarios de Pared con Espiral Personalizados | Impresión en Barcelona",
-  description: "Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Promociona tu marca todo el año con nuestros calendarios publicitarios de alta calidad.",
+  description: "Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Calidad y estilo para promocionar tu marca todo el año.",
   keywords: [
     "Calendarios de pared con espiral personalizados", 
-    "Impresión de calendarios con espiral para pared", 
-    "Calendarios publicitarios de pared", 
-    "Calendarios de pared promocionales", 
-    "Diseño de calendarios de pared con espiral",
-    "Calendarios anuales para pared", 
-    "Calendarios de pared para empresas",
-    "Calendarios de pared con espiral Barcelona",
-    "Imprimir calendarios de pared en Cataluña",
-    "Comprar calendarios de pared con espiral online"
+    "Impresión de calendarios pared Barcelona", 
+    "Calendarios publicitarios Barcelona",
+    "Calendarios pared empresas",
+    "Comprar calendarios espiral pared",
+    "Impresión calendarios Cataluña"
   ],
   canonical: "https://calendarios.reprodisseny.com/calendario-pared-espiral",
-  jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Calendarios de Pared con Espiral Personalizados",
-    "description": "Imprime calendarios de pared con espiral para empresas en Barcelona. Personalización completa y entrega rápida. Ideal para promociones empresariales.",
-    "image": `${Img1.src}`,
-    "brand": {
-      "@type": "Brand",
-      "name": "Repro Disseny" 
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": "https://calendarios.reprodisseny.com/calendario-pared-espiral",
-      "priceCurrency": "EUR",
-      "price": "5.99",
-      "availability": "https://schema.org/InStock"
-    },
-    "keywords": "calendarios de pared con espiral, calendarios promocionales, impresión de calendarios, comprar calendarios pared online, imprenta de calendarios en Barcelona"
-  }
 };
+
+
+
 
 
 // Mejorar contenido SEO
@@ -144,3 +126,59 @@ const tagline = "calendarios pared";
 />
  
 </Layout>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Calendarios de Pared Tipo Revista Personalizados",
+    "description": "Crea calendarios de pared tipo revista personalizados para empresas y oficinas. Ideales para destacar tu marca en espacios amplios durante todo el año.",
+    "image": "https://calendarios.reprodisseny.com/images/pared/ParedEspiral3.jpg",
+    "brand": {
+      "@type": "Brand",
+      "name": "Repro Disseny"
+    },
+    "sku": "CAL-PARED-REV",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://calendarios.reprodisseny.com/calendarios-pared-revista",
+      "priceCurrency": "EUR",
+      "price": "1.16",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition"
+    },
+    "keywords": [
+      "calendario pared personalizado", 
+      "calendario pared tipo revista", 
+      "calendarios de pared personalizados", 
+      "calendarios corporativos", 
+      "regalos corporativos personalizados"
+    ],
+    "additionalType": "https://schema.org/CustomizableProduct",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://calendarios.reprodisseny.com/calendarios-pared-revista?q={query}",
+      "query-input": "required name=query"
+    }
+  }
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Repro Disseny",
+    "image": "https://reprodisseny.com/files/subscribers/1ec69d96-f834-405d-b56c-25b9272432a3/sites/ebeef25d-6829-4fdd-b372-1357f92ee375/logo_ebeef25d-6829-4fdd-b372-1357f92ee375_large.png?stamp=637581364396277419",
+    "@id": "https://reprodisseny.com",
+    "url": "https://reprodisseny.com",
+    "telephone": "+34 932 749 890",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle Juan de Mena, 19",
+      "addressLocality": "Barcelona",
+      "postalCode": "08035",
+      "addressCountry": "ES"
+    },
+    "priceRange": "€€",
+    "description": "Empresa especializada en calendarios personalizados para empresas en Barcelona, ofrece calendarios de mesa y pared con diseño a medida. Precios muy competitivos, entregas personalizadas y muy ágiles."
+  }
+  </script>

@@ -25,6 +25,7 @@ export const GET = async ({ request }) => {
     const cantidad = params.get('cantidad');
     const tipoCalendario = params.get('tipo_calendario');
     const privacidadAceptada = params.get('disclaimer');
+    console.log(url);
 
    // Verificar que la política de privacidad ha sido aceptada (único campo obligatorio)
    if (!privacidadAceptada) {
@@ -55,7 +56,7 @@ export const GET = async ({ request }) => {
 
     // Configurar el mensaje a enviar
     const msg = {
-      to: 'pilar@reprodisseny.com',
+      to: 'jordi@reprodisseny.com',
       from: 'noreply@reprodisseny.com',
       subject: `Nueva solicitud de presupuesto de ${nombre}`,
       text: messageContent.replace(/<\/?[^>]+(>|$)/g, ""),

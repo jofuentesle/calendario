@@ -1,0 +1,34 @@
+---
+import 'vanilla-cookieconsent/dist/cookieconsent.css';
+import '~/assets/styles/ccElegantBlack.css';
+import cookieConsentConfig from '~/libs/cookieconsent-config.js';
+---
+
+<script>
+  if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = "https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js";
+      script.defer = true;
+
+      script.onload = () => {
+        // Añadir declaración al objeto window
+        const ccConfig = cookieConsentConfig; // Asignación a una variable local para que ESLint no marque advertencia
+        if (window.CookieConsent) {
+          window.CookieConsent.run(ccConfig);
+        } else {
+          console.error("CookieConsent script not loaded properly");
+        }
+      };
+
+      script.onerror = () => {
+        console.error("Error loading the CookieConsent script");
+      };
+
+      document.body.appendChild(script);
+    });
+  }
+</script>
+
+<div id="cookie-consent-placeholder"></div>
+

@@ -39,36 +39,70 @@ const metadata = {
     }
   }
 };
+
+
+let calendarType = '';
+let calendarTitle = '';
+
+if (typeof window !== 'undefined') {
+  // Lógica del lado del cliente para determinar el tipo de calendario y título
+  const referrer = document.referrer;
+  if (referrer.includes('calendario-mesa-espiral')) {
+    calendarType = 'Mesa Espiral';
+    calendarTitle = 'Solicitud de precio calendario de mesa espiral';
+  } else if (referrer.includes('calendarios-pared-revista')) {
+    calendarType = 'Pared Revista';
+    calendarTitle = 'Solicitud de precio calendario de pared tipo revista';
+  } else if (referrer.includes('calendario-pared-espiral')) {
+    calendarType = 'Pared Espiral';
+    calendarTitle = 'Solicitud de precio calendario de pared tipo con espiral';  
+  } else if (referrer.includes('calendario-mesa-triangular')) {
+    calendarType = 'Mesa Triangular';
+    calendarTitle = 'Solicitud de precio calendario de mesa tipo triangular';  
+  }
+}
+console.log(calendarType)
 ---
 
-<Layout metadata={metadata}>
+<Layout>
   <Headline 
-    title="Solicitar presupuesto para tus Calendarios Personalizados" 
+    title={calendarTitle || "Solicitar presupuesto para tus Calendarios Personalizados"} 
     subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
   />
 
   <ContactUs
     id="form-contact"
-    method="GET"
+    method="POST"
     action="/api/send-email"
     inputs={[
       {
         type: 'text',
         name: 'nombre',
         label: 'Nombre',
+        placeholder: 'Nombre',
+        icon: 'tabler:user', // Icono de Tabler en el placeholder
       },
       {
         type: 'email',
         name: 'email',
         label: 'Correo electrónico',
+        placeholder: 'Correo electrónico',
         required: true,
+        icon: 'tabler:mail', // Icono de Tabler en el placeholder
       },
       {
         type: 'tel',
         name: 'telefono',
         label: 'Teléfono',
+        placeholder: 'Teléfono',
         required: true,
         pattern: '^[0-9]{9}$',
+        icon: 'tabler:phone', // Icono de Tabler en el placeholder
+      },
+      {
+        type: 'hidden',
+        name: 'tipo_calendario',
+        value: calendarType, // Campo oculto con el tipo de calendario
       },
       {
         type: 'select',
@@ -80,18 +114,6 @@ const metadata = {
           { value: '500', label: '500' },
           { value: '750', label: '750' },
           { value: '1000', label: '1000' },
-        ],
-        required: true,
-      },
-      {
-        type: 'select',
-        name: 'tipo_calendario',
-        label: 'Tipo de calendario',
-        options: [
-          { value: 'mesa_espiral', label: 'Mesa Espiral' },
-          { value: 'mesa_triangular', label: 'Mesa Triangular' },
-          { value: 'pared_espiral', label: 'Pared Espiral' },
-          { value: 'pared_revista', label: 'Pared Revista' },
         ],
         required: true,
       }
@@ -138,103 +160,67 @@ const metadata = {
     ]}
   />
 </Layout>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Obtener referencias a los elementos del formulario
     const form = document.getElementById('form-contact');
-    
-    // Verificar que el formulario existe y que es un HTMLFormElement
+    console.log("Formulario encontrado:", form);
     if (!form || !(form instanceof HTMLFormElement)) {
       console.error("Error: El formulario no fue encontrado o no es del tipo HTMLFormElement.");
       return;
     }
 
-    const telefonoInput = form.querySelector('input[name="telefono"]') as HTMLInputElement;
+    const telefonoInput = form.querySelector('input[name="telefono"]')as HTMLInputElement;
     const privacidadInput = form.querySelector('input[name="disclaimer"]') as HTMLInputElement;
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     const feedback = document.getElementById('feedback');
 
-    // Crear mensajes de error
-    const telefonoError = document.createElement('div');
-    telefonoError.classList.add('text-red-500', 'text-sm', 'mt-1');
-    telefonoInput.parentNode?.appendChild(telefonoError);
-
-    const privacidadError = document.createElement('div');
-    privacidadError.classList.add('text-red-500', 'text-sm', 'mt-1');
-    privacidadInput.parentNode?.appendChild(privacidadError);
-
-    // Regex para validar el teléfono
-    const telefonoPattern = /^[0-9]{9}$/;
+    if (!telefonoInput || !privacidadInput) {
+      console.error("Error: No se encontraron algunos elementos del formulario.");
+      return;
+    }
 
     function validateTelefono(showError = false) {
-      const telefonoValue = telefonoInput.value.trim();
-      const isValid = telefonoPattern.test(telefonoValue);
+      const telefonoValue = telefonoInput?.value.trim();
+      const isValid = /^[0-9]{9}$/.test(telefonoValue);
       if (showError || telefonoValue !== '') {
-        telefonoError.textContent = isValid ? '' : 'Por favor, introduce un número de teléfono válido.';
-        telefonoInput.classList.toggle('border-red-500', !isValid);
+        telefonoInput?.classList.toggle('border-red-500', !isValid);
       }
-      telefonoInput.classList.toggle('border-gray-300', isValid); // Restaurar borde cuando es válido
       return isValid;
     }
 
-    function validatePrivacidad(showError = false) {
-      const isValid = privacidadInput.checked;
-      if (showError) {
-        privacidadError.textContent = isValid ? '' : 'Debes aceptar las políticas de privacidad.';
-        privacidadInput.classList.toggle('border-red-500', !isValid);
-      }
-      privacidadInput.classList.toggle('border-gray-300', isValid); // Restaurar borde cuando es válido
-      return isValid;
-    }
-
-    function validateForm(showErrors = false) {
-      const isTelefonoValid = validateTelefono(showErrors);
-      const isPrivacidadValid = validatePrivacidad(showErrors);
-      submitButton.disabled = !(isTelefonoValid && isPrivacidadValid); // Deshabilitar botón si los campos no son válidos
-      return isTelefonoValid && isPrivacidadValid;
-    }
-
-    // Event listeners para cada campo
-    telefonoInput.addEventListener('input', () => validateForm(false));
-    privacidadInput.addEventListener('change', () => validateForm(false));
-
-    // Manejar envío del formulario
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Prevenir el envío por defecto
-
-      if (validateForm(true)) {  // Mostrar errores si los campos no son válidos
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (validateTelefono(true) && privacidadInput.checked) {
         try {
           const formData = new FormData(form);
+          const formDataObject = Object.fromEntries(formData.entries());
 
           const response = await fetch('/api/send-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(Object.fromEntries(formData.entries())),
+            body: JSON.stringify(formDataObject),
           });
 
           if (response.ok) {
-            feedback.textContent = 'Correo enviado correctamente';
-            feedback?.classList.remove('hidden', 'bg-red-500');
-            feedback?.classList.add('bg-green-500');
-            // Limpiar el formulario
+            if (feedback) {
+              feedback.textContent = 'Correo enviado correctamente';
+              feedback.classList.add('bg-green-500');
+            }
             form.reset();
-            submitButton.disabled = true; // Deshabilitar el botón nuevamente
           } else {
-            feedback.textContent = 'Error al enviar el correo';
-            feedback?.classList.remove('hidden', 'bg-green-500');
-            feedback?.classList.add('bg-red-500');
+            if (feedback) {
+              feedback.textContent = 'Error al enviar el correo';
+              feedback.classList.add('bg-red-500');
+            }
           }
         } catch (error) {
-          feedback.textContent = 'Error en el envío del formulario';
-          feedback?.classList.remove('hidden', 'bg-green-500');
-          feedback?.classList.add('bg-red-500');
+          if (feedback) {
+            feedback.textContent = 'Error en el envío del formulario';
+            feedback.classList.add('bg-red-500');
+          }
           console.error('Error:', error);
         }
       }
     });
-
-    // Validar formulario al cargar para deshabilitar el botón si es necesario
-    validateForm(false);
   });
 </script>
-

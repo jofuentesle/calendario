@@ -1,6 +1,6 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name:  Calendarios Repro Disseny
+  site: 'https://calendarios.reprodisseny.com'
   base: '/'
   trailingSlash: false
 
@@ -9,16 +9,16 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default:  Calendarios Personalizados Repro Disseny
+    template: '%s — Repro Disseny'
+  description: "\U0001F680 Calendarios personalizados para empresas y particulares. Diseños a medida para destacar tu marca y mejorar la planificación anual."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Calendarios de empresa Repro Disseny
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/calendarios/SobremesaHome.jpg'
         width: 1200
         height: 628
     type: website
@@ -28,7 +28,7 @@ metadata:
     cardType: summary_large_image
 
 i18n:
-  language: en
+  language: es
   textDirection: ltr
 
 apps:
@@ -66,7 +66,7 @@ apps:
 analytics:
   vendors:
     googleAnalytics:
-      id: null # or "G-XXXXXXXXXX"
+      id: 'G-302RJDGZTB' # or "G-XXXXXXXXXX"
 
 ui:
   theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

@@ -4,127 +4,50 @@ import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
 
+const params = Astro.url.searchParams;
+let calendarType = params.get('type') ?? '';
+let calendarTitle = 'mesa espiral';
+
+switch (calendarType) {
+  case 'mesa-espiral':
+    calendarTitle = 'Solicitud de precio calendario de mesa espiral';
+    calendarType = 'Mesa Espiral';
+    break;
+  case 'pared-revista':
+    calendarTitle = 'Solicitud de precio calendario de pared tipo revista';
+    calendarType = 'Pared Revista';
+    break;
+  case 'pared-espiral':
+    calendarTitle = 'Solicitud de precio calendario de pared con espiral';
+    calendarType = 'Pared Espiral';
+    break;
+  case 'mesa-triangular':
+    calendarTitle = 'Solicitud de precio calendario de mesa triangular';
+    calendarType = 'Mesa Triangular';
+    break;
+  default:
+    calendarTitle = 'Solicitud de presupuesto para tus Calendarios Personalizados';
+    calendarType = '';
+    break;
+}
+
 const metadata = {
-  title: 'Solicitud de presupuesto para Calendarios',
-  jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Calendarios Personalizados para empresa 2025",
-    "url": "https://calendarios.reprodisseny.com",
-    "logo": "",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+34 932 749 890",
-      "contactType": "Atención al Cliente",
-      "email": "comercial@reprodisseny.com",
-      "areaServed": "ES",
-      "availableLanguage": ["es", "en"]
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Juan de Mena, 19",
-      "addressLocality": "Barcelona",
-      "addressRegion": "Cataluña",
-      "postalCode": "08035",
-      "addressCountry": "ES"
-    },
-    "sameAs": [
-      "https://www.instagram.com/reprodissenybcn/?hl=es",
-      "https://es.linkedin.com/company/repro-disseny-s.l"
-    ],
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://calendarios.reprodisseny.com/busqueda?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
+  title: calendarTitle,
+  description: `Formulario de solicitud de presupuesto para ${calendarType} personalizado en Barcelona.`,
 };
 
-
-let calendarType = '';
-let calendarTitle = '';
-
-if (typeof window !== 'undefined') {
-  // Lógica del lado del cliente para determinar el tipo de calendario y título
-  const referrer = document.referrer;
-  if (referrer.includes('calendario-mesa-espiral')) {
-    calendarType = 'Mesa Espiral';
-    calendarTitle = 'Solicitud de precio calendario de mesa espiral';
-  } else if (referrer.includes('calendarios-pared-revista')) {
-    calendarType = 'Pared Revista';
-    calendarTitle = 'Solicitud de precio calendario de pared tipo revista';
-  } else if (referrer.includes('calendario-pared-espiral')) {
-    calendarType = 'Pared Espiral';
-    calendarTitle = 'Solicitud de precio calendario de pared tipo con espiral';  
-  } else if (referrer.includes('calendario-mesa-triangular')) {
-    calendarType = 'Mesa Triangular';
-    calendarTitle = 'Solicitud de precio calendario de mesa tipo triangular';  
-  }
-}
-console.log(calendarType)
 ---
 
-<Layout>
+<Layout metadata={metadata}>
   <Headline 
-    title={calendarTitle || "Solicitar presupuesto para tus Calendarios Personalizados"} 
-    subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
-  />
+      title={calendarTitle}
+      subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
+    />
 
-  <ContactUs
-    id="form-contact"
-    method="POST"
-    action="/api/send-email"
-    inputs={[
-      {
-        type: 'text',
-        name: 'nombre',
-        label: 'Nombre',
-        placeholder: 'Nombre',
-        icon: 'tabler:user', // Icono de Tabler en el placeholder
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-        placeholder: 'Correo electrónico',
-        required: true,
-        icon: 'tabler:mail', // Icono de Tabler en el placeholder
-      },
-      {
-        type: 'tel',
-        name: 'telefono',
-        label: 'Teléfono',
-        placeholder: 'Teléfono',
-        required: true,
-        pattern: '^[0-9]{9}$',
-        icon: 'tabler:phone', // Icono de Tabler en el placeholder
-      },
-      {
-        type: 'hidden',
-        name: 'tipo_calendario',
-        value: calendarType, // Campo oculto con el tipo de calendario
-      },
-      {
-        type: 'select',
-        name: 'cantidad',
-        label: 'Cantidad',
-        options: [
-          { value: '100', label: '100' },
-          { value: '200', label: '200' },
-          { value: '500', label: '500' },
-          { value: '750', label: '750' },
-          { value: '1000', label: '1000' },
-        ],
-        required: true,
-      }
-    ]}
-    disclaimer={{
-      label: 'Acepto las políticas de privacidad',
-      required: true,
-    }}
-    description="Nuestro equipo de soporte generalmente responde dentro de las 24 horas hábiles."
-  />
 
+  <ContactUs calendarType={calendarType} />
+
+  <!-- Elemento de feedback para mostrar el estado del formulario -->
   <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
 
   <Features2
@@ -163,64 +86,68 @@ console.log(calendarType)
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('form-contact');
-    console.log("Formulario encontrado:", form);
-    if (!form || !(form instanceof HTMLFormElement)) {
-      console.error("Error: El formulario no fue encontrado o no es del tipo HTMLFormElement.");
-      return;
+  const form = document.getElementById('form-contact') as HTMLFormElement | null;
+  const feedback = document.getElementById('feedback') as HTMLDivElement | null;
+  const telefonoInput = form?.querySelector('input[name="telefono"]') as HTMLInputElement | null;
+  const privacidadInput = form?.querySelector('input[name="disclaimer"]') as HTMLInputElement | null;
+
+  if (!form || !telefonoInput || !privacidadInput) {
+    console.error("Error: No se encontraron algunos elementos del formulario.");
+    return;
+  }
+
+  function validateTelefono(showError = false) {
+    const telefonoValue = telefonoInput?.value.trim();
+    
+    if(!telefonoValue) {
+      return
+    }
+    const isValid = /^[0-9]{9}$/.test(telefonoValue);
+    
+    if (showError || telefonoValue !== '') {
+      telefonoInput?.classList.toggle('border-red-500', !isValid);
     }
 
-    const telefonoInput = form.querySelector('input[name="telefono"]')as HTMLInputElement;
-    const privacidadInput = form.querySelector('input[name="disclaimer"]') as HTMLInputElement;
-    const feedback = document.getElementById('feedback');
+    return isValid;
+  }
 
-    if (!telefonoInput || !privacidadInput) {
-      console.error("Error: No se encontraron algunos elementos del formulario.");
-      return;
-    }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    function validateTelefono(showError = false) {
-      const telefonoValue = telefonoInput?.value.trim();
-      const isValid = /^[0-9]{9}$/.test(telefonoValue);
-      if (showError || telefonoValue !== '') {
-        telefonoInput?.classList.toggle('border-red-500', !isValid);
-      }
-      return isValid;
-    }
+    if (validateTelefono(true) && privacidadInput.checked) {
+      try {
+        const formData = new FormData(form);
+        const formDataObject = Object.fromEntries(formData.entries());
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (validateTelefono(true) && privacidadInput.checked) {
-        try {
-          const formData = new FormData(form);
-          const formDataObject = Object.fromEntries(formData.entries());
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formDataObject),
+        });
 
-          const response = await fetch('/api/send-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formDataObject),
-          });
-
-          if (response.ok) {
-            if (feedback) {
-              feedback.textContent = 'Correo enviado correctamente';
-              feedback.classList.add('bg-green-500');
-            }
-            form.reset();
-          } else {
-            if (feedback) {
-              feedback.textContent = 'Error al enviar el correo';
-              feedback.classList.add('bg-red-500');
-            }
-          }
-        } catch (error) {
+        if (response.ok) {
           if (feedback) {
-            feedback.textContent = 'Error en el envío del formulario';
+            feedback.textContent = 'Correo enviado correctamente';
+            feedback.classList.remove('hidden', 'bg-red-500');
+            feedback.classList.add('bg-green-500');
+          }
+          form.reset();
+        } else {
+          if (feedback) {
+            feedback.textContent = 'Error al enviar el correo';
+            feedback.classList.remove('hidden', 'bg-green-500');
             feedback.classList.add('bg-red-500');
           }
-          console.error('Error:', error);
         }
+      } catch (error) {
+        if (feedback) {
+          feedback.textContent = 'Error en el envío del formulario';
+          feedback.classList.remove('hidden', 'bg-green-500');
+          feedback.classList.add('bg-red-500');
+        }
+        console.error('Error:', error);
       }
-    });
+    }
   });
+});
 </script>

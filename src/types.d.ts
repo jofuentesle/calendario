@@ -330,6 +330,7 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   method?:string;
   action?: string;
   icon?:string;
+  calendarType?:string;
 }
 
 export interface InputOption {
@@ -349,4 +350,5 @@ export interface FormInput {
   pattern?: string;
   value?: string;
   icon?: string;  // Nueva propiedad opcional para el ícono
+  calendarType?: string;
 }

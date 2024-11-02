@@ -8,7 +8,7 @@ import cookieConsentConfig from '~/libs/cookieconsent-config.js';
   if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
       const script = document.createElement('script');
-      script.src = "https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js";
+      script.src = 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js';
       script.defer = true;
 
       script.onload = () => {
@@ -17,12 +17,12 @@ import cookieConsentConfig from '~/libs/cookieconsent-config.js';
         if (window.CookieConsent) {
           window.CookieConsent.run(ccConfig);
         } else {
-          console.error("CookieConsent script not loaded properly");
+          console.error('CookieConsent script not loaded properly');
         }
       };
 
       script.onerror = () => {
-        console.error("Error loading the CookieConsent script");
+        console.error('Error loading the CookieConsent script');
       };
 
       document.body.appendChild(script);
@@ -31,4 +31,3 @@ import cookieConsentConfig from '~/libs/cookieconsent-config.js';
 </script>
 
 <div id="cookie-consent-placeholder"></div>
-

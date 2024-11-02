@@ -22,14 +22,14 @@ const { images = [] } = Astro.props;
       spaceBetween: 40,
       centeredSlides: true,
       autoplay: {
-        delay: 3000,  // Transición más lenta (3 segundos)
+        delay: 3000, // Transición más lenta (3 segundos)
         disableOnInteraction: false,
       },
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-      effect: 'fade',  // Efecto de transición suave
+      effect: 'fade', // Efecto de transición suave
       fadeEffect: {
         crossFade: true,
       },
@@ -45,11 +45,13 @@ const { images = [] } = Astro.props;
 <div class="slider-container relative">
   <div class="swiper">
     <div class="swiper-wrapper">
-      {images.map(image => (
-        <div class="swiper-slide">
-          <img src={image.src} alt={image.alt} class="w-full h-auto object-cover rounded-xl shadow-lg" />
-        </div>
-      ))}
+      {
+        images.map((image) => (
+          <div class="swiper-slide">
+            <img src={image.src} alt={image.alt} class="w-full h-auto object-cover rounded-xl shadow-lg" />
+          </div>
+        ))
+      }
     </div>
   </div>
   <div class="swiper-button-next"></div>
@@ -94,7 +96,8 @@ const { images = [] } = Astro.props;
     transform: scale(1.05); /* Efecto zoom al pasar el cursor */
   }
 
-  .swiper-button-next, .swiper-button-prev {
+  .swiper-button-next,
+  .swiper-button-prev {
     color: #555555; /* Color más elegante para los botones de navegación */
   }
 

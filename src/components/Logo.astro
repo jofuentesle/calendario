@@ -1,7 +1,7 @@
 ---
-import { Image } from "astro:assets";
-import logo from "../assets/icons/reprodisseny.png";
-import logoB from "~/assets/icons/ReprodissenyLogoB.png";
+import { Image } from 'astro:assets';
+import logo from '../assets/icons/reprodisseny.png';
+import logoB from '~/assets/icons/ReprodissenyLogoB.png';
 ---
 
 <span
@@ -9,17 +9,17 @@ import logoB from "~/assets/icons/ReprodissenyLogoB.png";
 >
   <Image
     loading="lazy"
-    class="logo-responsive logo block dark:hidden w-32 md:w-24" 
+    class="logo-responsive logo block dark:hidden w-32 md:w-24"
     src={logo}
     alt="Logo tipo de Repro Disseny, imprenta digital y offset en Barcelona"
-    />
+  />
 
-    <Image
+  <Image
     loading="lazy"
-    class="logo-responsive logo hidden dark:block w-32 md:w-24" 
+    class="logo-responsive logo hidden dark:block w-32 md:w-24"
     src={logoB}
     alt="Logo tipo de Repro Disseny, imprenta digital y offset en Barcelona"
-    />
+  />
 </span>
 
 <!-- Estilos encapsulados para el componente Header.astro -->

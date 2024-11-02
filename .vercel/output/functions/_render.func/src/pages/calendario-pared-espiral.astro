@@ -20,42 +20,46 @@ const galleryImages = [
 ];
 
 const metadata = {
-  title: "Calendarios de Pared con Espiral Personalizados | Impresión en Barcelona",
-  description: "Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Promociona tu marca todo el año con nuestros calendarios publicitarios de alta calidad.",
+  title: 'Calendarios de Pared con Espiral Personalizados | Impresión en Barcelona',
+  description:
+    'Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Promociona tu marca todo el año con nuestros calendarios publicitarios de alta calidad.',
   keywords: [
-    "Calendarios de pared con espiral personalizados", 
-    "Impresión de calendarios con espiral para pared", 
-    "Calendarios publicitarios de pared", 
-    "Calendarios de pared promocionales", 
-    "Diseño de calendarios de pared con espiral",
-    "Calendarios anuales para pared", 
-    "Calendarios de pared para empresas",
-    "Calendarios de pared con espiral Barcelona",
-    "Imprimir calendarios de pared en Cataluña",
-    "Comprar calendarios de pared con espiral online"
+    'Calendarios de pared con espiral personalizados',
+    'Impresión de calendarios con espiral para pared',
+    'Calendarios publicitarios de pared',
+    'Calendarios de pared promocionales',
+    'Diseño de calendarios de pared con espiral',
+    'Calendarios anuales para pared',
+    'Calendarios de pared para empresas',
+    'Calendarios de pared con espiral Barcelona',
+    'Imprimir calendarios de pared en Cataluña',
+    'Comprar calendarios de pared con espiral online',
   ],
-  canonical: "https://calendarios.reprodisseny.com/calendario-pared-espiral",
+  canonical: 'https://calendarios.reprodisseny.com/calendario-pared-espiral',
   jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Calendarios de Pared con Espiral Personalizados",
-    "description": "Imprime calendarios de pared con espiral para empresas en Barcelona. Personalización completa y entrega rápida. Ideal para promociones empresariales.",
-    "image": `${Img1.src}`,
-    "brand": {
-      "@type": "Brand",
-      "name": "Repro Disseny" 
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Calendarios de Pared con Espiral Personalizados',
+    description:
+      'Imprime calendarios de pared con espiral para empresas en Barcelona. Personalización completa y entrega rápida. Ideal para promociones empresariales.',
+    image: `${Img1.src}`,
+    brand: {
+      '@type': 'Brand',
+      name: 'Repro Disseny',
     },
-    "offers": {
-      "@type": "Offer",
-      "url": "https://calendarios.reprodisseny.com/calendario-pared-espiral",
-      "priceCurrency": "EUR",
-      "price": "5.99",
-      "availability": "https://schema.org/InStock"
+    offers: {
+      '@type': 'Offer',
+      url: 'https://calendarios.reprodisseny.com/calendario-pared-espiral',
+      priceCurrency: 'EUR',
+      price: '5.99',
+      availability: 'https://schema.org/InStock',
     },
-    "keywords": "calendarios de pared con espiral, calendarios promocionales, impresión de calendarios, comprar calendarios pared online, imprenta de calendarios en Barcelona"
-  }
+    keywords:
+      'calendarios de pared con espiral, calendarios promocionales, impresión de calendarios, comprar calendarios pared online, imprenta de calendarios en Barcelona',
+  },
 };
 ---
+
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->
 
@@ -68,14 +72,13 @@ const metadata = {
       { text: 'Saber más', href: '#features' },
     ]}
     galleryImages={galleryImages}
-    
   />
 
-  <DynamicForm/>
-  <Features 
+  <DynamicForm />
+  <Features
     id="features"
     tagline="Caracteristicas Clave"
-    title="Calendarios de Pared con Espiral Personalizados para Empresas" 
+    title="Calendarios de Pared con Espiral Personalizados para Empresas"
     subtitle="Nuestros calendarios de pared con espiral están diseñados para promocionar tu empresa de manera efectiva y visual durante todo el año. Ofrecemos impresión de alta calidad en Barcelona y Cataluña."
     items={[
       {
@@ -116,7 +119,7 @@ const metadata = {
       },
     ]}
   />
-       <!-- Formulario de solicitud -->
+  <!-- Formulario de solicitud -->
   <div id="form-section">
     <form id="calendar-form" method="POST" action="/api/send-form">
       <!-- Formulario generado arriba -->
@@ -126,9 +129,6 @@ const metadata = {
   <CallToAction
     title="Solicita tu Presupuesto"
     subtitle="Compra calendarios tipo revista para pared y recibe la mejor oferta."
-    actions={[
-      { variant: 'primary', text: '¡Solicita oferta hoy!', href: '#form-section', icon: 'tabler:mail' },
-    ]}
+    actions={[{ variant: 'primary', text: '¡Solicita oferta hoy!', href: '#form-section', icon: 'tabler:mail' }]}
   />
- 
 </Layout>

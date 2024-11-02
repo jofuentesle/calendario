@@ -1,82 +1,89 @@
 ---
 import Button from '~/components/ui/Button.astro';
-const { id, method = 'GET', action, inputs = [], disclaimer, button = 'Consulta precio' } = Astro.props;
+const { id, method = 'GET', action = '/api/send-email', inputs = [], disclaimer, button = 'Consulta precio' } = Astro.props;
 
 const validInputTypes = [
-  'text', 'email', 'password', 'number', 'tel', 'url', 'hidden', 'checkbox', 'radio', 'file', 'date', 'datetime-local', 'month', 'week', 'time', 'search'
+  'text', 'email', 'password', 'number', 'tel', 'url', 'hidden', 'checkbox', 'radio',
+  'file', 'date', 'datetime-local', 'month', 'week', 'time', 'search'
 ];
 
-const getInputType = (type) => validInputTypes.includes(type) ? type : 'text';
+const getInputType = (type) => (validInputTypes.includes(type) ? type : 'text');
 ---
 
 <form id={id} method={method} action={action} class="space-y-6">
-  {inputs.map(({ type = 'text', name, label, autocomplete = 'on', placeholder, options = [], required = false, pattern = '', icon, value }) => (
-    <div class={type === 'hidden' ? 'hidden' : 'mb-6'}>
-      {label && type !== 'hidden' && (
-        <label for={name} class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          {label}
-        </label>
-      )}
-      
-      <div class="relative">
-        {type === 'select' ? (
-          <select
-            name={name}
-            id={name}
-            class="py-3 px-4 w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-            required={required}
-          >
-            {options.map(({ value, label }) => (
-              <option value={value}>{label}</option>
-            ))}
-          </select>
-        ) : (
+  {
+    inputs.map(
+      ({
+        type = 'text',
+        name,
+        label,
+        autocomplete = 'on',
+        placeholder,
+        options = [],
+        required = false,
+        pattern = '',
+        icon,
+        value,
+      }) => (
+        <div class={type === 'hidden' ? 'hidden' : 'mb-6'}>
+          {label && type !== 'hidden' && (
+            <label for={name} class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {label}
+            </label>
+          )}
 
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-blue-500 dark:text-blue-300">
-              {type === 'email' && <i class="fas fa-envelope"></i>}
-              {type === 'tel' && <i class="fas fa-phone"></i>}
-              {type === 'text' && name === 'nombre' && <i class="fas fa-user"></i>}
-            </span>
+          <div class="relative">
+            {type === 'select' ? (
+              <select
+                name={name}
+                id={name}
+                class="py-3 px-4 w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                required={required}
+              >
+                {options.map(({ value, label }) => (
+                  <option value={value}>{label}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type={getInputType(type)}
+                id={name}
+                name={name}
+                class="py-3 px-4 w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                placeholder={placeholder}
+                required={required}
+                autocomplete={autocomplete}
+                pattern={pattern}
+              />
+            )}
           </div>
-          <input
-            type={getInputType(type)}
-            name={name}
-            id={name}
-            autocomplete={autocomplete}
-            placeholder={placeholder}
-            value={value}
-            class={`py-3 px-${icon ? '10' : '4'} w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900`}
-            required={required}
-            pattern={pattern}
-          />
         </div>
-        )}
-      </div>
-    </div>
-  ))}
+      )
+    )
+  }
 
   {disclaimer && (
-    <div class="flex items-start mt-3">
+    <div class="flex items-center">
       <input
         id="disclaimer"
         name="disclaimer"
         type="checkbox"
-        class="cursor-pointer mt-1 rounded border-gray-200 dark:border-gray-700"
+        class="cursor-pointer rounded border-gray-200 dark:border-gray-700"
         required={disclaimer.required}
       />
-      <label for="disclaimer" class="ml-3 text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none">
+      <label for="disclaimer" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
         {disclaimer.label}
       </label>
     </div>
   )}
-  
-  {button && (
-    <div class="mt-10">
-      <Button variant="primary" type="submit">
-        {button}
-      </Button>
-    </div>
-  )}
+
+  {
+    button && (
+      <div class="mt-10">
+        <Button variant="primary" type="submit">
+          {button}
+        </Button>
+      </div>
+    )
+  }
 </form>

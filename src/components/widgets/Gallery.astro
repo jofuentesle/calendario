@@ -1,6 +1,7 @@
 ---
-const { images = [] } = Astro.props;  // Recibir las imágenes como prop
+const { images = [] } = Astro.props; // Recibir las imágenes como prop
 ---
+
 <script>
   import Swiper from 'swiper';
   import { Navigation, Thumbs, FreeMode } from 'swiper/modules';
@@ -68,7 +69,7 @@ const { images = [] } = Astro.props;  // Recibir las imágenes como prop
       lightbox.destroy();
       lightbox = null;
     }
-    
+
     lightbox = new PhotoSwipeLightbox({
       gallery: '#my-slider',
       children: 'a',
@@ -90,7 +91,7 @@ const { images = [] } = Astro.props;  // Recibir las imágenes como prop
     setTimeout(() => {
       console.log('Navegación detectada, re-inicializando galería');
       reinitializeGallery();
-    }, 100);  // Añadir un pequeño retardo para asegurar que el DOM esté completamente listo
+    }, 100); // Añadir un pequeño retardo para asegurar que el DOM esté completamente listo
   });
 
   // Inicializar cuando el DOM esté cargado
@@ -104,28 +105,26 @@ const { images = [] } = Astro.props;  // Recibir las imágenes como prop
   <div class="swiper-container">
     <div class="swiper main">
       <div class="swiper-wrapper" id="my-slider">
-        {images.map((image) => (
-          <a 
-            class="swiper-slide"
-            href={image.src}
-            data-pswp-width="600" 
-            data-pswp-height="600"
-            data-cropped="true"
-          >
-            <img src={image.src} alt={image.alt} />
-          </a>
-        ))}
+        {
+          images.map((image) => (
+            <a class="swiper-slide" href={image.src} data-pswp-width="600" data-pswp-height="600" data-cropped="true">
+              <img src={image.src} alt={image.alt} />
+            </a>
+          ))
+        }
       </div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </div>
     <div class="swiper thumbs">
       <div class="swiper-wrapper">
-        {images.map((image) => (
-          <div class="swiper-slide">
-            <img src={image.src} alt={image.alt} />
-          </div>
-        ))}
+        {
+          images.map((image) => (
+            <div class="swiper-slide">
+              <img src={image.src} alt={image.alt} />
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>

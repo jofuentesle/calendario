@@ -1,5 +1,5 @@
 site:
-  name:  Calendarios Repro Disseny
+  name: Calendarios Repro Disseny
   site: 'https://calendarios.reprodisseny.com'
   base: '/'
   trailingSlash: false
@@ -9,7 +9,7 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default:  Calendarios Personalizados Repro Disseny
+    default: Calendarios Personalizados Repro Disseny
     template: '%s — Repro Disseny'
   description: "\U0001F680 Calendarios personalizados para empresas y particulares. Diseños a medida para destacar tu marca y mejorar la planificación anual."
   robots:

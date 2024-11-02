@@ -7,32 +7,31 @@ import Content from '~/components/widgets/Content.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import { AstroSeo } from '@astrolib/seo';
 
-
-
 //Importamos imágenes
 import ImgTbl from '~/assets/images/mesa/SobremesaHome.jpg';
 import ImgTbl0 from '~/assets/images/pared/ParedEspiral.jpg';
 import ImgTb3 from '~/assets/images/calendarios/calendarDesktop.png';
 
 const metadata = {
-  title: "Calendarios 2025 Personalizados para Imprimir | Solicita Presupuesto",
+  title: 'Calendarios 2025 Personalizados para Imprimir | Solicita Presupuesto',
   ignoreTitleTemplate: true,
-  description: "Descubre nuestros calendarios 2025 personalizados para imprimir. Elige entre formatos mensuales y anuales. Ideal para empresas o uso personal. Solicita tu presupuesto online.",
+  description:
+    'Descubre nuestros calendarios 2025 personalizados para imprimir. Elige entre formatos mensuales y anuales. Ideal para empresas o uso personal. Solicita tu presupuesto online.',
   keywords: [
-  'calendarios para imprimir',
-  'calendario para imprimir 2025',
-  'calendario mensual para imprimir',
-  'calendario 2025 para imprimir',
-  'calendario mensual 2025',
-  'imprimir calendario',
-  'calendario imprimible gratis',
-  'calendarios en blanco',
-  'imprimir calendario mensual',
-  'imprimir calendarios 2025',
-  'calendario en blanco para imprimir',
-  'calendario con festivos 2025',
+    'calendarios para imprimir',
+    'calendario para imprimir 2025',
+    'calendario mensual para imprimir',
+    'calendario 2025 para imprimir',
+    'calendario mensual 2025',
+    'imprimir calendario',
+    'calendario imprimible gratis',
+    'calendarios en blanco',
+    'imprimir calendario mensual',
+    'imprimir calendarios 2025',
+    'calendario en blanco para imprimir',
+    'calendario con festivos 2025',
   ],
-  canonical: "https://calendarios.reprodisseny.com/",
+  canonical: 'https://calendarios.reprodisseny.com/',
   openGraph: {
     type: 'website',
     url: 'https://calendarios.reprodisseny.com',
@@ -41,7 +40,7 @@ const metadata = {
     images: [
       {
         url: '/assets/images/calendarios/SobremesaHome.jpg',
-        alt: "Calendarios de empresa personalizados para 2025",
+        alt: 'Calendarios de empresa personalizados para 2025',
         width: 1200,
         height: 628,
       },
@@ -50,44 +49,47 @@ const metadata = {
   twitter: {
     cardType: 'summary_large_image',
     creator: '@reprodisseny',
-    card: "summary_large_image",
-    site: "@reprodisseny",
-    title: "Calendarios Personalizados 2025",
-    description: "Calendarios personalizados para empresas. Solicita tu presupuesto para 2025.",
-    image: "https://calendarios.reprodisseny.com/assets/images/calendarios/calendarDesktop.png",
+    card: 'summary_large_image',
+    site: '@reprodisseny',
+    title: 'Calendarios Personalizados 2025',
+    description: 'Calendarios personalizados para empresas. Solicita tu presupuesto para 2025.',
+    image: 'https://calendarios.reprodisseny.com/assets/images/calendarios/calendarDesktop.png',
   },
   additionalMetaTags: [
     {
       name: 'robots',
-      content: 'index, follow'
+      content: 'index, follow',
     },
     {
       name: 'keywords',
-      content: 'calendarios para imprimir, calendario 2025, imprimir calendario personalizado'
-    }
+      content: 'calendarios para imprimir, calendario 2025, imprimir calendario personalizado',
+    },
   ],
 };
- 
 ---
+
 <AstroSeo {...metadata} />
 
 <Layout>
   <Hero>
     <Fragment slot="title" class="">
+      Calendarios 2025 <span class="">Personalizados para Imprimir</span>
+    </Fragment>
 
-        Calendarios 2025 <span class="">Personalizados para Imprimir</span> 
-      </Fragment>
-  
-      <Fragment slot="subtitle">
-        <span class="hidden sm:inline ">Nuestros 
-          <span class="font-semibold ">calendarios 2025 personalizados para imprimir</span> son perfectos para promocionar tu marca o para uso personal. Ofrecemos una amplia gama de plantillas mensuales, y anuales, ideales para empresas. Imprime tus calendarios en alta calidad y solicita un presupuesto sin compromiso.</span>
-        </Fragment>
+    <Fragment slot="subtitle">
+      <span class="hidden sm:inline"
+        >Nuestros
+        <span class="font-semibold">calendarios 2025 personalizados para imprimir</span> son perfectos para promocionar tu
+        marca o para uso personal. Ofrecemos una amplia gama de plantillas mensuales, y anuales, ideales para empresas. Imprime
+        tus calendarios en alta calidad y solicita un presupuesto sin compromiso.</span
+      >
+    </Fragment>
   </Hero>
   <!-- Features Widget *************** -->
-<Features
+  <Features
     id="features"
     tagline="Beneficios y retorno de la inversión"
-    title="Calendarios de empresa para 2025" 
+    title="Calendarios de empresa para 2025"
     subtitle="Reparte calendarios 2025 personalizados y asegura que tu marca esté presente en la vida diaria de tus clientes durante todo el año. Un regalo útil que refuerza tu visibilidad y fideliza a tu público. ¡Solicita tu presupuesto hoy mismo y destaca con calendarios únicos!."
     items={[
       {
@@ -117,7 +119,7 @@ const metadata = {
       {
         title: 'Refleja profesionalidad y cuidado por el detalle',
         description:
-          "Un calendario con tu imagen corporativa refleja profesionalida y cuidado en cada interacción con tus clientes.",
+          'Un calendario con tu imagen corporativa refleja profesionalida y cuidado en cada interacción con tus clientes.',
         icon: 'tabler:arrows-right-left',
       },
       {
@@ -131,7 +133,7 @@ const metadata = {
   <!-- Content Widget **************** -->
   <Content
     isReversed
-    id='calendarList'
+    id="calendarList"
     tagline="Modelos de calendarios"
     title="Elige el modelo que más de adapte a tus necesidades"
     items={[
@@ -154,11 +156,12 @@ const metadata = {
     image={{
       src: ImgTbl.src,
       alt: 'Imagen de calendarios de mesa',
-    }} 
+    }}
   >
-
     <Fragment slot="content">
-      <h3 id="calTable" class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Calendarios para mesa</h3>
+      <h3 id="calTable" class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Calendarios para mesa
+      </h3>
       Imprime calendarios de mesa personalizados, reforzando tu marca y profesionalidad, con diseños acordes a tu empresa.
     </Fragment>
 
@@ -183,8 +186,8 @@ const metadata = {
       {
         title: 'Organización centralizada',
         description:
-          "Facilitan la planificación y el seguimiento de eventos y metas en equipo, ayudando a mantener el trabajo coordinado y alineado con los objetivos de la empresa.",
-      }
+          'Facilitan la planificación y el seguimiento de eventos y metas en equipo, ayudando a mantener el trabajo coordinado y alineado con los objetivos de la empresa.',
+      },
     ]}
     image={{
       src: ImgTbl0,
@@ -192,17 +195,17 @@ const metadata = {
     }}
   >
     <Fragment slot="content">
-
-      <h3 id="calWall" class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Calendarios para pared</h3>
-      Los calendarios de pared para empresas combinan visibilidad constante y organización centralizada, reforzando la marca y facilitando la planificación diaria.
+      <h3 id="calWall" class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Calendarios para pared
+      </h3>
+      Los calendarios de pared para empresas combinan visibilidad constante y organización centralizada, reforzando la marca
+      y facilitando la planificación diaria.
     </Fragment>
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </Content>
-
-  
 
   <!-- Steps Widget ****************** -->
 
@@ -211,14 +214,13 @@ const metadata = {
     items={[
       {
         title: 'Paso 1: <span class="font-medium">Pídenos información</span>',
-        description:
-          "Solicita información a nuestros comerciales a través de los canales de comunicación habituales.",
+        description: 'Solicita información a nuestros comerciales a través de los canales de comunicación habituales.',
         icon: 'tabler:package',
       },
       {
         title: 'Paso 2: <span class="font-medium">Oferta personalizada</span>',
         description:
-          "Recibirás una oferta económica personalizada según tus intereses y necesidades. Recuerda que puedes contactar con nosotros para resolver culaquier duda por los canales habituales",
+          'Recibirás una oferta económica personalizada según tus intereses y necesidades. Recuerda que puedes contactar con nosotros para resolver culaquier duda por los canales habituales',
         icon: 'tabler:letter-case',
       },
       {
@@ -237,8 +239,7 @@ const metadata = {
       alt: 'Imagen de calendarios impresos por Repro Disseny',
     }}
   />
-  
-   
+
   <!-- FAQs Widget ******************* -->
   <FAQs
     title="Preguntas frecuentes"
@@ -249,12 +250,12 @@ const metadata = {
       {
         title: '¿Puedo personalizar los calendarios 2025?',
         description:
-          "¡Sí! Ofrecemos una amplia variedad de calendarios 2025 personalizados. Puedes añadir tu logotipo, colores corporativos y elegir entre diferentes plantillas para imprimir.",
+          '¡Sí! Ofrecemos una amplia variedad de calendarios 2025 personalizados. Puedes añadir tu logotipo, colores corporativos y elegir entre diferentes plantillas para imprimir.',
       },
       {
         title: '¿Cómo puedo solicitar un presupuesto para calendarios?',
         description:
-          "Solo necesitas completar nuestro formulario online con los detalles de tu pedido. Ofrecemos presupuestos rápidos y personalizados para la impresión de calendarios para empresas." 
+          'Solo necesitas completar nuestro formulario online con los detalles de tu pedido. Ofrecemos presupuestos rápidos y personalizados para la impresión de calendarios para empresas.',
       },
       {
         title: '¿Qué tipos de calendarios ofrecen para imprimir?',
@@ -262,19 +263,19 @@ const metadata = {
           'Disponemos de calendarios de sobremesa y pared mensuales, semestrales o anuales para imprimir. También puedes optar por calendarios en blanco o personalizados con tus propios diseños.',
       },
       {
-        title: "¿Los calendarios están disponibles para entrega en toda España?",
+        title: '¿Los calendarios están disponibles para entrega en toda España?',
         description:
-          "Sí, realizamos entregas en toda España peninsular, incluyendo calendarios personalizados para Cataluña y otras regiones. Solicita tu calendario 2025 y lo recibirás en la fecha acordada. Otros destinos consultar."
-      },    
+          'Sí, realizamos entregas en toda España peninsular, incluyendo calendarios personalizados para Cataluña y otras regiones. Solicita tu calendario 2025 y lo recibirás en la fecha acordada. Otros destinos consultar.',
+      },
       {
         title: '¿Cuáles son los beneficios de imprimir calendarios personalizados?',
         description:
-          "Imprimir calendarios personalizados es una excelente herramienta de marketing. Mantendrás tu marca visible durante todo el año y te ayudarán a organizar tus tareas de manera eficiente.",
+          'Imprimir calendarios personalizados es una excelente herramienta de marketing. Mantendrás tu marca visible durante todo el año y te ayudarán a organizar tus tareas de manera eficiente.',
       },
       {
         title: '¿Cómo es el proceso de compra y envío para los calendarios personalizados?',
         description:
-          "El proceso es sencillo: selecciona tu calendario, solicita una oferta personalizada, revisa y confirma. Procederemos con la impresión y te enviaremos tu calendario a cualquier ubicación que nos indiques, con opciones de envío rápido disponibles",
+          'El proceso es sencillo: selecciona tu calendario, solicita una oferta personalizada, revisa y confirma. Procederemos con la impresión y te enviaremos tu calendario a cualquier ubicación que nos indiques, con opciones de envío rápido disponibles',
       },
     ]}
   />
@@ -320,7 +321,7 @@ const metadata = {
     "priceRange": "€€",
     "description": "Empresa especializada en calendarios personalizados para empresas en Barcelona, ofrece calendarios de mesa y pared con diseño a medida. Precios muy competitivos, entregas personalizadas y muy ágiles."
   }
-  </script>
+</script>
 
 <script type="application/ld+json">
   {

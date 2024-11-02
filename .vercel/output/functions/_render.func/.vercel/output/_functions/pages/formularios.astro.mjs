@@ -3,19 +3,29 @@ import 'kleur/colors';
 import 'clsx';
 export { renderers } from '../renderers.mjs';
 
-const $$Index = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate``;
-}, "C:/Users/Jordi/Documents/web/calendaris/src/pages/formularios/index.astro", void 0);
+const $$Index = createComponent(
+  ($$result, $$props, $$slots) => {
+    return renderTemplate``;
+  },
+  'C:/Users/Jordi/Documents/web/calendaris/src/pages/formularios/index.astro',
+  void 0
+);
 
-const $$file = "C:/Users/Jordi/Documents/web/calendaris/src/pages/formularios/index.astro";
-const $$url = "/formularios";
+const $$file = 'C:/Users/Jordi/Documents/web/calendaris/src/pages/formularios/index.astro';
+const $$url = '/formularios';
 
-const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-	__proto__: null,
-	default: $$Index,
-	file: $$file,
-	url: $$url
-}, Symbol.toStringTag, { value: 'Module' }));
+const _page = /*#__PURE__*/ Object.freeze(
+  /*#__PURE__*/ Object.defineProperty(
+    {
+      __proto__: null,
+      default: $$Index,
+      file: $$file,
+      url: $$url,
+    },
+    Symbol.toStringTag,
+    { value: 'Module' }
+  )
+);
 
 const page = () => _page;
 

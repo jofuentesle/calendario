@@ -1,4 +1,3 @@
-function setGetEnv(fn, reset = false) {
-}
+function setGetEnv(fn, reset = false) {}
 
 export { setGetEnv };

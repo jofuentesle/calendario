@@ -20,28 +20,27 @@ const galleryImages = [
 
 // Metadatos optimizados
 const metadata = {
-  title: "Calendarios de Pared con Espiral Personalizados | Impresión en Barcelona",
-  description: "Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Calidad y estilo para promocionar tu marca todo el año.",
+  title: 'Calendarios de Pared con Espiral Personalizados | Impresión en Barcelona',
+  description:
+    'Impresión de calendarios de pared con espiral personalizados para empresas en Barcelona. Calidad y estilo para promocionar tu marca todo el año.',
   keywords: [
-    "Calendarios de pared con espiral personalizados", 
-    "Impresión de calendarios pared Barcelona", 
-    "Calendarios publicitarios Barcelona",
-    "Calendarios pared empresas",
-    "Comprar calendarios espiral pared",
-    "Impresión calendarios Cataluña"
+    'Calendarios de pared con espiral personalizados',
+    'Impresión de calendarios pared Barcelona',
+    'Calendarios publicitarios Barcelona',
+    'Calendarios pared empresas',
+    'Comprar calendarios espiral pared',
+    'Impresión calendarios Cataluña',
   ],
-  canonical: "https://calendarios.reprodisseny.com/calendario-pared-espiral",
+  canonical: 'https://calendarios.reprodisseny.com/calendario-pared-espiral',
 };
 
-
-
-
-
 // Mejorar contenido SEO
-const title = "Calendarios de Pared con Espiral personalizados";
-const subtitle = "Imprime calendarios de pared con espiral personalizados para promocionar tu empresa todo el año. Ideal para promociones empresariales y marketing. Solicita tu presupuesto hoy y destaca con un diseño único.";
-const tagline = "calendarios pared";
+const title = 'Calendarios de Pared con Espiral personalizados';
+const subtitle =
+  'Imprime calendarios de pared con espiral personalizados para promocionar tu empresa todo el año. Ideal para promociones empresariales y marketing. Solicita tu presupuesto hoy y destaca con un diseño único.';
+const tagline = 'calendarios pared';
 ---
+
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->
 
@@ -50,16 +49,21 @@ const tagline = "calendarios pared";
     title={title}
     subtitle={subtitle}
     actions={[
-      { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
+      {
+        variant: 'primary',
+        text: 'Pide tu oferta!',
+        href: `/solicitud-presupuesto?tipo=pared-espiral`,
+        icon: 'tabler:square-rounded-arrow-right',
+      },
       { text: 'Saber más', href: '#features' },
     ]}
     galleryImages={galleryImages}
   />
 
-  <Features 
+  <Features
     id="features"
     tagline="Caracteristicas Clave"
-    title="Calendarios de Pared con Espiral Personalizados para Empresas" 
+    title="Calendarios de Pared con Espiral Personalizados para Empresas"
     subtitle="Nuestros calendarios de pared con espiral están diseñados para promocionar tu empresa de manera efectiva y visual durante todo el año. Ofrecemos impresión de alta calidad con las útlimas tecnologías, tanto digital como offset en Barcelona."
     items={[
       {
@@ -100,31 +104,30 @@ const tagline = "calendarios pared";
       },
     ]}
   />
-       <!-- Formulario de solicitud -->
+  <!-- Formulario de solicitud -->
   <div id="form-section">
     <form id="calendar-form" method="POST" action="/api/send-form">
       <!-- Formulario generado arriba -->
     </form>
   </div>
 
-  <CallToActionProps 
-  title={title}
-  subtitle={subtitle}
-  tagline={tagline}
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Solicita tu presupuesto personalizado',
-      href: `/solicitud-presupuesto`,
-      icon: 'tabler:mail', // Icono SVG
-    },
-  ]}
-  tipo="mesa-espiral" 
-  id="cta-calendarios-pared-espiral"
-  isDark={false}
-  classes={{ container: 'custom-container-class' }}
-/>
- 
+  <CallToActionProps
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Solicita tu presupuesto personalizado',
+        href: `/solicitud-presupuesto?tipo=pared-espiral`,
+        icon: 'tabler:mail', // Icono SVG
+      },
+    ]}
+    tipo="mesa-espiral"
+    id="cta-calendarios-pared-espiral"
+    isDark={false}
+    classes={{ container: 'custom-container-class' }}
+  />
 </Layout>
 <script type="application/ld+json">
   {
@@ -147,10 +150,10 @@ const tagline = "calendarios pared";
       "itemCondition": "https://schema.org/NewCondition"
     },
     "keywords": [
-      "calendario pared personalizado", 
-      "calendario pared tipo revista", 
-      "calendarios de pared personalizados", 
-      "calendarios corporativos", 
+      "calendario pared personalizado",
+      "calendario pared tipo revista",
+      "calendarios de pared personalizados",
+      "calendarios corporativos",
       "regalos corporativos personalizados"
     ],
     "additionalType": "https://schema.org/CustomizableProduct",
@@ -181,4 +184,4 @@ const tagline = "calendarios pared";
     "priceRange": "€€",
     "description": "Empresa especializada en calendarios personalizados para empresas en Barcelona, ofrece calendarios de mesa y pared con diseño a medida. Precios muy competitivos, entregas personalizadas y muy ágiles."
   }
-  </script>
+</script>

@@ -26,19 +26,14 @@ const { language, textDirection } = I18N;
 ---
 
 <!doctype html>
-<html lang={language} 
-      dir={textDirection} 
-      class="2xl:text-[20px]"
-      transition:animate="none"
->
+<html lang={language} dir={textDirection} class="2xl:text-[20px]" transition:animate="none">
   <head>
-
     <!-- Google tag (gtag.js) -->
-    <script  type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
-    <script  type="text/partytown">
+    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
+    <script type="text/partytown">
       window.dataLayer = window.dataLayer || [];
       function gtag(...arg) {
-        dataLayer.push(arg)
+        dataLayer.push(arg);
       }
       gtag('js', new Date());
 
@@ -48,17 +43,16 @@ const { language, textDirection } = I18N;
     <!-- Google Tag Manager -->
     <script is:inline>
       (function (w, d, s, l, i) {
-        console.log("GTM");
+        console.log('GTM');
         w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
         const f = d.getElementsByTagName(s)[0],
           j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
+          dl = l != 'dataLayer' ? '&l=' + l : '';
         j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
-
+      })(window, document, 'script', 'dataLayer', 'GTM-XXXXXXX');
     </script>
 
     <CommonMeta />
@@ -72,10 +66,9 @@ const { language, textDirection } = I18N;
     <ConsentCookie />
   </head>
 
-  <body class="antialiased text-default bg-page tracking-tight">  
-    
+  <body class="antialiased text-default bg-page tracking-tight">
     <slot />
-    
+
     <BasicScripts />
 
     <style is:global>

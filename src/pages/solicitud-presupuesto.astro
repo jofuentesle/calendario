@@ -4,66 +4,93 @@ import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
 
+// Obtener el tipo de calendario desde los parámetros de la URL
 const params = Astro.url.searchParams;
-let calendarType = params.get('type') ?? '';
-let calendarTitle = 'mesa espiral';
+const calendarType = params.get('tipo') ?? '';
+let calendarTitle = '';
+let metaDescription = '';
+
+const {
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+// Definir los campos del formulario
+const formInputs = [
+  { name: 'nombre', label: 'Nombre', type: 'text', required: true, icon: 'user', pattern: '^[A-Za-zÀ-ÿ\s]+$', errorMessage: 'Por favor, introduce un nombre válido (solo letras y espacios).' }, // Solo letras y espacios
+  { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', errorMessage: 'Por favor, introduce un correo electrónico válido.' },
+  { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', pattern: '^[0-9]{9}$', errorMessage: 'Por favor, introduce un número de teléfono válido (9 dígitos).' }, // Solo números de 9 dígitos
+  { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', errorMessage: 'Por favor, introduce un nombre de empresa válido.' },
+  { type: 'hidden', name: 'tipo_calendario', value: calendarType }, // Campo oculto
+];
 
 switch (calendarType) {
   case 'mesa-espiral':
-    calendarTitle = 'Solicitud de precio calendario de mesa espiral';
-    calendarType = 'Mesa Espiral';
+    calendarTitle = 'Solicitud De Precio calendario de mesa con espiral';
+    metaDescription = 'Solicita un presupuesto para calendarios de mesa con espiral personalizados para empresas.';
     break;
   case 'pared-revista':
-    calendarTitle = 'Solicitud de precio calendario de pared tipo revista';
-    calendarType = 'Pared Revista';
+    calendarTitle = 'Solicitud De Precio calendario de pared tipo revista';
+    metaDescription = 'Consigue el mejor precio para calendarios de pared tipo revista personalizados.';
     break;
   case 'pared-espiral':
-    calendarTitle = 'Solicitud de precio calendario de pared con espiral';
-    calendarType = 'Pared Espiral';
+    calendarTitle = 'Solicitud De Precio calendario de pared con espiral';
+    metaDescription = 'Solicita un presupuesto para calendarios de pared con espiral personalizados.';
     break;
   case 'mesa-triangular':
-    calendarTitle = 'Solicitud de precio calendario de mesa triangular';
-    calendarType = 'Mesa Triangular';
+    calendarTitle = 'Solicitud De Precio calendario de mesa triangular';
+    metaDescription = 'Solicita un presupuesto para calendarios de mesa triangulares personalizados.';
     break;
   default:
-    calendarTitle = 'Solicitud de presupuesto para tus Calendarios Personalizados';
-    calendarType = '';
+    calendarTitle = 'Solicitud de presupuesto para calendarios personalizados';
+    metaDescription = 'Formulario de solicitud de presupuesto para calendarios personalizados de alta calidad.';
     break;
 }
 
 const metadata = {
   title: calendarTitle,
-  description: `Formulario de solicitud de presupuesto para ${calendarType} personalizado en Barcelona.`,
+  description: metaDescription,
 };
+
 
 ---
 
 <Layout metadata={metadata}>
-  <Headline 
-      title={calendarTitle}
-      subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
-    />
+  <Headline
+    title={calendarTitle}
+    subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año."
+  />
 
-
-  <ContactUs calendarType={calendarType} />
-
-  <!-- Elemento de feedback para mostrar el estado del formulario -->
-  <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
+  <ContactUs 
+  id={id} 
+  title= {calendarType.calendarTitle}
+  calendarType={calendarType}
+  isDark={isDark}
+  classes={classes}
+  inputs={formInputs}
+  disclaimer={{ required: true, label: 'Acepto las políticas de privacidad.' }}
+  bg={bg}
+/>
 
   <Features2
     title="¡Estamos aquí para ayudarte!"
     items={[
       {
         title: 'Atención al cliente',
-        description: '¿Tienes preguntas sobre cómo personalizar tus calendarios? Llámanos y uno de nuestros asesores te guiarán paso a paso en la creación del calendario ideal para tu empresa, desde la elección del tipo de calendario hasta los acabados finales. Te ayudamos a hacer realidad tu proyecto.',
+        description:
+          '¿Tienes preguntas sobre cómo personalizar tus calendarios? Llámanos y uno de nuestros asesores te guiarán paso a paso en la creación del calendario ideal para tu empresa, desde la elección del tipo de calendario hasta los acabados finales. Te ayudamos a hacer realidad tu proyecto.',
       },
       {
         title: 'Consulta de precios',
-        description: '¿Necesitas un presupuesto? Contáctanos y te ayudaremos a obtener un precio personalizado para tus calendarios. Disponemos de múltiples opciones y ofertas especiales para grandes volúmenes.',
+        description:
+          '¿Necesitas un presupuesto? Contáctanos y te ayudaremos a obtener un precio personalizado para tus calendarios. Disponemos de múltiples opciones y ofertas especiales para grandes volúmenes.',
       },
       {
         title: 'Asesoramiento en diseño',
-        description: '¿Buscas el diseño perfecto para tus calendarios? Nuestro equipo de expertos puede orientarte en la selección de plantillas, combinaciones de colores, tipos de impresión y más para que tus calendarios tengan un impacto visual que destaque.',
+        description:
+          '¿Buscas el diseño perfecto para tus calendarios? Nuestro equipo de expertos puede orientarte en la selección de plantillas, combinaciones de colores, tipos de impresión y más para que tus calendarios tengan un impacto visual que destaque.',
       },
       {
         title: 'Teléfono',
@@ -86,68 +113,68 @@ const metadata = {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('form-contact') as HTMLFormElement | null;
-  const feedback = document.getElementById('feedback') as HTMLDivElement | null;
-  const telefonoInput = form?.querySelector('input[name="telefono"]') as HTMLInputElement | null;
-  const privacidadInput = form?.querySelector('input[name="disclaimer"]') as HTMLInputElement | null;
+    const form = document.getElementById('form-contact') as HTMLFormElement | null;
+    const feedback = document.getElementById('feedback') as HTMLDivElement | null;
+    const telefonoInput = form?.querySelector('input[name="telefono"]') as HTMLInputElement | null;
+    const privacidadInput = form?.querySelector('input[name="disclaimer"]') as HTMLInputElement | null;
 
-  if (!form || !telefonoInput || !privacidadInput) {
-    console.error("Error: No se encontraron algunos elementos del formulario.");
-    return;
-  }
-
-  function validateTelefono(showError = false) {
-    const telefonoValue = telefonoInput?.value.trim();
-    
-    if(!telefonoValue) {
-      return
-    }
-    const isValid = /^[0-9]{9}$/.test(telefonoValue);
-    
-    if (showError || telefonoValue !== '') {
-      telefonoInput?.classList.toggle('border-red-500', !isValid);
+    if (!form || !telefonoInput || !privacidadInput) {
+      console.error('Error: No se encontraron algunos elementos del formulario.');
+      return;
     }
 
-    return isValid;
-  }
+    function validateTelefono(showError = false) {
+      const telefonoValue = telefonoInput?.value.trim();
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+      if (!telefonoValue) {
+        return;
+      }
+      const isValid = /^[0-9]{9}$/.test(telefonoValue);
 
-    if (validateTelefono(true) && privacidadInput.checked) {
-      try {
-        const formData = new FormData(form);
-        const formDataObject = Object.fromEntries(formData.entries());
+      if (showError || telefonoValue !== '') {
+        telefonoInput?.classList.toggle('border-red-500', !isValid);
+      }
 
-        const response = await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formDataObject),
-        });
+      return isValid;
+    }
 
-        if (response.ok) {
-          if (feedback) {
-            feedback.textContent = 'Correo enviado correctamente';
-            feedback.classList.remove('hidden', 'bg-red-500');
-            feedback.classList.add('bg-green-500');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (validateTelefono(true) && privacidadInput.checked) {
+        try {
+          const formData = new FormData(form);
+          const formDataObject = Object.fromEntries(formData.entries());
+
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formDataObject),
+          });
+
+          if (response.ok) {
+            if (feedback) {
+              feedback.textContent = 'Correo enviado correctamente';
+              feedback.classList.remove('hidden', 'bg-red-500');
+              feedback.classList.add('bg-green-500');
+            }
+            form.reset();
+          } else {
+            if (feedback) {
+              feedback.textContent = 'Error al enviar el correo';
+              feedback.classList.remove('hidden', 'bg-green-500');
+              feedback.classList.add('bg-red-500');
+            }
           }
-          form.reset();
-        } else {
+        } catch (error) {
           if (feedback) {
-            feedback.textContent = 'Error al enviar el correo';
+            feedback.textContent = 'Error en el envío del formulario';
             feedback.classList.remove('hidden', 'bg-green-500');
             feedback.classList.add('bg-red-500');
           }
+          console.error('Error:', error);
         }
-      } catch (error) {
-        if (feedback) {
-          feedback.textContent = 'Error en el envío del formulario';
-          feedback.classList.remove('hidden', 'bg-green-500');
-          feedback.classList.add('bg-red-500');
-        }
-        console.error('Error:', error);
       }
-    }
+    });
   });
-});
 </script>

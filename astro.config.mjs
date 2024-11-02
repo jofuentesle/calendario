@@ -1,7 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'astro/config';
-import netlify from "@astrojs/netlify/functions"; // Adaptador para Netlify
+import netlify from '@astrojs/netlify/functions'; // Adaptador para Netlify
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -13,11 +13,10 @@ import astroIcon from 'astro-icon';
 import astrowind from './vendor/integration';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-
 // Configuración optimizada para Netlify
 export default defineConfig({
   site: 'https://calendarios.reprodisseny.com/',
-  output: 'server',  // Usa 'server' si necesitas SSR o funciones
+  output: 'server', // Usa 'server' si necesitas SSR o funciones
   adapter: netlify(), // Cambiado a Netlify Functions
   integrations: [
     tailwind({
@@ -76,8 +75,7 @@ export default defineConfig({
   },
 
   vite: {
-     define: {
-    },
+    define: {},
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
@@ -85,6 +83,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['swiper']
-  }
+    include: ['swiper'],
+  },
 });

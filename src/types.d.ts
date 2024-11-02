@@ -63,7 +63,6 @@ export interface Post {
   readingTime?: number;
 }
 
-
 export interface Taxonomy {
   slug: string;
   title: string;
@@ -182,12 +181,12 @@ export interface Testimonial {
 }
 
 export interface Input {
-  type: 'text' | 'email' | 'tel' | 'select';  // Añadimos 'select' como tipo permitido
+  type: 'text' | 'email' | 'tel' | 'select'; // Añadimos 'select' como tipo permitido
   name: string;
   label?: string;
   autocomplete?: string;
   placeholder?: string;
-  options?: Array<{ value: string; label: string }>;  // Añadimos las opciones para los selects
+  options?: Array<{ value: string; label: string }>; // Añadimos las opciones para los selects
   required?: boolean;
 }
 
@@ -227,23 +226,23 @@ export interface Collapse {
 }
 
 export interface Form {
-  id: string;  // Identificador del formulario
-  method: string;  // Método del formulario (GET, POST)
-  action: string;  // URL de destino para el envío del formulario
-  inputs: FormInput[];  // Array de campos del formulario
+  id: string; // Identificador del formulario
+  method: string; // Método del formulario (GET, POST)
+  action: string; // URL de destino para el envío del formulario
+  inputs: FormInput[]; // Array de campos del formulario
   textarea?: {
-    name?: string; 
-    label: string; 
-    placeholder?: string; 
-    rows?: number 
+    name?: string;
+    label: string;
+    placeholder?: string;
+    rows?: number;
   };
   disclaimer?: {
-    label: string; 
-    required?: boolean; 
+    label: string;
+    required?: boolean;
   };
-  button?: string;  // Texto del botón
-  description?: string;  // Descripción del formulario
-  requiredFields?: string[];  // Lista de campos obligatorios
+  button?: string; // Texto del botón
+  description?: string; // Descripción del formulario
+  requiredFields?: string[]; // Lista de campos obligatorios
 }
 
 // WIDGETS
@@ -251,7 +250,7 @@ export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'isDark' |
   content?: string;
   actions?: string | CallToAction[];
   image?: string | unknown;
-  galleryImages?: { src: string; alt: string; }[];
+  galleryImages?: { src: string; alt: string }[];
 }
 type GalleryImages = GalleryImage[];
 
@@ -327,16 +326,16 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   buttonText?: string;
   options?: Array<{ value: string; label: string; image: string }>;
   requiredFields?: string[];
-  method?:string;
+  method?: string;
   action?: string;
-  icon?:string;
-  calendarType?:string;
+  icon?: string;
+  calendarType?: string;
 }
 
 export interface InputOption {
   value: string;
   label: string;
-  icon?:string;
+  icon?: string;
 }
 
 export interface FormInput {
@@ -349,6 +348,6 @@ export interface FormInput {
   required?: boolean;
   pattern?: string;
   value?: string;
-  icon?: string;  // Nueva propiedad opcional para el ícono
+  icon?: string; // Nueva propiedad opcional para el ícono
   calendarType?: string;
 }

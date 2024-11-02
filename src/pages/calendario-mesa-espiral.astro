@@ -4,6 +4,7 @@ import Hero2 from '../components/widgets/Hero2.astro';
 import Features from '../components/widgets/Features.astro';
 import CallToActionProps from '~/components/widgets/CallToAction.astro';
 import { AstroSeo } from '@astrolib/seo';
+import { getPermalink } from '../utils/permalinks';
 
 //Importamos images galeria
 import Img1 from '~/assets/images/mesa/SobremesaEspiral.jpg';
@@ -13,138 +14,156 @@ import Img4 from '~/assets/images/mesa/SobremesaEspiral3.jpg';
 
 //Creamos constantes con las img galeria
 const galleryImages = [
-  { src: Img1.src, alt: 'Calendario de mesa personalizado con espiral para empresas en Barcelona, perfecto para regalos corporativos.' },
-  { src: Img2.src, alt: 'Calendario publicitario de sobremesa personalizado con espiral, ideal para promoción de marca en oficinas.' },
-  { src: Img3.src, alt: 'Calendarios personalizados de mesa con espiral, ideales para empresas, formato A4 con logotipo.' },
-  { src: Img4.src, alt: 'Calendarios de sobremesa personalizados con espiral, diseño elegante para oficinas y empresas en Cataluña.' },
+  {
+    src: Img1.src,
+    alt: 'Calendario de mesa personalizado con espiral para empresas en Barcelona, perfecto para regalos corporativos.',
+  },
+  {
+    src: Img2.src,
+    alt: 'Calendario publicitario de sobremesa personalizado con espiral, ideal para promoción de marca en oficinas.',
+  },
+  {
+    src: Img3.src,
+    alt: 'Calendarios personalizados de mesa con espiral, ideales para empresas, formato A4 con logotipo.',
+  },
+  {
+    src: Img4.src,
+    alt: 'Calendarios de sobremesa personalizados con espiral, diseño elegante para oficinas y empresas en Cataluña.',
+  },
 ];
 
 //SEO
 const metadata = {
-  title: "Calendarios de Mesa Personalizados con Espiral para Empresas | Regalos Corporativos en Barcelona",
-  description: "Personaliza calendarios de mesa con espiral, ideales para empresas que buscan regalos corporativos únicos. Impresión de alta calidad en Barcelona para promocionar tu marca durante todo el año.",
+  title: 'Calendarios de Mesa Personalizados con Espiral para Empresas | Regalos Corporativos en Barcelona',
+  description:
+    'Personaliza calendarios de mesa con espiral, ideales para empresas que buscan regalos corporativos únicos. Impresión de alta calidad en Barcelona para promocionar tu marca durante todo el año.',
   keywords: [
-    "calendario mesa personalizado", 
-    "calendario sobremesa personalizado", 
-    "calendarios de mesa personalizados", 
-    "calendarios de sobremesa", 
-    "calendarios sobremesa", 
-    "calendarios de mesa", 
-    "calendario personalizado", 
-    "calendarios económicos", 
-    "calendario publicitario", 
-    "calendarios corporativos", 
-    "imprimir calendarios sobremesa Barcelona",
-    "calendarios corporativos personalizados",
-    "regalos corporativos personalizados"
+    'calendario mesa personalizado',
+    'calendario sobremesa personalizado',
+    'calendarios de mesa personalizados',
+    'calendarios de sobremesa',
+    'calendarios sobremesa',
+    'calendarios de mesa',
+    'calendario personalizado',
+    'calendarios económicos',
+    'calendario publicitario',
+    'calendarios corporativos',
+    'imprimir calendarios sobremesa Barcelona',
+    'calendarios corporativos personalizados',
+    'regalos corporativos personalizados',
   ],
-  canonical: "https://calendarios.reprodisseny.com/calendario-mesa-espiral",
+  canonical: 'https://calendarios.reprodisseny.com/calendario-mesa-espiral',
   openGraph: {
-    title: "Calendarios de Mesa con Espiral Personalizados para Empresas",
-    description: "Ofrece a tus clientes y empleados un regalo práctico y promocional. Calendarios de mesa personalizados con espiral en Barcelona.",
-    url: "https://calendarios.reprodisseny.com/calendario-mesa-espiral",
+    title: 'Calendarios de Mesa con Espiral Personalizados para Empresas',
+    description:
+      'Ofrece a tus clientes y empleados un regalo práctico y promocional. Calendarios de mesa personalizados con espiral en Barcelona.',
+    url: 'https://calendarios.reprodisseny.com/calendario-mesa-espiral',
     images: [
       {
         url: Img1.src,
         width: 800,
         height: 600,
-        alt: "Calendario de mesa personalizado con espiral"
-      }
+        alt: 'Calendario de mesa personalizado con espiral',
+      },
     ],
-    type: "product"
+    type: 'product',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Calendarios de Mesa Personalizados con Espiral para Empresas",
-    description: "Impresión de calendarios personalizados en Barcelona, ideales como regalos corporativos.",
-    image: Img1.src
-  }
+    card: 'summary_large_image',
+    title: 'Calendarios de Mesa Personalizados con Espiral para Empresas',
+    description: 'Impresión de calendarios personalizados en Barcelona, ideales como regalos corporativos.',
+    image: Img1.src,
+  },
 };
 
 // Mejorar contenido SEO
-const title = "Calendarios de Mesa Personalizados con Espiral";
-const subtitle = "Imprime calendarios de mesa personalizados con espiral para oficinas y promociones. Ideal para empresas que buscan calendarios de sobremesa de alta calidad, económicos y publicitarios. ¡Crea el tuyo hoy mismo!";
-const tagline = "calendarios de mesa triangualares";
+const title = 'Calendarios de Mesa Personalizados con Espiral';
+const subtitle =
+  'Imprime calendarios de mesa personalizados con espiral para oficinas y promociones. Ideal para empresas que buscan calendarios de sobremesa de alta calidad, económicos y publicitarios. ¡Crea el tuyo hoy mismo!';
+const tagline = 'calendarios de mesa triangualares';
 ---
+
 <AstroSeo {...metadata} />
 
 <Layout>
   <!-- Hero2 Widget ******************* -->
   <Hero2
-  tagline={tagline}
-  title={title}
-  subtitle={subtitle}
-  actions={[
-   { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
-   { text: 'Saber más', href: '#features' },
-  ]}
-  galleryImages={galleryImages}
-  
-/>
-  <Features 
-  id="features"
-  tagline="Caracteristicas principales"
-  title="Beneficios de los Calendarios de Mesa Personalizados" 
-  subtitle="Nuestros calendarios de mesa personalizados con espiral ofrecen alta calidad de impresión, visibilidad todo el año y precios competitivos en Barcelona. Ideal para promocionar tu marca con diseños únicos y duraderos."
-  items={[
-    {
-      title: 'Aumenta la Visibilidad de Tu Marca',
-      description:
-        'Los calendarios de mesa personalizados son una excelente herramienta para aumentar la visibilidad de tu marca. Con cada vistazo que tus clientes o empleados le den, tu empresa permanecerá en su mente, convirtiendo un objeto cotidiano en un poderoso recordatorio de tu negocio.',
-      icon: 'tabler:eye',
-    },
-    {
-      title: 'Regalos Corporativos Útiles',
-      description:
-      'Sorprende a tus clientes con regalos corporativos útiles que combinan funcionalidad y publicidad. Nuestros calendarios de sobremesa son ideales para transmitir profesionalismo y atención al detalle, asegurando que tu marca siempre esté presente en su entorno laboral.',
-      icon: 'tabler:gift',
-    },
-    {
-      title: 'Diseños Personalizados',
-      description:
-      'Ofrecemos la opción de personalizar cada calendario con tu logotipo y colores corporativos, garantizando que se alineen con la imagen de tu marca. Un diseño único que resalta tu identidad y hace que tus calendarios sean memorables.',
-      icon: 'tabler:brush',
-    },
-    {
-      title: 'Durabilidad y Practicidad',
-      description:
-      'La estructura con espiral garantiza que nuestros calendarios sean resistentes y fáciles de usar durante todo el año. Diseñados para soportar el desgaste diario, son una inversión que perdura.',
-      icon: 'tabler:circle-check',
-    },
-    {
-      title: 'Perfecto para Regalos Corporativos',
-      description:
-      'Estos calendarios son ideales para sorprender a tus clientes con un detalle que es tanto útil como publicitario. Crea una impresión positiva y duradera al elegir un regalo que será apreciado y utilizado.',
-      icon: 'tabler:star',
-    },
-    {
-      title: 'Impresión de Alta Calidad',
-      description:
-      'Nuestros calendarios se imprimen utilizando tecnología de vanguardia, asegurando colores vibrantes y un acabado profesional. Cada detalle cuenta, y garantizamos que la calidad de impresión refleje la calidad de tu marca.',
-      icon: 'tabler:printer', 
-    },
-  ]}
-/>
+    tagline={tagline}
+    title={title}
+    subtitle={subtitle}
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Pide tu oferta!',
+        href: getPermalink(`/solicitud-presupuesto?tipo=mesa-espiral`),
+        icon: 'tabler:square-rounded-arrow-right',
+      },
+      { text: 'Saber más', href: '#features' },
+    ]}
+    galleryImages={galleryImages}
+  />
+  <Features
+    id="features"
+    tagline="Caracteristicas principales"
+    title="Beneficios de los Calendarios de Mesa Personalizados"
+    subtitle="Nuestros calendarios de mesa personalizados con espiral ofrecen alta calidad de impresión, visibilidad todo el año y precios competitivos en Barcelona. Ideal para promocionar tu marca con diseños únicos y duraderos."
+    items={[
+      {
+        title: 'Aumenta la Visibilidad de Tu Marca',
+        description:
+          'Los calendarios de mesa personalizados son una excelente herramienta para aumentar la visibilidad de tu marca. Con cada vistazo que tus clientes o empleados le den, tu empresa permanecerá en su mente, convirtiendo un objeto cotidiano en un poderoso recordatorio de tu negocio.',
+        icon: 'tabler:eye',
+      },
+      {
+        title: 'Regalos Corporativos Útiles',
+        description:
+          'Sorprende a tus clientes con regalos corporativos útiles que combinan funcionalidad y publicidad. Nuestros calendarios de sobremesa son ideales para transmitir profesionalismo y atención al detalle, asegurando que tu marca siempre esté presente en su entorno laboral.',
+        icon: 'tabler:gift',
+      },
+      {
+        title: 'Diseños Personalizados',
+        description:
+          'Ofrecemos la opción de personalizar cada calendario con tu logotipo y colores corporativos, garantizando que se alineen con la imagen de tu marca. Un diseño único que resalta tu identidad y hace que tus calendarios sean memorables.',
+        icon: 'tabler:brush',
+      },
+      {
+        title: 'Durabilidad y Practicidad',
+        description:
+          'La estructura con espiral garantiza que nuestros calendarios sean resistentes y fáciles de usar durante todo el año. Diseñados para soportar el desgaste diario, son una inversión que perdura.',
+        icon: 'tabler:circle-check',
+      },
+      {
+        title: 'Perfecto para Regalos Corporativos',
+        description:
+          'Estos calendarios son ideales para sorprender a tus clientes con un detalle que es tanto útil como publicitario. Crea una impresión positiva y duradera al elegir un regalo que será apreciado y utilizado.',
+        icon: 'tabler:star',
+      },
+      {
+        title: 'Impresión de Alta Calidad',
+        description:
+          'Nuestros calendarios se imprimen utilizando tecnología de vanguardia, asegurando colores vibrantes y un acabado profesional. Cada detalle cuenta, y garantizamos que la calidad de impresión refleje la calidad de tu marca.',
+        icon: 'tabler:printer',
+      },
+    ]}
+  />
 
-<CallToActionProps 
-  title={title}
-  subtitle={subtitle}
-  tagline={tagline}
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Solicita tu presupuesto personalizado',
-      href: `/solicitud-presupuesto`,
-      target: '_self',
-      icon: 'tabler:mail', // Icono SVG
-    },
-  ]} 
-  id="cta-calendarios-espiral"
-  isDark={false}
-  classes={{ container: 'custom-container-class' }}
-/>
-
-
+  <CallToActionProps
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Solicita tu presupuesto personalizado',
+        href: getPermalink(`/solicitud-presupuesto?tipo=mesa-espiral`),
+        target: '_self',
+        icon: 'tabler:mail', // Icono SVG
+      },
+    ]}
+    id="cta-calendarios-espiral"
+    isDark={false}
+    classes={{ container: 'custom-container-class' }}
+  />
 </Layout>
 <script type="application/ld+json">
   {
@@ -167,10 +186,10 @@ const tagline = "calendarios de mesa triangualares";
       "itemCondition": "https://schema.org/NewCondition"
     },
     "keywords": [
-      "calendario mesa personalizado", 
-      "calendario sobremesa personalizado", 
-      "calendarios de mesa personalizados", 
-      "calendarios corporativos", 
+      "calendario mesa personalizado",
+      "calendario sobremesa personalizado",
+      "calendarios de mesa personalizados",
+      "calendarios corporativos",
       "regalos corporativos personalizados"
     ],
     "additionalType": "https://schema.org/CustomizableProduct",
@@ -180,25 +199,25 @@ const tagline = "calendarios de mesa triangualares";
       "query-input": "required name=query"
     }
   }
-  </script>
-  
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Repro Disseny",
-      "image": "https://reprodisseny.com/files/subscribers/1ec69d96-f834-405d-b56c-25b9272432a3/sites/ebeef25d-6829-4fdd-b372-1357f92ee375/logo_ebeef25d-6829-4fdd-b372-1357f92ee375_large.png?stamp=637581364396277419",
-      "@id": "https://reprodisseny.com",
-      "url": "https://reprodisseny.com",
-      "telephone": "+34 932 749 890",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Calle Juan de Mena, 19",
-        "addressLocality": "Barcelona",
-        "postalCode": "08035",
-        "addressCountry": "ES"
-      },
-      "priceRange": "€€",
-      "description": "Empresa especializada en calendarios personalizados para empresas en Barcelona, ofrece calendarios de mesa y pared con diseño a medida. Precios muy competitivos, entregas personalizadas y muy ágiles."
-    }
-    </script>
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Repro Disseny",
+    "image": "https://reprodisseny.com/files/subscribers/1ec69d96-f834-405d-b56c-25b9272432a3/sites/ebeef25d-6829-4fdd-b372-1357f92ee375/logo_ebeef25d-6829-4fdd-b372-1357f92ee375_large.png?stamp=637581364396277419",
+    "@id": "https://reprodisseny.com",
+    "url": "https://reprodisseny.com",
+    "telephone": "+34 932 749 890",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle Juan de Mena, 19",
+      "addressLocality": "Barcelona",
+      "postalCode": "08035",
+      "addressCountry": "ES"
+    },
+    "priceRange": "€€",
+    "description": "Empresa especializada en calendarios personalizados para empresas en Barcelona, ofrece calendarios de mesa y pared con diseño a medida. Precios muy competitivos, entregas personalizadas y muy ágiles."
+  }
+</script>

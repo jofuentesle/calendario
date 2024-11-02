@@ -13,24 +13,24 @@ const { metadata } = Astro.props;
 ---
 
 <PageLayout metadata={metadata}>
-    <Fragment slot="announcement">
-      <slot name="announcement" />
-    </Fragment>
-    <Fragment slot="header">
-      <slot name="header">
-        <Header
-  links={headerData?.links[0] ? [headerData.links[0]] : undefined}
-  actions={[
-    {
-      class: 'bg-primary text-white flex items-center space-x-2 px-4 py-2 rounded-full w-full sm:mb-0', // Aseguramos que el botón use background primario
-      text: `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg> 932748990`,  // El icono de teléfono junto al número
-      href: 'tel:932748990', // Teléfono para que el usuario pueda llamar directamente
-    },
-  ]}
-  showToggleTheme
-  position="right"
-/>
-      </slot>
-    </Fragment>
-    <slot />
-  </PageLayout>
+  <Fragment slot="announcement">
+    <slot name="announcement" />
+  </Fragment>
+  <Fragment slot="header">
+    <slot name="header">
+      <Header
+        links={headerData?.links[0] ? [headerData.links[0]] : undefined}
+        actions={[
+          {
+            class: 'bg-primary text-white flex items-center space-x-2 px-4 py-2 rounded-full w-full sm:mb-0', // Aseguramos que el botón use background primario
+            text: `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg> 932748990`, // El icono de teléfono junto al número
+            href: 'tel:932748990', // Teléfono para que el usuario pueda llamar directamente
+          },
+        ]}
+        showToggleTheme
+        position="right"
+      />
+    </slot>
+  </Fragment>
+  <slot />
+</PageLayout>

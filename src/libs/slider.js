@@ -5,29 +5,25 @@ import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
 import 'swiper/css/thumbs';
 
-
- export const init =  ()=> {
- 
- return  document.addEventListener( 'DOMContentLoaded', function() {
-
-    const thumbs_swiper = new Swiper(".thumbs", {
-      modules:[FreeMode],
+export const init = () => {
+  return document.addEventListener('DOMContentLoaded', function () {
+    const thumbs_swiper = new Swiper('.thumbs', {
+      modules: [FreeMode],
       spaceBetween: 10,
       slidesPerView: 4,
       freeMode: true,
       watchSlidesProgress: true,
     });
-    const main_swiper = new Swiper(".main", {
-      modules: [Navigation,Thumbs],
+    const main_swiper = new Swiper('.main', {
+      modules: [Navigation, Thumbs],
       spaceBetween: 10,
       navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
       },
       thumbs: {
         swiper: thumbs_swiper,
       },
     });
-});
-}
-
+  });
+};

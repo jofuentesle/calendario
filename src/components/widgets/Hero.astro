@@ -2,7 +2,7 @@
 import Slider from './Slider.astro';
 import Image from '~/components/common/Image.astro';
 import Button from '~/components/ui/Button.astro';
-import { IconCalendar } from "tabler-icons";
+import { IconCalendar } from 'tabler-icons';
 import type { Hero as Props } from '~/types';
 
 import Img1 from '~/assets/images/calendarios/slide1.jpg';
@@ -30,12 +30,11 @@ const {
 <section class="relative md:-mt-[76px] not-prose" {...id ? { id } : {}}>
   <!-- Slider como fondo -->
   <div class="absolute inset-0 z-[0]">
-    <Slider images={galleryImages}/>
+    <Slider images={galleryImages} />
   </div>
 
   <!-- Contenido del Hero -->
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-  </div>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
     <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
     <div class="py-12 md:py-5">
@@ -57,42 +56,44 @@ const {
           )
         }
         <div class="max-w-3xl mx-auto">
-          {subtitle && <p 
-            class="text-xl  leading-tighter tracking-tighter  font-heading text-slate-900 dark:text-white mb-6" 
-            set:html={subtitle} />}
+          {
+            subtitle && (
+              <p
+                class="text-xl  leading-tighter tracking-tighter  font-heading text-slate-900 dark:text-white mb-6"
+                set:html={subtitle}
+              />
+            )
+          }
 
           <div class="flex flex-col sm:flex-row justify-center gap-4">
-            
             <!-- Botón 1 -->
-            <Button 
-              href="/calendario-mesa-espiral" 
-              text="Calendario Mesa Espiral" 
-              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white" 
-              
+            <Button
+              href="/calendario-mesa-espiral"
+              text="Calendario Mesa Espiral"
+              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white"
             />
-            
+
             <!-- Botón 2 -->
-            <Button 
-              href="/calendario-mesa-triangular" 
-              text="Calendario Mesa Triangular" 
-              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white" 
+            <Button
+              href="/calendario-mesa-triangular"
+              text="Calendario Mesa Triangular"
+              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white"
             />
-            
+
             <!-- Botón 3 -->
-            <Button 
-              href="/calendario-pared-espiral" 
-              text="Calendario Pared Espiral" 
-              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white" 
+            <Button
+              href="/calendario-pared-espiral"
+              text="Calendario Pared Espiral"
+              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white"
             />
-            
+
             <!-- Botón 4 -->
-            <Button 
-              href="/calendario-pared-revista" 
-              text="Calendario Pared Revista" 
-              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white" 
+            <Button
+              href="/calendario-pared-revista"
+              text="Calendario Pared Revista"
+              class="w-auto sm:mb-0 bg-primary text-white hover:text-black dark:hover:text-white"
             />
           </div>
-
 
           {
             actions && (
@@ -137,10 +138,8 @@ const {
   </div>
 </section>
 <style>
-
-
   html.dark .isTxtSub {
-    color:rgba(109, 41, 217, 1);
+    color: rgba(109, 41, 217, 1);
   }
 
   slider-container {
@@ -148,7 +147,7 @@ const {
     inset: 0;
     z-index: -1; /* Asegura que el slider esté detrás del contenido */
   }
-  
+
   .swiper {
     width: 100%;
     height: 100%;

@@ -14,47 +14,46 @@ sendGrid.setApiKey(apiKey);
 
 export const GET = async ({ request }) => {
   try {
-    // Extraer los parámetros de la URL
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
 
-    const nombre = params.get('nombre');
+    // Capturar todos los datos del formulario
+    const nombre = params.get('nombre') || 'Usuario';
     const email = params.get('email');
-    const telefono = params.get('telefono');
-    const cantidad = params.get('cantidad');
-    const tipoCalendario = params.get('tipo_calendario');
-    const privacidadAceptada = params.get('disclaimer');
+    const telefono = params.get('telefono') || 'No proporcionado';
+    const empresa = params.get('empresa') || 'No proporcionado';
+    const cantidad = params.get('cantidad') || 'No especificado';
+    const tipoCalendario = params.get('tipoCalendario') || 'Consulta general';
 
-    if (!privacidadAceptada) {
-      return new Response(null, {
-        status: 302,
-        headers: {
-          Location: '/nogracias',
-        },
-      });
+    if (!email) {
+      console.log('No se ha proporcionado un correo electrónico');
+      return new Response(JSON.stringify({ success: false, message: 'Correo electrónico es obligatorio' }), { status: 400 });
     }
 
+    // Ajuste en messageContent (SendGrid)
     const messageContent = `
-      **Solicitud de presupuesto**
-
-      Detalles del cliente:
-      - **Nombre**: ${nombre}
-      - **Correo electrónico**: ${email}
-      - **Teléfono**: ${telefono}
-
-      Detalles del calendario:
-      - **Cantidad solicitada**: ${cantidad}
-      - **Tipo de calendario**: ${tipoCalendario}
-
-      Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.
-    `;
+<h2>Solicitud de Presupuesto</h2>
+<p><strong>Detalles del Cliente:</strong></p>
+<ul>
+  <li><strong>Nombre:</strong> ${nombre}</li>
+  <li><strong>Correo Electrónico:</strong> ${email}</li>
+  <li><strong>Teléfono:</strong> ${telefono}</li>
+  <li><strong>Empresa:</strong> ${empresa}</li>
+</ul>
+<p><strong>Detalles del Pedido:</strong></p>
+<ul>
+  <li><strong>Tipo de Calendario:</strong> ${tipoCalendario}</li>
+  <li><strong>Cantidad:</strong> ${cantidad}</li>
+</ul>
+<p style="font-style: italic; color: gray;">Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.</p>
+`;
 
     const msg = {
       to: 'jordi@reprodisseny.com',
       from: 'noreply@reprodisseny.com',
       subject: `Nueva solicitud de presupuesto de ${nombre}`,
-      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ''),
-      html: messageContent.replace(/\n/g, '<br/>'),
+      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ''),// Versión de texto sin formato
+      html: messageContent, // Versión HTML
     };
 
     await sendGrid.send(msg);

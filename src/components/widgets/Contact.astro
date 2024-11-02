@@ -19,15 +19,15 @@ const formattedCalendarType = formatTitle(calendarType);
 
 // Definir los campos del formulario
 const formInputs = [
-  { name: 'nombre', label: 'Nombre', type: 'text', required: true, icon: 'user', pattern: '^[A-Za-zÀ-ÿ\s]+$', errorMessage: 'Por favor, introduce un nombre válido (solo letras y espacios).' }, // Solo letras y espacios
+  { name: 'nombre', label: 'Nombre', type: 'text', required: true, icon: 'user', pattern: '^[A-Za-zÀ-ÿ\\s]+$', errorMessage: 'Por favor, introduce un nombre válido (solo letras y espacios).' },
   { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', errorMessage: 'Por favor, introduce un correo electrónico válido.' },
-  { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', pattern: '^[0-9]{9}$', errorMessage: 'Por favor, introduce un número de teléfono válido (9 dígitos).' }, // Solo números de 9 dígitos
+  { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', pattern: '^[0-9]{9}$', errorMessage: 'Por favor, introduce un número de teléfono válido (9 dígitos).' },
   { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', errorMessage: 'Por favor, introduce un nombre de empresa válido.' },
-  { type: 'hidden', name: 'tipo_calendario', value: formattedCalendarType }, // Campo oculto
+  { type: 'hidden', name: 'tipoCalendario', value: formattedCalendarType },
 ];
 
 // Definir la acción del formulario
-const action = '/api/send-email'; //
+const action = '/api/send-email';
 ---
 
 <WidgetWrapper 

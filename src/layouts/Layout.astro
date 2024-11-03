@@ -33,32 +33,6 @@ const { metadata } = Astro.props;
 <html lang={language} dir={textDirection} class="2xl:text-[20px]" transition:animate="none">
   <head>
     <Metadata {...metadata} />
-    <!-- Google tag (gtag.js) -->
-    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(...arg) {
-        dataLayer.push(arg);
-      }
-      gtag('js', new Date());
-
-      gtag('config', 'G-302RJDGZTB');
-    </script>
-
-    <!-- Google Tag Manager -->
-    <script is:inline>
-      (function (w, d, s, l, i) {
-        console.log('GTM');
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        const f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-XXXXXXX');
-    </script>
 
     <CommonMeta />
     <Favicons />
@@ -69,9 +43,22 @@ const { metadata } = Astro.props;
     <!-- Comment the line below to disable View Transitions -->
     <ViewTransitions />
     <ConsentCookie />
+    <!-- Google Tag Manager -->
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+  {'gtm.start':new Date().getTime(),event:'gtm.js'});
+  const f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode?.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-W8M8XRCM');</script>
+  <!-- End Google Tag Manager -->
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8M8XRCM"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <slot />
 
     <BasicScripts />

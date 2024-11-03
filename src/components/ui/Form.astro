@@ -27,7 +27,7 @@ const {
       return (
         <div class="relative">
           <label>{input.label}</label>
-          <select name={input.name} required={input.required} class="input-field">
+          <select name={input.name} required={input.required} class="input-field y-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900">
             {input.options.map(option => (
               <option value={option.value}>{option.label}</option>
             ))}

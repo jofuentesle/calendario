@@ -1,0 +1,128 @@
+---
+import Layout from '~/layouts/LandingLayout2.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Features from '~/components/widgets/Features.astro';
+import CallToActionProps from '~/components/widgets/CallToAction.astro';
+
+import Img1 from '~/assets/images/pared/ParedRevista.jpg';
+import Img2 from '~/assets/images/pared/ParedRevista1.jpg';
+import Img3 from '~/assets/images/pared/ParedRevista2.jpg';
+import Img4 from '~/assets/images/pared/ParedRevista3.jpg';
+
+const galleryImages = [
+    { src: Img1.src, alt: 'Calendario de pared tipo revista 2025' },
+    { src: Img2.src, alt: 'Calendario de pared 2025 con espiral, diseño personalizado' },
+    { src: Img3.src, alt: 'Calendario tipo revista personalizado para empresas 2025' },
+    { src: Img4.src, alt: 'Calendario promocional de pared con espiral 2025' },
+];
+
+const metadata = {
+  title: "Calendarios de Pared Tipo Revista Personalizados | Diseños Elegantes en Barcelona",
+  description: "Calendarios de pared tipo revista personalizados. Ofrecemos diseños elegantes y de alta calidad para promocionar tu marca en Barcelona. Pide tu presupuesto.",
+  keywords: [
+    "calendarios de pared tipo revista", 
+    "calendarios personalizados Barcelona", 
+    "calendarios publicitarios", 
+    "diseños elegantes para calendarios"
+  ],
+  openGraph: {
+    type: "website",
+    url: "https://calendarios.reprodisseny.com/pared-revista",
+    images: [
+      { url: "https://calendarios.reprodisseny.com/assets/images/pared/ParedRevista.jpg", alt: "Calendario de pared tipo revista personalizado" }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@reprodisseny",
+    title: "Calendarios de Pared Tipo Revista Personalizados",
+    description: "Calendarios de pared con diseño de revista, personalizados para empresas. Promociona tu negocio todo el año.",
+    image: "https://calendarios.reprodisseny.com/assets/images/pared/ParedRevista.jpg",
+  },
+};
+
+
+// Mejorar contenido SEO
+const title = "Calendarios de Pared Personalizados Tipo Revista";
+const subtitle = "Consigue calendarios de pared tipo revista personalizados para 2025. Ideales para empresas que quieren promocionar su marca con calendarios de alta calidad. Pide tu oferta personalizada hoy.";
+const tagline = "calendarios pared revista";
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero2 Widget ******************* -->
+
+  <Hero2
+    tagline={tagline}
+    title={title}
+    subtitle={subtitle}
+    actions={[
+      { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
+      { text: 'Saber más', href: '#features' },
+    ]}
+    galleryImages={galleryImages}
+    
+  />
+  
+  
+  <Features 
+  id="features"
+  tagline="Características Clave"
+  title="¿Por qué elegir nuestros calendarios de pared"
+  subtitle="Impresión de alta calidad y diseño atractivo para promocionar tu marca durante todo el año a un precio muy competitivo."
+  items={[
+    {
+      title: 'Impresión Personalizada',
+      description: 'Personaliza calendarios tipo revista para pared con tu logotipo y diseño único. Ideales para promociones tu negocio de forma fàcil.',
+      icon: 'tabler:calendar',
+    },
+    {
+      title: 'Alta Calidad de Impresión',
+      description:
+        'Usamos tecnología de impresión avanzada para asegurar que cada calendario sea visualmente atractivo y duradero.',
+      icon: 'tabler:printer',
+    },
+    {
+      title: 'Diseño Promocional',
+      description:
+        'Destaca tu marca todo el año con nuestros calendarios de pared que combinan funcionalidad y estética.',
+      icon: 'tabler:printer',
+    },
+    {
+      title: 'Entrega rápida en toda la península',
+      description:
+        'Ofrecemos tiempos de entrega rápidos para que recibas tus calendarios cuando los necesites.',
+      icon: 'tabler:truck',
+    },
+    {
+      title: 'Ideal para Empresas',
+      description:
+        'Perfectos para empresas que buscan soluciones publicitarias duraderas y efectivas.',
+      icon: 'tabler:building',
+    },
+    {
+      title: 'Fácil Instalación',
+      description:
+        'Nuestros calendarios con espiral son fáciles de colgar, adaptándose a cualquier espacio de trabajo.',
+      icon: 'tabler:wall',
+    },
+  ]}
+/>
+
+    <!-- CallToAction (2/3 width on large screens) -->
+    <CallToActionProps 
+      title={title}
+      subtitle={subtitle}
+      tagline={tagline}
+      actions={[
+        {
+          variant: 'primary',
+          text: 'Solicita tu presupuesto personalizado',
+          href: `/solicitud-presupuesto`,
+          icon: 'tabler:mail', // Icono SVG
+        },
+      ]}  
+      id="cta-calendarios-pared-revista"
+      isDark={false}
+      classes={{ container: 'custom-container-class' }}
+    /> 
+</Layout>

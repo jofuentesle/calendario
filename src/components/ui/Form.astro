@@ -39,13 +39,13 @@ const {
     // Renderizar otros tipos de input (texto, email, teléfono, etc.)
     return (
       <div class="relative">
-        <label>{input.label}</label>
+        <label class="block text-sm font-medium">{input.label}</label>
         <input 
           type={input.type} 
           name={input.name} 
           required={input.required} 
           placeholder={input.label} 
-          class="input-field"
+          class="input-field py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
         />
       </div>
     );

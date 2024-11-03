@@ -372,14 +372,26 @@ export interface InputField {
   value?: string;
 }
 
-export type InputField = {
-  name: string;
-  label: string;
-  type: string;
-  required?: boolean; // Este campo es opcional
-  icon?: string;      // Este campo es opcional
-  value?: string;     // Este campo es opcional
-};
+// Definición del tipo InputField para admitir múltiples tipos de input, incluyendo select
+export type InputField = 
+  | { 
+      name: string;
+      label: string;
+      type: 'text' | 'email' | 'tel' | 'hidden';
+      required?: boolean;
+      icon?: string;
+      value?: string;
+      options?: never; // `options` no está permitido en estos tipos
+    }
+  | {
+      name: string;
+      label: string;
+      type: 'select';
+      required?: boolean;
+      options: { value: string; label: string }[]; // Opciones para el select
+    };
+
+
 
 export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   id?: string;

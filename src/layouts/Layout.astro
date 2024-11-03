@@ -15,19 +15,24 @@ import ConsentCookie from '~/components/widgets/ConsentCookie.astro';
 // Comment the line below to disable View Transitions
 import { ViewTransitions } from 'astro:transitions';
 
-import type { MetaData as MetaDataType } from '~/types';
+const { language, textDirection } = I18N;
 
 export interface Props {
-  metadata?: MetaDataType;
+  metadata?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  };
 }
 
-const { metadata = {} } = Astro.props;
-const { language, textDirection } = I18N;
+const { metadata } = Astro.props;
+
 ---
 
 <!doctype html>
 <html lang={language} dir={textDirection} class="2xl:text-[20px]" transition:animate="none">
   <head>
+    <Metadata {...metadata} />
     <!-- Google tag (gtag.js) -->
     <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
     <script type="text/partytown">

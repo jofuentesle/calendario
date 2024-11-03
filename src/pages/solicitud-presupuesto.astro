@@ -3,6 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
+import type { Contact as Props } from '~/types';
 // En solicitud-presupuesto.astro o donde uses `InputField`
 import type { InputField } from '~/types';
 
@@ -17,7 +18,7 @@ let metaDescription = '';
 
 // Ajustar el título y la descripción basados en el tipo de calendario
 switch (calendarType) {
-  case 'mesaespiral':
+  case 'mesa-espiral':
     calendarTitle = 'Solicitud De Precio Calendarios De Mesa Con Espiral';
     metaDescription = 'Solicita un presupuesto para calendarios de mesa con espiral personalizados para empresas.';
     break;
@@ -45,6 +46,19 @@ const formInputs: InputField[] = [
   { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', value: '' },
   { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', value: '' },
   { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', value: '' },
+  {
+    name: 'cantidad', 
+    label: 'Cantidad', 
+    type: 'select', 
+    required: true,
+    options: [
+      { value: '100', label: '100' },
+      { value: '200', label: '200' },
+      { value: '500', label: '500' },
+      { value: '750', label: '750' },
+      { value: '1000', label: '1000' }
+    ]
+  },
   { type: 'hidden', name: 'tipoCalendario', value: calendarType } // Campo oculto con el valor de `calendarType`
 ];
 

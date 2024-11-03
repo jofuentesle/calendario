@@ -16,6 +16,11 @@ export const GET = async ({ request }) => {
   try {
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
+    
+     // Confirmar que `tipoCalendario` está en los parámetros
+    console.log("Parámetros completos recibidos en send-email.ts:", Array.from(params.entries()));
+
+
 
     // Capturar todos los datos del formulario
     const nombre = params.get('nombre') || 'Usuario';
@@ -24,6 +29,18 @@ export const GET = async ({ request }) => {
     const empresa = params.get('empresa') || 'No proporcionado';
     const cantidad = params.get('cantidad') || 'No especificado';
     const tipoCalendario = params.get('tipoCalendario') || 'Consulta general';
+
+    console.log('Tipo de Calendario en send-email.ts:', tipoCalendario);
+
+    // Verificar los datos recibidos
+    console.log('Datos recibidos en el formulario:');
+    console.log('Nombre:', nombre);
+    console.log('Correo Electrónico:', email);
+    console.log('Teléfono:', telefono);
+    console.log('Empresa:', empresa);
+    console.log('Cantidad:', cantidad);
+    console.log('Tipo de Calendario:', tipoCalendario);
+
 
     if (!email) {
       console.log('No se ha proporcionado un correo electrónico');

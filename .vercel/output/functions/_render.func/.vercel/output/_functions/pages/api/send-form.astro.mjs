@@ -8,7 +8,7 @@ async function post({ request }) {
       const data = await request.formData();
       const name = data.get('nombre');
       const email = data.get('email');
-      const tipoCalendario = data.get('tipoCalendario');
+      const tipoCalendario = data.get('tipo');
       const tamaño = data.get('tamaño');
       const cantidad = data.get('cantidad');
       const msg = {

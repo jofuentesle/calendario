@@ -3,46 +3,49 @@ import FormContainer from '~/components/ui/Form.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import type { Contact as Props } from '~/types';
 
+
 const {
-  calendarType,
+  calendarType, 
+  inputs,
   isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg')
-} = Astro.props;
+}: Contact = Astro.props;
 
-/// Formatear el título con la primera letra en mayúscula y el resto en minúsculas
-const formatTitle = (title) => {
-  return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
-};
+const action = `/api/send-email`;
+console.log("Valor de calendarType en contact.astrosss:", calendarType);
 
-const formattedCalendarType = formatTitle(calendarType);
-
-// Definir los campos del formulario
-const formInputs = [
-  { name: 'nombre', label: 'Nombre', type: 'text', required: true, icon: 'user', pattern: '^[A-Za-zÀ-ÿ\\s]+$', errorMessage: 'Por favor, introduce un nombre válido (solo letras y espacios).' },
-  { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', errorMessage: 'Por favor, introduce un correo electrónico válido.' },
-  { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', pattern: '^[0-9]{9}$', errorMessage: 'Por favor, introduce un número de teléfono válido (9 dígitos).' },
-  { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', errorMessage: 'Por favor, introduce un nombre de empresa válido.' },
-  { type: 'hidden', name: 'tipoCalendario', value: formattedCalendarType },
-];
-
-// Definir la acción del formulario
-const action = '/api/send-email';
 ---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form-contact");
+    
+  if (form instanceof HTMLFormElement) {
+    form.addEventListener("submit", () => {
+      // Evitar la recarga de la página
+
+     
+
+  })
+}});
+
+</script>
 
 <WidgetWrapper 
   isDark={isDark} 
   containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} 
   bg={bg}
 >
-  <div
-    class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full"
-  >
+  <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
     <FormContainer
       id="form-contact"
       method="GET"
       action={action}
-      inputs={formInputs}
+      inputs={[
+        ...inputs,
+        { type: 'hidden', name: 'tipoCalendario', value: 'mesaespiral' } // Asegurar el campo oculto con valor
+      ]}
       disclaimer={{ required: true, label: 'Acepto las políticas de privacidad.' }}
       submitButton={{ label: 'Enviar Solicitud', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' }}
     />

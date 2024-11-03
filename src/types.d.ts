@@ -318,18 +318,26 @@ export interface Content extends Omit<Headline, 'classes'>, Widget {
   callToAction?: CallToAction;
 }
 
+/*
+
 export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
-  type?: string;
-  name?: string;
-  label?: string;
-  icons?: string;
+  
   buttonText?: string;
   options?: Array<{ value: string; label: string; image: string }>;
-  requiredFields?: string[];
   method?: string;
   action?: string;
   icon?: string;
-  calendarType?: string;
+  id: string;
+  title: string;
+  calendarType: string;
+  inputs: Array<{
+    name: string;
+    label: string;
+    type: string;
+    required?: boolean;
+    icon?: string;
+    pattern?: string;
+    errorMessage?: string;
 }
 
 export interface InputOption {
@@ -350,4 +358,37 @@ export interface FormInput {
   value?: string;
   icon?: string; // Nueva propiedad opcional para el ícono
   calendarType?: string;
+}
+*/
+
+// types.d.ts
+// types.d.ts
+export interface InputField {
+  name?: string;
+  label?: string;
+  type?: string;
+  icon?: string;
+  required?: boolean;
+  value?: string;
+}
+
+export type InputField = {
+  name: string;
+  label: string;
+  type: string;
+  required?: boolean; // Este campo es opcional
+  icon?: string;      // Este campo es opcional
+  value?: string;     // Este campo es opcional
+};
+
+export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
+  id?: string;
+  title?: string;
+  calendarType?: string;
+  inputs?: InputField[]; // Array de campos de entrada definidos en InputField
+  isDark?: boolean;
+  classes?: {
+    container?: string;
+  };
+  bg?: string;
 }

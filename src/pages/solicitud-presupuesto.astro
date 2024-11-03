@@ -3,16 +3,21 @@ import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
+// En solicitud-presupuesto.astro o donde uses `InputField`
+import type { InputField } from '~/types';
+
 
 // Obtener el tipo de calendario desde los parámetros de la URL
 const params = new URL(Astro.url).searchParams;
-const calendarType = params.get('tipo') || '';
-console.log('presupeso', calendarType)
+const calendarType = params.get('tipo') || ''; // Capturar el tipo de calendario desde la URL
+console.log("Valor de calendarType en solicitud-presupuesto.astro:", calendarType); // Para verificar el valor
+
 let calendarTitle = '';
 let metaDescription = '';
 
+// Ajustar el título y la descripción basados en el tipo de calendario
 switch (calendarType) {
-  case 'mesa-espiral':
+  case 'mesaespiral':
     calendarTitle = 'Solicitud De Precio Calendarios De Mesa Con Espiral';
     metaDescription = 'Solicita un presupuesto para calendarios de mesa con espiral personalizados para empresas.';
     break;
@@ -34,6 +39,15 @@ switch (calendarType) {
     break;
 }
 
+// Configurar los campos del formulario
+const formInputs: InputField[] = [
+  { name: 'nombre', label: 'Nombre', type: 'text', required: true, icon: 'user', value: '' },
+  { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', value: '' },
+  { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', value: '' },
+  { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', value: '' },
+  { type: 'hidden', name: 'tipoCalendario', value: calendarType } // Campo oculto con el valor de `calendarType`
+];
+
 const metadata = {
   title: calendarTitle,
   description: metaDescription,
@@ -43,12 +57,17 @@ const metadata = {
 <Layout metadata={metadata}>
   <Headline title={calendarTitle} subtitle="Personaliza el Calendario perfecto y promociona tu marca todo el año." />
 
-  <ContactUs 
+  <ContactUs
     id="contact-form"
-    title={calendarTitle}
-    calendarType={calendarType}
+    title="Formulario de Contacto"
+    inputs={formInputs}
+    method="GET"
+    action="/api/send-email"
+    disclaimer="Acepto las políticas de privacidad."
+    submitButton={{ label: 'Enviar Solicitud', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' }}
   />
-
+  <!-- El componente de formulario recibe `calendarType` -->
+  
   <Features2
     title="¡Estamos aquí para ayudarte!"
     items={[

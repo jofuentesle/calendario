@@ -1,106 +1,52 @@
 ---
-import Button from '~/components/ui/Button.astro';
-import { Icon } from 'astro-icon/components';
-const { id, method = 'GET', action = '/api/send-email', disclaimer, button = 'Consulta precio', privacyText = 'Acepto la política de privacidad', tipoCalendario } = Astro.props;
+
+
+const { 
+  id, 
+  method = 'GET', 
+  action = '/api/send-email', 
+  inputs = [], 
+  disclaimer, 
+  submitButton = { label: 'Consulta precio', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' } 
+} = Astro.props;
 ---
 
-<form id={id} method={method} action={action} class="form space-y-4 p-4 bg-white dark:bg-gray-800 shadow rounded-lg">
-  
-  <!-- Campo oculto para tipo de calendario -->
-  <input type="hidden" name="tipoCalendario" value={tipoCalendario} />
+<form id={id} method={method} action={action} class="space-y-4 p-4 bg-white dark:bg-gray-800 shadow rounded-lg">
+  {inputs.map((input) => {
+    // Renderizar el campo oculto para `tipoCalendario` u otros campos ocultos
+    if (input.type === 'hidden') {
+      return (
+        <input 
+          type="hidden" 
+          name={input.name} 
+          value={input.value} 
+        />
+      );
+    }
 
-  <!-- Campo Nombre -->
-  <label class="block relative">
-    <span class="sr-only">Nombre</span>
-    <div class="relative">
-      <div class="icon-container">
-        <Icon name="tabler:user" class="icon" />
+    // Renderizar otros tipos de input (texto, email, teléfono, etc.)
+    return (
+      <div class="relative">
+        <label>{input.label}</label>
+        <input 
+          type={input.type} 
+          name={input.name} 
+          required={input.required} 
+          placeholder={input.label} 
+          class="input-field"
+        />
       </div>
-      <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        placeholder="Nombre"
-        class="input-field"
-      />
+    );
+  })}
+
+  {disclaimer && (
+    <div class="flex items-center space-x-2">
+      <input type="checkbox" id="privacy" name="privacy" required={disclaimer.required} />
+      <label for="privacy">{disclaimer.label}</label>
     </div>
-  </label>
+  )}
 
-  <!-- Campo Email -->
-  <label class="block relative">
-    <span class="sr-only">Email</span>
-    <div class="relative">
-      <div class="icon-container">
-        <Icon name="tabler:mail" class="icon" />
-      </div>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="tucorreo@ejemplo.com"
-        class="input-field"
-      />
-    </div>
-  </label>
-
-  <!-- Campo Teléfono -->
-  <label class="block relative">
-    <span class="sr-only">Teléfono</span>
-    <div class="relative">
-      <div class="icon-container">
-        <Icon name="tabler:phone" class="icon" />
-      </div>
-      <input
-        type="tel"
-        id="telefono"
-        name="telefono"
-        placeholder="Tu número de teléfono"
-        class="input-field"
-      />
-    </div>
-  </label>
-
-  <!-- Campo Empresa -->
-  <label class="block relative">
-    <span class="sr-only">Empresa</span>
-    <div class="relative">
-      <div class="icon-container">
-        <Icon name="tabler:building" class="icon" />
-      </div>
-      <input
-        type="text"
-        id="empresa"
-        name="empresa"
-        placeholder="Nombre de tu empresa"
-        class="input-field"
-      />
-    </div>
-  </label>
-
-  <!-- Cantidad -->
-  <label class="block">
-    <span class="text-gray-700 dark:text-gray-300">Cantidad</span>
-    <select id="cantidad" name="cantidad" class="mt-1 block w-full rounded-md">
-      <option value="100">100</option>
-      <option value="200">200</option>
-      <option value="500">500</option>
-      <option value="750">750</option>
-      <option value="1000">1000</option>
-    </select>
-  </label>
-
-  <!-- Checkbox de Política de Privacidad -->
-  <label class="flex items-center space-x-2">
-    <input type="checkbox" id="privacy" name="privacy" required />
-    <span>{privacyText}</span>
-  </label>
-
-  <!-- Disclaimer -->
-  {disclaimer && <p class="text-sm text-gray-500">{disclaimer}</p>}
-
-  <!-- Botón de Envío -->
-  <Button type="submit" class="flex items-center justify-center w-full bg-blue-600 text-white rounded-md py-2">
-    <Icon name="tabler:send" class="h-5 w-5 mr-2 text-white" />
-    {button}
-  </Button>
+  <button type="submit" class={submitButton.class}>
+    {submitButton.label}
+  </button>
 </form>

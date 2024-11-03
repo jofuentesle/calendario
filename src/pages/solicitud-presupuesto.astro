@@ -45,6 +45,19 @@ const formInputs: InputField[] = [
   { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', value: '' },
   { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', value: '' },
   { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', value: '' },
+  { 
+    name: 'cantidad', 
+    label: 'Cantidad', 
+    type: 'select', 
+    required: true,
+    options: [
+      { value: '100', label: '100' },
+      { value: '200', label: '200' },
+      { value: '500', label: '500' },
+      { value: '750', label: '750' },
+      { value: '1000', label: '1000' }
+    ]
+  },
   { type: 'hidden', name: 'tipoCalendario', value: calendarType } // Campo oculto con el valor de `calendarType`
 ];
 

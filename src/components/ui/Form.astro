@@ -23,6 +23,18 @@ const {
         />
       );
     }
+    if (input.type === 'select') {
+      return (
+        <div class="relative">
+          <label>{input.label}</label>
+          <select name={input.name} required={input.required} class="input-field">
+            {input.options.map(option => (
+              <option value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </div>
+      );
+    }
 
     // Renderizar otros tipos de input (texto, email, teléfono, etc.)
     return (

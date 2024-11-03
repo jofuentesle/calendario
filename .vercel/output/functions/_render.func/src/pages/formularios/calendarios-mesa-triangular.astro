@@ -7,15 +7,13 @@ import ContactUs from '~/components/widgets/Contact.astro';
 const metadata = {
   title: 'Contacta con nosotros para calendarios de mesa',
 };
-
 ---
 
 <Layout metadata={metadata}>
   <!-- HeroText Widget ******************* -->
 
-  <HeroText 
-  tagline="calendarios de mesa" title="Solicita información sobre los calidendarios de sobremesa" />
-  
+  <HeroText tagline="calendarios de mesa" title="Solicita información sobre los calidendarios de sobremesa" />
+
   <ContactUs
     id="form"
     title="Envíanos tus consultas sobre calendarios"
@@ -48,19 +46,19 @@ const metadata = {
         options: [
           { value: '21x10', label: 'Rectangular 21 x 10 cm' },
           { value: '15x15', label: 'Cuadrado 15 x 15 cm' },
-          { value: 'A5', label:'Din A5 21 x 15 cm' }
+          { value: 'A5', label: 'Din A5 21 x 15 cm' },
         ],
       },
-    {
-      type: 'select',
+      {
+        type: 'select',
         name: 'acabdo',
         label: 'Acabado calendario',
         options: [
           { value: 'brillo', label: 'Acabado brillante' },
-          { value: 'mate', label: 'Acabado mate' }
+          { value: 'mate', label: 'Acabado mate' },
         ],
-    },
-    {
+      },
+      {
         type: 'select',
         name: 'quantity',
         label: 'Selectiona la medida',
@@ -73,13 +71,10 @@ const metadata = {
           { value: '2000', label: '2000' },
           { value: '3000', label: '3000' },
         ],
-      },   
-      
+      },
     ]}
-   
     disclaimer={{
-      label:
-        'He leído y acepto la Política de Privacidad.',
+      label: 'He leído y acepto la Política de Privacidad.',
     }}
     description="Nuestro equipo contactará lo antes posible."
   />
@@ -119,5 +114,4 @@ const metadata = {
       },
     ]}
   />
-
 </Layout>

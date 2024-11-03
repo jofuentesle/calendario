@@ -5,13 +5,13 @@ import { getPermalink } from '~/utils/permalinks';
 const { socialLinks = [], footNote = '', theme = 'light' } = Astro.props;
 ---
 
-<footer class:list={[{ dark: theme === 'dark' }, 
-'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
+<footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
   <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
   <div class="relative max-w-7xl mx-auto px-2 sm:px-4 dark:text-slate-300">
     <!-- Contenedor principal -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-1 min-h-[120px] items-center lg:flex lg:justify-between lg:space-x-4">
-      
+    <div
+      class="grid grid-cols-1 lg:grid-cols-12 gap-1 min-h-[120px] items-center lg:flex lg:justify-between lg:space-x-4"
+    >
       <!-- Sección de contacto e información de la empresa -->
       <div class="lg:w-1/3 text-center lg:text-left">
         <div class="text-sm text-muted flex flex-col gap-1">
@@ -35,27 +35,27 @@ const { socialLinks = [], footNote = '', theme = 'light' } = Astro.props;
         <nav class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
           <a
             class="dark:text-gray-300 pb-1 font-medium mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-            href={getPermalink('/mesa-triangular')}
+            href={getPermalink('/calendario-mesa-triangular')}
           >
-            Mesa triangular
+            Calendario Mesa Triangular
           </a>
           <a
             class="dark:text-gray-300 font-medium mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-            href={getPermalink("/mesa-espiral")}
+            href={getPermalink('/calendario-mesa-espiral')}
           >
-            Mesa espiral
+            Calendario Mesa Espiral
           </a>
           <a
             class="dark:text-gray-300 font-medium mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-            href={getPermalink('/pared-revista')}
+            href={getPermalink('/calendario-pared-revista')}
           >
-            Pared revista
+            Calendarios Pared Revista
           </a>
           <a
             class="dark:text-gray-300 font-medium mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-            href={getPermalink('/pared-espiral')}
+            href={getPermalink('/calendario-pared-espiral')}
           >
-            Pared espiral
+            Calendario Pared Espiral
           </a>
         </nav>
       </div>
@@ -63,30 +63,44 @@ const { socialLinks = [], footNote = '', theme = 'light' } = Astro.props;
       <!-- Redes sociales -->
       <div class="lg:w-1/3 flex justify-center lg:justify-end">
         <ul class="flex space-x-4">
-          {socialLinks.map(({ ariaLabel, href, icon }) => (
-            <li>
-              <a
-                class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2 inline-flex items-center"
-                aria-label={ariaLabel}
-                href={href}
-              >
-                {icon && <Icon name={icon} class="w-5 h-5" />}
-              </a>
-            </li>
-          ))}
+          {
+            socialLinks.map(({ ariaLabel, href, icon }) => (
+              <li>
+                <a
+                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2 inline-flex items-center"
+                  aria-label={ariaLabel}
+                  href={href}
+                >
+                  {icon && <Icon name={icon} class="w-5 h-5" />}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </div>
 
     <!-- Política de privacidad (al fondo) -->
-    <div class="flex flex-col lg:flex-row justify-between items-center py-2 mt-2 border-t border-gray-200 dark:border-slate-800">
+    <div
+      class="flex flex-col lg:flex-row justify-between items-center py-2 mt-2 border-t border-gray-200 dark:border-slate-800"
+    >
       <div class="text-xs dark:text-muted">
         <Fragment set:html={footNote} />
       </div>
       <div>
-        <a href="#top" class="dark:text-gray-300 font-medium mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+        <a
+          href="#top"
+          class="dark:text-gray-300 font-medium mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"></path>
           </svg>
         </a>
       </div>
@@ -96,6 +110,6 @@ const { socialLinks = [], footNote = '', theme = 'light' } = Astro.props;
 
 <style>
   .btnbottom {
-    padding-bottom: 0px!important;
+    padding-bottom: 0px !important;
   }
 </style>

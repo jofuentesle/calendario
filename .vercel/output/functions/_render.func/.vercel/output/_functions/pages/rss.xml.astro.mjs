@@ -8,26 +8,32 @@ const GET = async () => {
   const rss = await getRssString({
     title: `${SITE.name}’s Blog`,
     description: METADATA?.description,
-    site: "https://astrowind.vercel.app",
+    site: 'https://astrowind.vercel.app',
     items: posts.map((post) => ({
-      link: getPermalink(post.permalink, "post"),
+      link: getPermalink(post.permalink, 'post'),
       title: post.title,
       description: post.excerpt,
-      pubDate: post.publishDate
+      pubDate: post.publishDate,
     })),
-    trailingSlash: SITE.trailingSlash
+    trailingSlash: SITE.trailingSlash,
   });
   return new Response(rss, {
     headers: {
-      "Content-Type": "application/xml"
-    }
+      'Content-Type': 'application/xml',
+    },
   });
 };
 
-const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-  __proto__: null,
-  GET
-}, Symbol.toStringTag, { value: 'Module' }));
+const _page = /*#__PURE__*/ Object.freeze(
+  /*#__PURE__*/ Object.defineProperty(
+    {
+      __proto__: null,
+      GET,
+    },
+    Symbol.toStringTag,
+    { value: 'Module' }
+  )
+);
 
 const page = () => _page;
 

@@ -1,49 +1,47 @@
-import { getPermalink} from './utils/permalinks';
+import { getPermalink } from './utils/permalinks';
 import IconSvg from './assets/icons/IconRepro.svg';
 
 export const headerData = {
   links: [
     {
-    text: 'Selecciona tu calendario',
+      text: 'Selecciona tu calendario',
       links: [
         {
           text: 'Calendario para mesa triangular',
-          href: getPermalink('/mesa-triangular'),
+          href: getPermalink('/calendario-mesa-triangular'),
         },
         {
           text: 'Calendario para mesa con espiral',
-          href: getPermalink('/mesa-espiral'),
+          href: getPermalink('/calendario-mesa-espiral'),
         },
         {
           text: 'Calendario para pared tipo revista',
-          href: getPermalink('/pared-revista'),
+          href: getPermalink('/calendario-pared-revista'),
         },
         {
           text: 'Calendario para pared con espiral',
-          href: getPermalink('/pared-espiral'),
+          href: getPermalink('/calendario-pared-espiral'),
         },
-        
       ],
     },
-  ]
+  ],
 };
 
 export const footerData = {
   links: [
     {
       title: '',
-      links: [
-        
-      ],
-    }
+      links: [],
+    },
   ],
-  secondaryLinks: [
-
-  ],
+  secondaryLinks: [],
   socialLinks: [
-    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: 'https://www.instagram.com/reprodissenybcn/?hl=es' },
+    {
+      ariaLabel: 'Instagram',
+      icon: 'tabler:brand-instagram',
+      href: 'https://www.instagram.com/reprodissenybcn/?hl=es',
+    },
     { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://es.linkedin.com/company/repro-disseny-s.l' },
-
   ],
   footNote: `
   <div class="footNote text-xs text-muted flex flex-wrap items-center justify-center py-4">

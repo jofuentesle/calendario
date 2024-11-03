@@ -14,70 +14,75 @@ sendGrid.setApiKey(apiKey);
 
 export const GET = async ({ request }) => {
   try {
-    // Extraer los parámetros de la URL
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
-
-    // Obtener todos los parámetros del formulario
-    const nombre = params.get('nombre');
-    const email = params.get('email');
-    const telefono = params.get('telefono');
-    const cantidad = params.get('cantidad');
-    const tipoCalendario = params.get('tipo_calendario');
-    const privacidadAceptada = params.get('disclaimer');
-
-   // Verificar que la política de privacidad ha sido aceptada (único campo obligatorio)
-   if (!privacidadAceptada) {
     
-    return new Response(null, {
-      status: 302,
-      headers: {
-        'Location': '/nogracias'
-      }
-    });
-  }
+     // Confirmar que `tipoCalendario` está en los parámetros
+    console.log("Parámetros completos recibidos en send-email.ts:", Array.from(params.entries()));
 
-    // Construir el contenido del mensaje del correo
+
+
+    // Capturar todos los datos del formulario
+    const nombre = params.get('nombre') || 'Usuario';
+    const email = params.get('email');
+    const telefono = params.get('telefono') || 'No proporcionado';
+    const empresa = params.get('empresa') || 'No proporcionado';
+    const cantidad = params.get('cantidad') || 'No especificado';
+    const tipoCalendario = params.get('tipoCalendario') || 'Consulta general';
+
+    console.log('Tipo de Calendario en send-email.ts:', tipoCalendario);
+
+    // Verificar los datos recibidos
+    console.log('Datos recibidos en el formulario:');
+    console.log('Nombre:', nombre);
+    console.log('Correo Electrónico:', email);
+    console.log('Teléfono:', telefono);
+    console.log('Empresa:', empresa);
+    console.log('Cantidad:', cantidad);
+    console.log('Tipo de Calendario:', tipoCalendario);
+
+
+    if (!email) {
+      console.log('No se ha proporcionado un correo electrónico');
+      return new Response(JSON.stringify({ success: false, message: 'Correo electrónico es obligatorio' }), { status: 400 });
+    }
+
+    // Ajuste en messageContent (SendGrid)
     const messageContent = `
-      **Solicitud de presupuesto**
+<h2>Solicitud de Presupuesto</h2>
+<p><strong>Detalles del Cliente:</strong></p>
+<ul>
+  <li><strong>Nombre:</strong> ${nombre}</li>
+  <li><strong>Correo Electrónico:</strong> ${email}</li>
+  <li><strong>Teléfono:</strong> ${telefono}</li>
+  <li><strong>Empresa:</strong> ${empresa}</li>
+</ul>
+<p><strong>Detalles del Pedido:</strong></p>
+<ul>
+  <li><strong>Tipo de Calendario:</strong> ${tipoCalendario}</li>
+  <li><strong>Cantidad:</strong> ${cantidad}</li>
+</ul>
+<p style="font-style: italic; color: gray;">Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.</p>
+`;
 
-      Detalles del cliente:
-      - **Nombre**: ${nombre}
-      - **Correo electrónico**: ${email}
-      - **Teléfono**: ${telefono}
-
-      Detalles del calendario:
-      - **Cantidad solicitada**: ${cantidad}
-      - **Tipo de calendario**: ${tipoCalendario}
-
-      Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.
-    `;
-
-    // Configurar el mensaje a enviar
     const msg = {
-      to: 'pilar@reprodisseny.com',
+      to: 'jordi@reprodisseny.com',
       from: 'noreply@reprodisseny.com',
       subject: `Nueva solicitud de presupuesto de ${nombre}`,
-      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ""),
-      html: messageContent.replace(/\n/g, '<br/>'),
+      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ''),// Versión de texto sin formato
+      html: messageContent, // Versión HTML
     };
 
-    // Enviar el correo mediante SendGrid
     await sendGrid.send(msg);
 
-    // Redirigir al usuario a la página de agradecimiento
     return new Response(null, {
       status: 302,
       headers: {
-        'Location': '/gracias'
-      }
+        Location: '/gracias',
+      },
     });
-
   } catch (error) {
     console.error('Error al enviar el correo:', error);
-    return new Response(
-      JSON.stringify({ success: false, error: error.message }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
   }
 };

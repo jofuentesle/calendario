@@ -3,238 +3,89 @@ import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Headline from '~/components/ui/Headline.astro';
+import type { Contact as Props } from '~/types';
+// En solicitud-presupuesto.astro o donde uses `InputField`
+import type { InputField } from '~/types';
+
+
+// Obtener el tipo de calendario desde los parámetros de la URL
+const params = new URL(Astro.url).searchParams;
+const calendarType = params.get('tipo') || ''; // Capturar el tipo de calendario desde la URL
+console.log("Valor de calendarType en solicitud-presupuesto.astro:", calendarType); // Para verificar el valor
+
+let calendarTitle = '';
+let metaDescription = '';
+
+// Ajustar el título y la descripción basados en el tipo de calendario
+switch (calendarType) {
+  case 'mesa-espiral':
+    calendarTitle = 'Solicitud De Precio Calendarios De Mesa Con Espiral';
+    metaDescription = 'Solicita un presupuesto para calendarios de mesa con espiral personalizados para empresas.';
+    break;
+  case 'pared-revista':
+    calendarTitle = 'Solicitud De Precio Calendarios De Pared Tipo Revista';
+    metaDescription = 'Consigue el mejor precio para calendarios de pared tipo revista personalizados.';
+    break;
+  case 'pared-espiral':
+    calendarTitle = 'Solicitud De Precio Calendarios De Pared Con Espiral';
+    metaDescription = 'Solicita un presupuesto para calendarios de pared con espiral personalizados.';
+    break;
+  case 'mesa-triangular':
+    calendarTitle = 'Solicitud De Precio Calendarios de Mesa Triangular';
+    metaDescription = 'Solicita un presupuesto para calendarios de mesa triangulares personalizados.';
+    break;
+  default:
+    calendarTitle = 'Solicitud De Presupuesto Para Calendarios Personalizados';
+    metaDescription = 'Formulario de solicitud de presupuesto para calendarios personalizados de alta calidad.';
+    break;
+}
+
+// Configurar los campos del formulario
+const formInputs: InputField[] = [
+  { name: 'nombre', label: 'Nombre', type: 'text', required: true, icon: 'user', value: '' },
+  { name: 'email', label: 'Correo Electrónico', type: 'email', required: true, icon: 'email', value: '' },
+  { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', value: '' },
+  { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', value: '' },
+  {
+    name: 'cantidad', 
+    label: 'Cantidad', 
+    type: 'select', 
+    required: true,
+    options: [
+      { value: '100', label: '100' },
+      { value: '200', label: '200' },
+      { value: '500', label: '500' },
+      { value: '750', label: '750' },
+      { value: '1000', label: '1000' }
+    ]
+  },
+  { type: 'hidden', name: 'tipoCalendario', value: calendarType } // Campo oculto con el valor de `calendarType`
+];
 
 const metadata = {
-  title: 'Solicitud de presupuesto para Calendarios',
-  jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Calendarios Personalizados para empresa 2025",
-    "url": "https://calendarios.reprodisseny.com",
-    "logo": "",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+34 932 749 890",
-      "contactType": "Atención al Cliente",
-      "email": "comercial@reprodisseny.com",
-      "areaServed": "ES",
-      "availableLanguage": ["es", "en"]
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Juan de Mena, 19",
-      "addressLocality": "Barcelona",
-      "addressRegion": "Cataluña",
-      "postalCode": "08035",
-      "addressCountry": "ES"
-    },
-    "sameAs": [
-      "https://www.instagram.com/reprodissenybcn/?hl=es",
-      "https://es.linkedin.com/company/repro-disseny-s.l"
-    ],
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://calendarios.reprodisseny.com/busqueda?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
+  title: calendarTitle,
+  description: metaDescription,
 };
 ---
 
 <Layout metadata={metadata}>
-  <Headline 
-    title="Solicitar presupuesto para tus Calendarios Personalizados" 
-    subtitle="Conéctate con nosotros para personalizar el calendario perfecto y promocionar tu marca todo el año." 
-  />
+  <Headline title={calendarTitle} subtitle="Personaliza el Calendario perfecto y promociona tu marca todo el año." />
 
   <ContactUs
-    id="form-contact"
+    id="contact-form"
+    title="Formulario de Contacto"
+    inputs={formInputs}
     method="GET"
     action="/api/send-email"
-    inputs={[
-      {
-        type: 'text',
-        name: 'nombre',
-        label: 'Nombre',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-        required: true,
-      },
-      {
-        type: 'tel',
-        name: 'telefono',
-        label: 'Teléfono',
-        required: true,
-        pattern: '^[0-9]{9}$',
-      },
-      {
-        type: 'select',
-        name: 'cantidad',
-        label: 'Cantidad',
-        options: [
-          { value: '100', label: '100' },
-          { value: '200', label: '200' },
-          { value: '500', label: '500' },
-          { value: '750', label: '750' },
-          { value: '1000', label: '1000' },
-        ],
-        required: true,
-      },
-      {
-        type: 'select',
-        name: 'tipo_calendario',
-        label: 'Tipo de calendario',
-        options: [
-          { value: 'mesa_espiral', label: 'Mesa Espiral' },
-          { value: 'mesa_triangular', label: 'Mesa Triangular' },
-          { value: 'pared_espiral', label: 'Pared Espiral' },
-          { value: 'pared_revista', label: 'Pared Revista' },
-        ],
-        required: true,
-      }
-    ]}
-    disclaimer={{
-      label: 'Acepto las políticas de privacidad',
-      required: true,
-    }}
-    description="Nuestro equipo de soporte generalmente responde dentro de las 24 horas hábiles."
+    disclaimer="Acepto las políticas de privacidad."
+    submitButton={{ label: 'Enviar Solicitud', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' }}
   />
-
-  <div id="feedback" class="hidden p-4 text-white rounded-md"></div>
-
+  <!-- El componente de formulario recibe `calendarType` -->
+  
   <Features2
     title="¡Estamos aquí para ayudarte!"
     items={[
-      {
-        title: 'Atención al cliente',
-        description: '¿Tienes preguntas sobre cómo personalizar tus calendarios? Llámanos y uno de nuestros asesores te guiarán paso a paso en la creación del calendario ideal para tu empresa, desde la elección del tipo de calendario hasta los acabados finales. Te ayudamos a hacer realidad tu proyecto.',
-      },
-      {
-        title: 'Consulta de precios',
-        description: '¿Necesitas un presupuesto? Contáctanos y te ayudaremos a obtener un precio personalizado para tus calendarios. Disponemos de múltiples opciones y ofertas especiales para grandes volúmenes.',
-      },
-      {
-        title: 'Asesoramiento en diseño',
-        description: '¿Buscas el diseño perfecto para tus calendarios? Nuestro equipo de expertos puede orientarte en la selección de plantillas, combinaciones de colores, tipos de impresión y más para que tus calendarios tengan un impacto visual que destaque.',
-      },
-      {
-        title: 'Teléfono',
-        description: '+34 932 749 890',
-        icon: 'tabler:headset',
-      },
-      {
-        title: 'Correo electrónico',
-        description: 'comercial@reprodisseny.com',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Ubicación',
-        description: 'Juan de Mena, 19, Barcelona, España',
-        icon: 'tabler:map-pin',
-      },
+      // Aquí puedes agregar detalles adicionales sobre tu servicio
     ]}
   />
 </Layout>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Obtener referencias a los elementos del formulario
-    const form = document.getElementById('form-contact');
-    
-    // Verificar que el formulario existe y que es un HTMLFormElement
-    if (!form || !(form instanceof HTMLFormElement)) {
-      console.error("Error: El formulario no fue encontrado o no es del tipo HTMLFormElement.");
-      return;
-    }
-
-    const telefonoInput = form.querySelector('input[name="telefono"]') as HTMLInputElement;
-    const privacidadInput = form.querySelector('input[name="disclaimer"]') as HTMLInputElement;
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    const feedback = document.getElementById('feedback');
-
-    // Crear mensajes de error
-    const telefonoError = document.createElement('div');
-    telefonoError.classList.add('text-red-500', 'text-sm', 'mt-1');
-    telefonoInput.parentNode?.appendChild(telefonoError);
-
-    const privacidadError = document.createElement('div');
-    privacidadError.classList.add('text-red-500', 'text-sm', 'mt-1');
-    privacidadInput.parentNode?.appendChild(privacidadError);
-
-    // Regex para validar el teléfono
-    const telefonoPattern = /^[0-9]{9}$/;
-
-    function validateTelefono(showError = false) {
-      const telefonoValue = telefonoInput.value.trim();
-      const isValid = telefonoPattern.test(telefonoValue);
-      if (showError || telefonoValue !== '') {
-        telefonoError.textContent = isValid ? '' : 'Por favor, introduce un número de teléfono válido.';
-        telefonoInput.classList.toggle('border-red-500', !isValid);
-      }
-      telefonoInput.classList.toggle('border-gray-300', isValid); // Restaurar borde cuando es válido
-      return isValid;
-    }
-
-    function validatePrivacidad(showError = false) {
-      const isValid = privacidadInput.checked;
-      if (showError) {
-        privacidadError.textContent = isValid ? '' : 'Debes aceptar las políticas de privacidad.';
-        privacidadInput.classList.toggle('border-red-500', !isValid);
-      }
-      privacidadInput.classList.toggle('border-gray-300', isValid); // Restaurar borde cuando es válido
-      return isValid;
-    }
-
-    function validateForm(showErrors = false) {
-      const isTelefonoValid = validateTelefono(showErrors);
-      const isPrivacidadValid = validatePrivacidad(showErrors);
-      submitButton.disabled = !(isTelefonoValid && isPrivacidadValid); // Deshabilitar botón si los campos no son válidos
-      return isTelefonoValid && isPrivacidadValid;
-    }
-
-    // Event listeners para cada campo
-    telefonoInput.addEventListener('input', () => validateForm(false));
-    privacidadInput.addEventListener('change', () => validateForm(false));
-
-    // Manejar envío del formulario
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Prevenir el envío por defecto
-
-      if (validateForm(true)) {  // Mostrar errores si los campos no son válidos
-        try {
-          const formData = new FormData(form);
-
-          const response = await fetch('/api/send-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(Object.fromEntries(formData.entries())),
-          });
-
-          if (response.ok) {
-            feedback.textContent = 'Correo enviado correctamente';
-            feedback?.classList.remove('hidden', 'bg-red-500');
-            feedback?.classList.add('bg-green-500');
-            // Limpiar el formulario
-            form.reset();
-            submitButton.disabled = true; // Deshabilitar el botón nuevamente
-          } else {
-            feedback.textContent = 'Error al enviar el correo';
-            feedback?.classList.remove('hidden', 'bg-green-500');
-            feedback?.classList.add('bg-red-500');
-          }
-        } catch (error) {
-          feedback.textContent = 'Error en el envío del formulario';
-          feedback?.classList.remove('hidden', 'bg-green-500');
-          feedback?.classList.add('bg-red-500');
-          console.error('Error:', error);
-        }
-      }
-    });
-
-    // Validar formulario al cargar para deshabilitar el botón si es necesario
-    validateForm(false);
-  });
-</script>
-

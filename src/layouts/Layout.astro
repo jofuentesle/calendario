@@ -10,7 +10,7 @@ import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
 import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
-
+import ConsentCookie from '~/components/widgets/ConsentCookie.astro';
 
 // Comment the line below to disable View Transitions
 import { ViewTransitions } from 'astro:transitions';
@@ -30,90 +30,37 @@ const { metadata } = Astro.props;
 ---
 
 <!doctype html>
-<html lang={language} 
-      dir={textDirection} 
-      class="2xl:text-[20px]"
-      transition:animate="none"
->
+<html lang={language} dir={textDirection} class="2xl:text-[20px]" transition:animate="none">
   <head>
+<<<<<<< HEAD
     <Metadata {...metadata} />
+=======
+>>>>>>> hallowen
     <!-- Google tag (gtag.js) -->
-    <script  type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
-    <script  type="text/partytown">
+    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-302RJDGZTB"></script>
+    <script type="text/partytown">
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(...arg) {
+        dataLayer.push(arg);
+      }
       gtag('js', new Date());
 
       gtag('config', 'G-302RJDGZTB');
     </script>
 
-      <!-- Google tag (gtag.js) -->
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      // global function so that it can be called from anywhere
-      // Updates consent for GA4 to granted if called
-      window.consentGranted = function () {
-        console.log("consent granted");
-        gtag("consent", "update", {
-          ad_storage: "granted",
-          analytics_storage: "granted",
-          functionality_storage: "granted",
-          personalization_storage: "granted",
-          security_storage: "granted",
-        });
-      };
-
-      // Returns value of a cookie named 'cookie-consent'
-      // Should be either "granted" or "denied"
-      window.getCookieConsent = function () {
-        try {
-          const consent = document.cookie.match(/cookie-consent=([^;]+)/)[1];
-          return consent;
-        } catch (error) {
-          return "unk";
-        }
-      };
-
-      if (window.getCookieConsent() == "granted") {
-        // If cookies already approved, set that
-        console.log("default set to granted");
-        gtag("consent", "default", {
-          ad_storage: "granted",
-          analytics_storage: "granted",
-          functionality_storage: "granted",
-          personalization_storage: "granted",
-          security_storage: "granted",
-        });
-      } else {
-        // default all to 'denied'.
-        console.log("default set to denied");
-        gtag("consent", "default", {
-          ad_storage: "denied",
-          analytics_storage: "denied",
-          functionality_storage: "denied",
-          personalization_storage: "denied",
-          security_storage: "denied",
-        });
-      }
-    </script>
-
     <!-- Google Tag Manager -->
     <script is:inline>
       (function (w, d, s, l, i) {
-        console.log("GTM");
+        console.log('GTM');
         w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        const f = d.getElementsByTagName(s)[0],
           j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
+          dl = l != 'dataLayer' ? '&l=' + l : '';
         j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
+      })(window, document, 'script', 'dataLayer', 'GTM-XXXXXXX');
     </script>
 
     <CommonMeta />
@@ -124,10 +71,10 @@ const { metadata } = Astro.props;
     <SiteVerification />
     <!-- Comment the line below to disable View Transitions -->
     <ViewTransitions />
+    <ConsentCookie />
   </head>
 
-  <body class="antialiased text-default bg-page tracking-tight">  
-
+  <body class="antialiased text-default bg-page tracking-tight">
     <slot />
 
     <BasicScripts />

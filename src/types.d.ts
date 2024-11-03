@@ -63,7 +63,6 @@ export interface Post {
   readingTime?: number;
 }
 
-
 export interface Taxonomy {
   slug: string;
   title: string;
@@ -182,12 +181,12 @@ export interface Testimonial {
 }
 
 export interface Input {
-  type: 'text' | 'email' | 'tel' | 'select';  // Añadimos 'select' como tipo permitido
+  type: 'text' | 'email' | 'tel' | 'select'; // Añadimos 'select' como tipo permitido
   name: string;
   label?: string;
   autocomplete?: string;
   placeholder?: string;
-  options?: Array<{ value: string; label: string }>;  // Añadimos las opciones para los selects
+  options?: Array<{ value: string; label: string }>; // Añadimos las opciones para los selects
   required?: boolean;
 }
 
@@ -227,30 +226,23 @@ export interface Collapse {
 }
 
 export interface Form {
-  id: string;  // Identificador del formulario
-  method: string;  // Aquí definimos el método (GET, POST)
-  action: string;  // La URL de destino para el envío del formulario
-  inputs: Array<{ 
-    type: HTMLInputTypeAttribute;
-    name: string; 
-    label: string; 
-    placeholder?: string; 
-    autocomplete?: string; 
-    required?: boolean; 
-  }>;
-  textarea?: { 
-    name?: string; 
-    label: string; 
-    placeholder?: string; 
-    rows?: number 
+  id: string; // Identificador del formulario
+  method: string; // Método del formulario (GET, POST)
+  action: string; // URL de destino para el envío del formulario
+  inputs: FormInput[]; // Array de campos del formulario
+  textarea?: {
+    name?: string;
+    label: string;
+    placeholder?: string;
+    rows?: number;
   };
-  disclaimer?: { 
-    label: string; 
-    required?: boolean; 
+  disclaimer?: {
+    label: string;
+    required?: boolean;
   };
-  button?: string;  // Texto del botón
-  description?: string;  // Descripción del formulario
-  requiredFields?: string[];  // Lista de campos obligatorios
+  button?: string; // Texto del botón
+  description?: string; // Descripción del formulario
+  requiredFields?: string[]; // Lista de campos obligatorios
 }
 
 // WIDGETS
@@ -258,7 +250,7 @@ export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'isDark' |
   content?: string;
   actions?: string | CallToAction[];
   image?: string | unknown;
-  galleryImages?: { src: string; alt: string; }[];
+  galleryImages?: { src: string; alt: string }[];
 }
 type GalleryImages = GalleryImage[];
 
@@ -326,26 +318,89 @@ export interface Content extends Omit<Headline, 'classes'>, Widget {
   callToAction?: CallToAction;
 }
 
+/*
+
 export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
-  type?: string;
-  name?: string;
-  label?: string;
-  icons?: string;
+  
   buttonText?: string;
   options?: Array<{ value: string; label: string; image: string }>;
-  requiredFields?: string[];
-  method?:string;
+  method?: string;
   action?: string;
+  icon?: string;
+  id: string;
+  title: string;
+  calendarType: string;
+  inputs: Array<{
+    name: string;
+    label: string;
+    type: string;
+    required?: boolean;
+    icon?: string;
+    pattern?: string;
+    errorMessage?: string;
 }
 
 export interface InputOption {
   value: string;
   label: string;
+  icon?: string;
 }
 
 export interface FormInput {
-  type: string;
+  type: HTMLInputTypeAttribute;
   name: string;
   label?: string;
-  options?: InputOption[]; // Aquí definimos que "options" es un array de objetos con value y label
+  autocomplete?: string;
+  placeholder?: string;
+  options?: Array<{ value: string; label: string }>;
+  required?: boolean;
+  pattern?: string;
+  value?: string;
+  icon?: string; // Nueva propiedad opcional para el ícono
+  calendarType?: string;
+}
+*/
+
+// types.d.ts
+// types.d.ts
+export interface InputField {
+  name?: string;
+  label?: string;
+  type?: string;
+  icon?: string;
+  required?: boolean;
+  value?: string;
+}
+
+// Definición del tipo InputField para admitir múltiples tipos de input, incluyendo select
+export type InputField = 
+  | { 
+      name: string;
+      label: string;
+      type: 'text' | 'email' | 'tel' | 'hidden';
+      required?: boolean;
+      icon?: string;
+      value?: string;
+      options?: never; // `options` no está permitido en estos tipos
+    }
+  | {
+      name: string;
+      label: string;
+      type: 'select';
+      required?: boolean;
+      options: { value: string; label: string }[]; // Opciones para el select
+    };
+
+
+
+export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
+  id?: string;
+  title?: string;
+  calendarType?: string;
+  inputs?: InputField[]; // Array de campos de entrada definidos en InputField
+  isDark?: boolean;
+  classes?: {
+    container?: string;
+  };
+  bg?: string;
 }

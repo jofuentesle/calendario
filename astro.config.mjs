@@ -15,7 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Configuración optimizada para Netlify
 export default defineConfig({
-  site: 'https://calendarios.reprodisseny.com/',
+  site: 'https://calendarios.reprodisseny.com',
   output: 'server', // Usa 'server' si necesitas SSR o funciones
   adapter: netlify(), // Cambiado a Netlify Functions
   integrations: [

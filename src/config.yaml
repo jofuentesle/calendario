@@ -3,28 +3,27 @@ site:
   site: 'https://calendarios.reprodisseny.com'
   base: '/'
   trailingSlash: false
-
   googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
 
 # Default SEO metadata
 metadata:
   title:
-    default: Calendarios Personalizados Repro Disseny
+    default: 'Calendarios Personalizados para Empresas - Repro Disseny'
     template: '%s — Repro Disseny'
-  description: "\U0001F680 Calendarios personalizados para empresas y particulares. Diseños a medida para destacar tu marca y mejorar la planificación anual."
+  description: 'Calendarios personalizados para empresas y particulares. Diseños a medida para destacar tu marca y mejorar la planificación anual.'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Calendarios de empresa Repro Disseny
+    site_name: 'Calendarios Personalizados para Empresas'
     images:
-      - url: '~/assets/images/calendarios/SobremesaHome.jpg'
+      - url: 'https://calendarios.reprodisseny.com/assets/images/calendarios/SobremesaHome.jpg'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@onwidget'
-    site: '@onwidget'
+    handle: '@reprodisseny'
+    site: '@reprodisseny'
     cardType: summary_large_image
 
 i18n:
@@ -35,38 +34,33 @@ apps:
   blog:
     isEnabled: true
     postsPerPage: 6
-
     post:
       isEnabled: true
-      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      permalink: '/%slug%' # Puedes usar variables como %slug%, %year%, etc.
       robots:
         index: true
-
     list:
       isEnabled: true
-      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
+      pathname: 'blog' # Ruta principal del blog, puedes cambiarlo
       robots:
         index: true
-
     category:
       isEnabled: true
-      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
+      pathname: 'category' # Ruta principal de categorías
       robots:
         index: true
-
     tag:
       isEnabled: true
-      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
+      pathname: 'tag'
       robots:
         index: false
-
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
 
 analytics:
   vendors:
     googleAnalytics:
-      id: 'G-302RJDGZTB' # or "G-XXXXXXXXXX"
+      id: 'G-302RJDGZTB' # ID de Google Analytics
 
 ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: 'system' # Opciones: "system" | "light" | "dark" | "light:only" | "dark:only"

@@ -13,9 +13,10 @@ const { images = [] } = Astro.props; // Recibir las imágenes como prop
   import PhotoSwipeLightbox from 'photoswipe/lightbox';
   import 'photoswipe/style.css';
 
-  let mainSwiper = null;
-  let thumbsSwiper = null;
-  let lightbox = null;
+  // Cambiamos los tipos a 'any' para evitar restricciones de TypeScript
+  let mainSwiper: any = null;
+  let thumbsSwiper: any = null;
+  let lightbox: any = null;
 
   // Función para inicializar Swiper
   function initializeSwiper() {
@@ -82,16 +83,26 @@ const { images = [] } = Astro.props; // Recibir las imágenes como prop
 
   // Re-inicializar Swiper y Lightbox
   function reinitializeGallery() {
-    initializeSwiper();
-    initializeLightbox();
+    const mainSwiperEl = document.querySelector('.main .swiper-wrapper');
+    const thumbsSwiperEl = document.querySelector('.thumbs .swiper-wrapper');
+
+    if (mainSwiperEl && thumbsSwiperEl) {
+      initializeSwiper();
+      initializeLightbox();
+      console.log('Galería re-inicializada correctamente');
+    } else {
+      console.log('Elementos de Swiper no encontrados, reintentando en 400ms');
+      setTimeout(reinitializeGallery, 400); // Aumentado el retardo para asegurar que el DOM esté listo
+    }
   }
 
-  // Asegurarse de que la galería se re-inicializa después de la navegación
-  document.addEventListener('astro:after-swap', () => {
+  // Asegurarse de que la galería
+    // Asegurarse de que la galería se re-inicializa después de la navegación
+    document.addEventListener('astro:page-visit', () => {
     setTimeout(() => {
       console.log('Navegación detectada, re-inicializando galería');
       reinitializeGallery();
-    }, 100); // Añadir un pequeño retardo para asegurar que el DOM esté completamente listo
+    }, 500); // Retardo incrementado para asegurar que el DOM esté listo
   });
 
   // Inicializar cuando el DOM esté cargado
@@ -129,6 +140,7 @@ const { images = [] } = Astro.props; // Recibir las imágenes como prop
     </div>
   </div>
 </main>
+
 <style>
   .swiper-container {
     position: relative;
@@ -169,3 +181,4 @@ const { images = [] } = Astro.props; // Recibir las imágenes como prop
     object-fit: cover;
   }
 </style>
+

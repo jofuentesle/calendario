@@ -66,7 +66,7 @@ export const GET = async ({ request }) => {
 `;
 
     const msg = {
-      to: 'jordi@reprodisseny.com',
+      to: 'pilar@reprodisseny.com',
       from: 'noreply@reprodisseny.com',
       subject: `Nueva solicitud de presupuesto de ${nombre}`,
       text: messageContent.replace(/<\/?[^>]+(>|$)/g, ''),// Versión de texto sin formato

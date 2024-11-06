@@ -402,3 +402,11 @@ export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {
   };
   bg?: string;
 }
+
+export {};
+
+declare global {
+  interface Window {
+    _htmlClassName?: string;
+  }
+}

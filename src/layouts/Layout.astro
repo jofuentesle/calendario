@@ -1,8 +1,6 @@
 ---
 import '~/assets/styles/tailwind.css';
-
 import { I18N } from 'astrowind:config';
-
 import CommonMeta from '~/components/common/CommonMeta.astro';
 import Favicons from '~/components/Favicons.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
@@ -10,7 +8,7 @@ import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
 import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
-// import ConsentCookie from '~/components/widgets/ConsentCookie.astro';
+import ConsentCookie from '~/components/widgets/ConsentCookie.astro';
 
 // Comment the line below to disable View Transitions
 import { ViewTransitions } from 'astro:transitions';
@@ -71,6 +69,9 @@ const { metadata } = Astro.props;
       })(window, document, 'script', 'dataLayer', 'GTM-W8M8XRCM');
     </script>
     <!-- End Google Tag Manager -->
+
+
+    
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
@@ -84,13 +85,14 @@ const { metadata } = Astro.props;
     >
     <!-- End Google Tag Manager (noscript) -->
     <slot />
-
+    <ConsentCookie />
     <BasicScripts />
 
     <style is:global>
       img {
         content-visibility: auto;
       }
+
     </style>
   </body>
 </html>

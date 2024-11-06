@@ -1,33 +1,24 @@
 ---
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
-import '~/assets/styles/ccElegantBlack.css';
-import cookieConsentConfig from '~/libs/cookieconsent-config.js';
+import {Window} from '~/types';
 ---
+<div transition:persist id="cc-container">
+    <button type="button" data-cc="show-preferencesModal">Show preferences modal</button>
 
-<script>
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js';
-      script.defer = true;
+    <script>
+        import { run } from 'vanilla-cookieconsent';
+        import { config } from '../../libs/CookieConsentConfig';
 
-      script.onload = () => {
-        // Añadir declaración al objeto window
-        const ccConfig = cookieConsentConfig; // Asignación a una variable local para que ESLint no marque advertencia
-        if (window.CookieConsent) {
-          window.CookieConsent.run(ccConfig);
-        } else {
-          console.error('CookieConsent script not loaded properly');
-        }
-      };
+        run(config);
 
-      script.onerror = () => {
-        console.error('Error loading the CookieConsent script');
-      };
+        // Important, the plugin adds classes to the html tag, 
+        // so we need keep track of the className attribute.
+        document.addEventListener('astro:before-preparation', event => {
+            window._htmlClassName = window.document.documentElement.className;
+        });
 
-      document.body.appendChild(script);
-    });
-  }
-</script>
-
-<div id="cookie-consent-placeholder"></div>
+        document.addEventListener('astro:before-swap', event => {
+            event.newDocument.documentElement.className = window._htmlClassName;
+        });
+    </script>
+</div>

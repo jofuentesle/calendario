@@ -18,36 +18,42 @@ const galleryImages = [
 ];
 
 const metadata = {
-  title: "Calendarios de Pared con Espiral Personalizados | Publicidad Todo el Año",
-  description: "Imprime calendarios de pared personalizados con espiral en Barcelona. Perfectos para mostrar tu marca durante todo el año. Solicita tu presupuesto online.",
+  title: 'Calendarios de Pared con Espiral Personalizados | Publicidad Todo el Año',
+  description:
+    'Imprime calendarios de pared personalizados con espiral en Barcelona. Perfectos para mostrar tu marca durante todo el año. Solicita tu presupuesto online.',
   keywords: [
-    "calendarios de pared con espiral", 
-    "calendarios personalizados Barcelona", 
-    "publicidad en calendarios", 
-    "calendarios para empresas"
+    'calendarios de pared con espiral',
+    'calendarios personalizados Barcelona',
+    'publicidad en calendarios',
+    'calendarios para empresas',
   ],
   openGraph: {
-    type: "website",
-    url: "https://calendarios.reprodisseny.com/pared-espiral",
+    type: 'website',
+    url: 'https://calendarios.reprodisseny.com/pared-espiral',
     images: [
-      { url: "https://calendarios.reprodisseny.com/assets/images/pared/ParedEspiral.jpg", alt: "Calendario de pared con espiral personalizado" }
+      {
+        url: 'https://calendarios.reprodisseny.com/assets/images/pared/ParedEspiral.jpg',
+        alt: 'Calendario de pared con espiral personalizado',
+      },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    site: "@reprodisseny",
-    title: "Calendarios de Pared Personalizados con Espiral",
-    description: "Calendarios de pared con espiral personalizados para empresas. Publicidad constante en la pared de tus clientes.",
-    image: "https://calendarios.reprodisseny.com/assets/images/pared/ParedEspiral.jpg",
+    card: 'summary_large_image',
+    site: '@reprodisseny',
+    title: 'Calendarios de Pared Personalizados con Espiral',
+    description:
+      'Calendarios de pared con espiral personalizados para empresas. Publicidad constante en la pared de tus clientes.',
+    image: 'https://calendarios.reprodisseny.com/assets/images/pared/ParedEspiral.jpg',
   },
 };
 
-
 // Mejorar contenido SEO
-const title = "Calendarios de Pared con Espiral personalizados";
-const subtitle = "Imprime calendarios de pared con espiral personalizados para promocionar tu empresa todo el año. Ideal para promociones empresariales y marketing. Solicita tu presupuesto hoy y destaca con un diseño único.";
-const tagline = "calendarios pared";
+const title = 'Calendarios de Pared con Espiral personalizados';
+const subtitle =
+  'Imprime calendarios de pared con espiral personalizados para promocionar tu empresa todo el año. Ideal para promociones empresariales y marketing. Solicita tu presupuesto hoy y destaca con un diseño único.';
+const tagline = 'calendarios pared';
 ---
+
 <Layout metadata={metadata}>
   <!-- Hero2 Widget ******************* -->
 
@@ -56,16 +62,21 @@ const tagline = "calendarios pared";
     title={title}
     subtitle={subtitle}
     actions={[
-      { variant: 'primary', text: 'Pide tu oferta!', href: `/solicitud-presupuesto`, icon: 'tabler:square-rounded-arrow-right' },
+      {
+        variant: 'primary',
+        text: 'Pide tu oferta!',
+        href: `/solicitud-presupuesto`,
+        icon: 'tabler:square-rounded-arrow-right',
+      },
       { text: 'Saber más', href: '#features' },
     ]}
     galleryImages={galleryImages}
   />
 
-  <Features 
+  <Features
     id="features"
     tagline="Caracteristicas Clave"
-    title="Calendarios de Pared con Espiral Personalizados para Empresas" 
+    title="Calendarios de Pared con Espiral Personalizados para Empresas"
     subtitle="Nuestros calendarios de pared con espiral están diseñados para promocionar tu empresa de manera efectiva y visual durante todo el año. Ofrecemos impresión de alta calidad con las útlimas tecnologías, tanto digital como offset en Barcelona."
     items={[
       {
@@ -106,29 +117,28 @@ const tagline = "calendarios pared";
       },
     ]}
   />
-       <!-- Formulario de solicitud -->
+  <!-- Formulario de solicitud -->
   <div id="form-section">
     <form id="calendar-form" method="POST" action="/api/send-form">
       <!-- Formulario generado arriba -->
     </form>
   </div>
 
-  <CallToActionProps 
-  title={title}
-  subtitle={subtitle}
-  tagline={tagline}
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Solicita tu presupuesto personalizado',
-      href: `/solicitud-presupuesto`,
-      icon: 'tabler:mail', // Icono SVG
-    },
-  ]}
-  tipo="mesa-espiral" 
-  id="cta-calendarios-pared-espiral"
-  isDark={false}
-  classes={{ container: 'custom-container-class' }}
-/>
- 
+  <CallToActionProps
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Solicita tu presupuesto personalizado',
+        href: `/solicitud-presupuesto`,
+        icon: 'tabler:mail', // Icono SVG
+      },
+    ]}
+    tipo="mesa-espiral"
+    id="cta-calendarios-pared-espiral"
+    isDark={false}
+    classes={{ container: 'custom-container-class' }}
+  />
 </Layout>

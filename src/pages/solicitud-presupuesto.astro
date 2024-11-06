@@ -7,11 +7,10 @@ import type { Contact as Props } from '~/types';
 // En solicitud-presupuesto.astro o donde uses `InputField`
 import type { InputField } from '~/types';
 
-
 // Obtener el tipo de calendario desde los parámetros de la URL
 const params = new URL(Astro.url).searchParams;
 const calendarType = params.get('tipo') || ''; // Capturar el tipo de calendario desde la URL
-console.log("Valor de calendarType en solicitud-presupuesto.astro:", calendarType); // Para verificar el valor
+console.log('Valor de calendarType en solicitud-presupuesto.astro:', calendarType); // Para verificar el valor
 
 let calendarTitle = '';
 let metaDescription = '';
@@ -47,20 +46,20 @@ const formInputs: InputField[] = [
   { name: 'telefono', label: 'Teléfono', type: 'tel', required: true, icon: 'phone', value: '' },
   { name: 'empresa', label: 'Empresa', type: 'text', icon: 'company', value: '' },
   // Nuevo campo select para cantidad
-  { 
-    type: 'select', 
-    name: 'cantidad', 
-    label: 'Cantidad', 
-    required: true, 
+  {
+    type: 'select',
+    name: 'cantidad',
+    label: 'Cantidad',
+    required: true,
     options: [
       { value: '100', label: '100' },
       { value: '200', label: '200' },
       { value: '500', label: '500' },
       { value: '1000', label: '1000' },
-      { value: '2000', label: '2000' }
-    ]
+      { value: '2000', label: '2000' },
+    ],
   },
-  { type: 'hidden', name: 'tipoCalendario', value: calendarType } // Campo oculto con el valor de `calendarType`
+  { type: 'hidden', name: 'tipoCalendario', value: calendarType }, // Campo oculto con el valor de `calendarType`
 ];
 
 const metadata = {
@@ -82,7 +81,7 @@ const metadata = {
     submitButton={{ label: 'Enviar Solicitud', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' }}
   />
   <!-- El componente de formulario recibe `calendarType` -->
-  
+
   <Features2
     title="¡Estamos aquí para ayudarte!"
     items={[

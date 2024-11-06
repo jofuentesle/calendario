@@ -1,62 +1,62 @@
 ---
-
-
-const { 
-  id, 
-  method = 'GET', 
-  action = '/api/send-email', 
-  inputs = [], 
-  disclaimer, 
-  submitButton = { label: 'Consulta precio', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' } 
+const {
+  id,
+  method = 'GET',
+  action = '/api/send-email',
+  inputs = [],
+  disclaimer,
+  submitButton = { label: 'Consulta precio', class: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded' },
 } = Astro.props;
 ---
 
 <form id={id} method={method} action={action} class="space-y-4 p-4 bg-white dark:bg-gray-800 shadow rounded-lg">
-  {inputs.map((input) => {
-    // Renderizar el campo oculto para `tipoCalendario` u otros campos ocultos
-    if (input.type === 'hidden') {
-      return (
-        <input 
-          type="hidden" 
-          name={input.name} 
-          value={input.value} 
-        />
-      );
-    }
-    if (input.type === 'select') {
+  {
+    inputs.map((input) => {
+      // Renderizar el campo oculto para `tipoCalendario` u otros campos ocultos
+      if (input.type === 'hidden') {
+        return <input type="hidden" name={input.name} value={input.value} />;
+      }
+      if (input.type === 'select') {
+        return (
+          <div class="relative">
+            <label>{input.label}</label>
+            <select
+              name={input.name}
+              required={input.required}
+              class="input-field y-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+            >
+              {input.options.map((option) => (
+                <option value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+        );
+      }
+
+      // Renderizar otros tipos de input (texto, email, teléfono, etc.)
       return (
         <div class="relative">
-          <label>{input.label}</label>
-          <select name={input.name} required={input.required} class="input-field y-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900">
-            {input.options.map(option => (
-              <option value={option.value}>{option.label}</option>
-            ))}
-          </select>
+          <label class="block text-sm font-medium">{input.label}</label>
+          <input
+            type={input.type}
+            name={input.name}
+            required={input.required}
+            placeholder={input.label}
+            class="input-field py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          />
         </div>
       );
-    }
+    })
+  }
 
-    // Renderizar otros tipos de input (texto, email, teléfono, etc.)
-    return (
-      <div class="relative">
-        <label class="block text-sm font-medium">{input.label}</label>
-        <input 
-          type={input.type} 
-          name={input.name} 
-          required={input.required} 
-          placeholder={input.label} 
-          class="input-field py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-        />
+  {
+    disclaimer && (
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="privacy" name="privacy" required={disclaimer.required} />
+        <label for="privacy">{disclaimer.label}</label>
       </div>
-    );
-  })}
-
-  {disclaimer && (
-    <div class="flex items-center space-x-2">
-      <input type="checkbox" id="privacy" name="privacy" required={disclaimer.required} />
-      <label for="privacy">{disclaimer.label}</label>
-    </div>
-  )}
+    )
+  }
 
   <button type="submit" class={submitButton.class}>
     {submitButton.label}

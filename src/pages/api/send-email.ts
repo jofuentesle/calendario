@@ -16,11 +16,9 @@ export const GET = async ({ request }) => {
   try {
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
-    
-     // Confirmar que `tipoCalendario` está en los parámetros
-    console.log("Parámetros completos recibidos en send-email.ts:", Array.from(params.entries()));
 
-
+    // Confirmar que `tipoCalendario` está en los parámetros
+    console.log('Parámetros completos recibidos en send-email.ts:', Array.from(params.entries()));
 
     // Capturar todos los datos del formulario
     const nombre = params.get('nombre') || 'Usuario';
@@ -41,10 +39,11 @@ export const GET = async ({ request }) => {
     console.log('Cantidad:', cantidad);
     console.log('Tipo de Calendario:', tipoCalendario);
 
-
     if (!email) {
       console.log('No se ha proporcionado un correo electrónico');
-      return new Response(JSON.stringify({ success: false, message: 'Correo electrónico es obligatorio' }), { status: 400 });
+      return new Response(JSON.stringify({ success: false, message: 'Correo electrónico es obligatorio' }), {
+        status: 400,
+      });
     }
 
     // Ajuste en messageContent (SendGrid)
@@ -62,14 +61,14 @@ export const GET = async ({ request }) => {
   <li><strong>Tipo de Calendario:</strong> ${tipoCalendario}</li>
   <li><strong>Cantidad:</strong> ${cantidad}</li>
 </ul>
-<p style="font-style: italic; color: gray;">Este mensaje ha sido enviado automáticamente desde el formulario de contacto en ReproDisseny.</p>
+<p style="font-style: italic; color: gray;">Este mensaje ha sido enviado automáticamente desde el formulario de contacto en calendarios.reproDisseny.com.</p>
 `;
 
     const msg = {
       to: 'pilar@reprodisseny.com',
       from: 'noreply@reprodisseny.com',
       subject: `Nueva solicitud de presupuesto de ${nombre}`,
-      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ''),// Versión de texto sin formato
+      text: messageContent.replace(/<\/?[^>]+(>|$)/g, ''), // Versión de texto sin formato
       html: messageContent, // Versión HTML
     };
 

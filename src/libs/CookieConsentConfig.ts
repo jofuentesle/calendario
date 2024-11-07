@@ -25,28 +25,31 @@ export const config: CookieConsentConfig = {
         ga4: {
           label:
             '<a href="https://marketingplatform.google.com/about/analytics/terms/us/" target="_blank">Google Analytics 4</a>',
-          onAccept: () => {
-            console.log('Google Analytics 4 aceptado');
-          },
-          onReject: () => {
-            console.log('Google Analytics 4 rechazado');
-          },
+          onAccept: () => updateGTMConsent('analytics_storage', true),
+          onReject: () => updateGTMConsent('analytics_storage', false),
           cookies: [
             {
               name: /^_ga/,
             },
             {
-              name: '_gid',   // string: exact cookie name
+              name: '_gid',   // Nombre exacto de la cookie
             }
           ],
         },
       },
-      },
-      marketing: {
-        enabled: true,
-        readOnly: false,
+    },
+    marketing: {
+      enabled: true,
+      readOnly: false,
+      services: {
+        ads: {
+          label: 'Publicidad personalizada',
+          onAccept: () => updateGTMConsent('ad_storage', true),
+          onReject: () => updateGTMConsent('ad_storage', false),
+        },
       },
     },
+  },
   language: {
     default: 'es',
     autoDetect: 'browser',
@@ -105,3 +108,20 @@ export const config: CookieConsentConfig = {
     },
   },
 };
+
+/**
+ * Actualiza el consentimiento en Google Tag Manager usando el modo de consentimiento de Google.
+ * @param {string} category - La categoría de almacenamiento a actualizar ('analytics_storage', 'ad_storage', etc.)
+ * @param {boolean} consent - El estado de consentimiento (true para aceptar, false para rechazar)
+ */
+function updateGTMConsent(category, consent) {
+  const checkGtagLoaded = setInterval(() => {
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        [category]: consent ? 'granted' : 'denied'
+      });
+      clearInterval(checkGtagLoaded); // Detiene el intervalo cuando gtag está disponible
+    }
+  }, 100); // Verifica cada 100 ms
+}
+

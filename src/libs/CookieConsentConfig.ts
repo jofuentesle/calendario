@@ -35,11 +35,18 @@ export const config: CookieConsentConfig = {
             {
               name: /^_ga/,
             },
+            {
+              name: '_gid',   // string: exact cookie name
+            }
           ],
         },
       },
+      },
+      marketing: {
+        enabled: true,
+        readOnly: false,
+      },
     },
-  },
   language: {
     default: 'es',
     autoDetect: 'browser',

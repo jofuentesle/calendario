@@ -10,3 +10,27 @@
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/mesa-espiral"
+  to = "/calendario-mesa-espiral?tipo=mesa-espiral"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mesa-triangular"
+  to = "/calendario-mesa-triangular?tipo=mesa-trinagular"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/calendario-pared-espira"
+  to = "/calendario-pared-espiral?tipo=pared-espiral"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/calendario-pared-revista"
+  to = "/calendario-pared-espiral?tipo=pared-revista"
+  status = 301
+  force = true

@@ -1,32 +1,33 @@
 ---
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
-import {Window} from '~/types';
+import { Window } from '~/types';
 ---
-<div transition:persist id="cc-container">
+
+<div transition:persist id="cc-container" client:only>
     <button type="button" data-cc="show-preferencesModal">Show preferences modal</button>
 
     <script>
-       import 'vanilla-cookieconsent/dist/cookieconsent.css';
        import { run } from 'vanilla-cookieconsent';
        import { config } from '../../libs/CookieConsentConfig';
-       import { Window } from '~/types';
-       import { onMount } from 'astro/client';
        import type { CookieConsentConfig } from 'vanilla-cookieconsent';
 
        // Definición de la función updateGTMConsent para gestionar el consentimiento
-       function updateGTMConsent(category: string, consent: boolean) {
-         const checkGtagLoaded = setInterval(() => {
-           if (typeof window.gtag === 'function') {
-             window.gtag('consent', 'update', {
-               [category]: consent ? 'granted' : 'denied',
-             });
-             clearInterval(checkGtagLoaded); // Detener el intervalo cuando gtag está disponible
-           }
-         }, 100); // Verificar cada 100 ms
+       function updateGTMConsent(category, consent) {
+         // Verifica que `window` esté disponible
+         if (typeof window !== 'undefined') {
+           const checkGtagLoaded = setInterval(() => {
+             if (typeof window.gtag === 'function') {
+               window.gtag('consent', 'update', {
+                 [category]: consent ? 'granted' : 'denied',
+               });
+               clearInterval(checkGtagLoaded); // Detener el intervalo cuando gtag está disponible
+             }
+           }, 100); // Verificar cada 100 ms
+         }
        }
 
        // Modificar la configuración de consentimiento para que use updateGTMConsent
-       const updatedConfig: CookieConsentConfig = {
+       const updatedConfig = {
          ...config,
          categories: {
            ...config.categories,
@@ -61,18 +62,18 @@ import {Window} from '~/types';
          },
        };
 
-       onMount(() => {
-         // Ejecutar el plugin con la configuración actualizada
+       // Ejecutar el plugin con la configuración actualizada
+       if (typeof window !== 'undefined') {
          run(updatedConfig);
 
          // Manejador de eventos para mantener las clases en la etiqueta <html>
          document.addEventListener('astro:before-preparation', () => {
-           window._htmlClassName = window.document.documentElement.className;
+           window._htmlClassName = document.documentElement.className;
          });
 
          document.addEventListener('astro:before-swap', (event) => {
            event.newDocument.documentElement.className = window._htmlClassName;
          });
-       });
+       }
     </script>
 </div>

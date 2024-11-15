@@ -1,13 +1,14 @@
 ---
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
-import { config } from '../../libs/CookieConsentConfig';
-import { run } from 'vanilla-cookieconsent';
 ---
 
 <div transition:persist id="cc-container" client:only>
     <button type="button" data-cc="show-preferencesModal">Show preferences modal</button>
 
     <script>
+    //Importamos archivos necesarios para cargar la libreria
+    import { config } from '../../libs/CookieConsentConfig';
+    import { run } from 'vanilla-cookieconsent';
        // Definición de la función updateGTMConsent para gestionar el consentimiento
        function updateGTMConsent(category, consent) {
          // Verifica que `window` esté disponible
@@ -61,7 +62,9 @@ import { run } from 'vanilla-cookieconsent';
 
        // Ejecutar el plugin con la configuración actualizada
        if (typeof window !== 'undefined') {
-         run(updatedConfig);
+          console.log('Ejecutando vanilla-cookieconsent...');
+          run(updatedConfig);
+         console.log('vanilla-cookieconsent ejecutado correctamente.');
 
          // Manejador de eventos para mantener las clases en la etiqueta <html>
          document.addEventListener('astro:before-preparation', () => {

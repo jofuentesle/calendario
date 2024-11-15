@@ -1,16 +1,13 @@
 ---
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
-import { Window } from '~/types';
+import { config } from '../../libs/CookieConsentConfig';
+import { run } from 'vanilla-cookieconsent';
 ---
 
 <div transition:persist id="cc-container" client:only>
     <button type="button" data-cc="show-preferencesModal">Show preferences modal</button>
 
     <script>
-       import { run } from 'vanilla-cookieconsent';
-       import { config } from '../../libs/CookieConsentConfig';
-       import type { CookieConsentConfig } from 'vanilla-cookieconsent';
-
        // Definición de la función updateGTMConsent para gestionar el consentimiento
        function updateGTMConsent(category, consent) {
          // Verifica que `window` esté disponible

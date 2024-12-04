@@ -49,7 +49,7 @@ const { metadata } = Astro.props;
       window.dataLayer = window.dataLayer || [];
       function gtag() {dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-302RJDGZTB', { 'anonymize_ip': false });
+      gtag('config', 'G-302RJDGZTB', { 'anonymize_ip': true, 'ads_data_redaction': true  });
     </script>
 
     <!-- Google Tag Manager -->
@@ -64,6 +64,19 @@ const { metadata } = Astro.props;
         j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
         f.parentNode?.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', 'GTM-W8M8XRCM');
+
+      // Configuración del consentimiento por defecto (modo de consentimiento)
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted'
+      });
     </script>
     <!-- End Google Tag Manager -->
     

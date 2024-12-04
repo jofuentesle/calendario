@@ -19,35 +19,6 @@ export const config: CookieConsentConfig = {
     necessary: {
       readOnly: true,
     },
-    functionality: {},
-    analytics: {
-      services: {
-        ga4: {
-          label: '<a href="https://marketingplatform.google.com/about/analytics/terms/us/" target="_blank">Google Analytics 4</a>',
-          onAccept: () => updateGTMConsent('analytics_storage', true),
-          onReject: () => updateGTMConsent('analytics_storage', false),
-          cookies: [
-            {
-              name: /^_ga/,
-            },
-            {
-              name: '_gid',   // Nombre exacto de la cookie
-            }
-          ],
-        },
-      },
-    },
-    marketing: {
-      enabled: true,
-      readOnly: false,
-      services: {
-        ads: {
-          label: 'Publicidad personalizada',
-          onAccept: () => updateGTMConsent('ad_storage', true),
-          onReject: () => updateGTMConsent('ad_storage', false),
-        },
-      },
-    },
   },
   language: {
     default: 'es',
@@ -59,7 +30,7 @@ export const config: CookieConsentConfig = {
           description: 'En REPRO DISSENY utilizamos cookies para mejorar su experiencia de navegación. Al continuar navegando en nuestro sitio, acepta el uso de cookies de acuerdo con nuestra Política de Cookies.',
           acceptAllBtn: 'Aceptar todas',
           acceptNecessaryBtn: 'Rechazar necesarias',
-          showPreferencesBtn: 'Gestionar preferencias',
+    
           footer: '<a href="/privacy">Política de Privacidad</a> | <a href="/terms">Términos y condiciones</a>',
         },
         preferencesModal: {

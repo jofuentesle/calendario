@@ -2,78 +2,28 @@
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
 ---
 
-<div transition:persist id="cc-container" client:only>
-    <button type="button" data-cc="show-preferencesModal">Show preferences modal</button>
+<script>
+  import { config } from '../../libs/CookieConsentConfig';
+  import { run } from 'vanilla-cookieconsent';
 
-    <script>
-    //Importamos archivos necesarios para cargar la libreria
-    import { config } from '../../libs/CookieConsentConfig';
-    import { run } from 'vanilla-cookieconsent';
-       // Definición de la función updateGTMConsent para gestionar el consentimiento
-       function updateGTMConsent(category, consent) {
-         // Verifica que `window` esté disponible
-         if (typeof window !== 'undefined') {
-           const checkGtagLoaded = setInterval(() => {
-             if (typeof window.gtag === 'function') {
-               window.gtag('consent', 'update', {
-                 [category]: consent ? 'granted' : 'denied',
-               });
-               clearInterval(checkGtagLoaded); // Detener el intervalo cuando gtag está disponible
-             }
-           }, 100); // Verificar cada 100 ms
-         }
-       }
+  if (typeof window !== 'undefined') {
+    run(config);
 
-       // Modificar la configuración de consentimiento para que use updateGTMConsent
-       const updatedConfig = {
-         ...config,
-         categories: {
-           ...config.categories,
-           analytics: {
-             ...config.categories.analytics,
-             services: {
-               ga4: {
-                 label: '<a href="https://marketingplatform.google.com/about/analytics/terms/us/" target="_blank">Google Analytics 4</a>',
-                 onAccept: () => updateGTMConsent('analytics_storage', true),
-                 onReject: () => updateGTMConsent('analytics_storage', false),
-                 cookies: [
-                   {
-                     name: /^_ga/, // Expresión regular para varias cookies de GA
-                   },
-                   {
-                     name: '_gid', // Nombre exacto de la cookie
-                   },
-                 ],
-               },
-             },
-           },
-           marketing: {
-             ...config.categories.marketing,
-             services: {
-               ads: {
-                 label: 'Publicidad personalizada',
-                 onAccept: () => updateGTMConsent('ad_storage', true),
-                 onReject: () => updateGTMConsent('ad_storage', false),
-               },
-             },
-           },
-         },
-       };
 
-       // Ejecutar el plugin con la configuración actualizada
-       if (typeof window !== 'undefined') {
-          console.log('Ejecutando vanilla-cookieconsent...');
-          run(updatedConfig);
-         console.log('vanilla-cookieconsent ejecutado correctamente.');
+     // Escuchar el consentimiento del usuario
+     window.addEventListener('cc-accept-cookies', function (event) {
+       const acceptedCategories = event.detail.acceptedCategories;
 
-         // Manejador de eventos para mantener las clases en la etiqueta <html>
-         document.addEventListener('astro:before-preparation', () => {
-           window._htmlClassName = document.documentElement.className;
-         });
+       // Actualizar el consentimiento en Google Tag Manager
+       gtag('consent', 'update', {
+         'ad_storage': acceptedCategories.includes('analytics') ? 'granted' : 'denied',
+         'analytics_storage': acceptedCategories.includes('analytics') ? 'granted' : 'denied',
+         'functionality_storage': acceptedCategories.includes('functionality') ? 'granted' : 'denied'
+       });
+     });
+  }
+</script>
 
-         document.addEventListener('astro:before-swap', (event) => {
-           event.newDocument.documentElement.className = window._htmlClassName;
-         });
-       }
-    </script>
+<div id="cc-container">
+  <!-- El banner de cookies se generará automáticamente -->
 </div>

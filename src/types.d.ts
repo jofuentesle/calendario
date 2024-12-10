@@ -1,5 +1,6 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import type { HTMLAttributes, ImageMetadata } from 'astro/types';
+import type { CookieConsentConfig } from 'vanilla-cookieconsent';
 
 export interface Table {
   id: string;
@@ -362,7 +363,6 @@ export interface FormInput {
 */
 
 // types.d.ts
-// types.d.ts
 export interface InputField {
   name?: string;
   label?: string;
@@ -408,5 +408,10 @@ export {};
 declare global {
   interface Window {
     _htmlClassName?: string;
+    initCookieConsent: () => {
+      run: (config: CookieConsentConfig) => void;
+      getStatus: () => string;
+      getCategories: () => Record<string, boolean>;
   }
+}
 }

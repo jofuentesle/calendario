@@ -9,6 +9,11 @@
     "paths": {
       "~/*": ["src/*"]
     },
-    "verbatimModuleSyntax": false
-  }
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true, // Permite importar módulos CommonJS con compatibilidad ES.
+    "skipLibCheck": true,    // Omite comprobaciones de tipo en archivos .d.ts de terceros.
+    "types": ["node"]        // Asegura que los tipos de Node.js estén disponibles.
+  },
+  "include": ["src/**/*", "global.d.ts"], // Incluye tus archivos globales y todo en src.
+  "exclude": ["node_modules", "dist"]     // Excluye archivos no relevantes.
 }

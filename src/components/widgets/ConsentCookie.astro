@@ -3,27 +3,17 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 ---
 
 <script>
-  import { config } from '../../libs/CookieConsentConfig';
-  import { run } from 'vanilla-cookieconsent';
+  import config from '../../libs/CookieConsentConfig';
 
-  if (typeof window !== 'undefined') {
-    run(config);
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof window.initCookieConsent !== 'function') {
+      console.error('vanilla-cookieconsent no está disponible.');
+      return;
+    }
 
-
-     // Escuchar el consentimiento del usuario
-     window.addEventListener('cc-accept-cookies', function (event) {
-       const acceptedCategories = event.detail.acceptedCategories;
-
-       // Actualizar el consentimiento en Google Tag Manager
-       gtag('consent', 'update', {
-         'ad_storage': acceptedCategories.includes('analytics') ? 'granted' : 'denied',
-         'analytics_storage': acceptedCategories.includes('analytics') ? 'granted' : 'denied',
-         'functionality_storage': acceptedCategories.includes('functionality') ? 'granted' : 'denied'
-       });
-     });
-  }
+    const cc = window.initCookieConsent();
+    cc.run(config);
+  });
 </script>
 
-<div id="cc-container">
-  <!-- El banner de cookies se generará automáticamente -->
-</div>
+<div id="cc-container"></div>

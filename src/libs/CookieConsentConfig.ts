@@ -76,7 +76,7 @@ export const config: CookieConsentConfig = {
  * @param {string} category - La categoría de almacenamiento a actualizar ('analytics_storage', 'ad_storage', etc.)
  * @param {boolean} consent - El estado de consentimiento (true para aceptar, false para rechazar)
  */
-function updateGTMConsent(category, consent) {
+function updateGTMConsent(category: string, consent: boolean): void {
   const checkGtagLoaded = setInterval(() => {
     if (typeof gtag === 'function') {
       gtag('consent', 'update', {
@@ -86,4 +86,49 @@ function updateGTMConsent(category, consent) {
     }
   }, 100); // Verifica cada 100 ms
 }
+
+/**
+ * Maneja el evento de consentimiento y actualiza Google Tag Manager con las preferencias del usuario
+ * @param {object} consentDetails - Detalles del consentimiento del usuario (categorías de cookies y su estado)
+ */
+function handleConsentUpdate(consentDetails: any): void {
+  // Actualiza las categorías en Google Tag Manager
+  updateGTMConsent('analytics_storage', consentDetails.analytics);
+  updateGTMConsent('ad_storage', consentDetails.ads);
+  updateGTMConsent('functionality_storage', consentDetails.functionality);
+}
+
+/**
+ * Inicializa el banner de consentimiento y establece los controladores de eventos
+ */
+function initializeCookieConsent() {
+  const cc = window.initCookieConsent();
+
+  cc.run({
+    ...config,
+    onInitialise: function (status: string) {
+      // Cuando se inicializa el banner, se pueden cargar preferencias si ya se ha dado consentimiento previamente
+      console.log('Consentimiento inicial:', status);
+    },
+    onStatusChange: function (status: string, chosenCategories: any) {
+      // Al cambiar el estado del consentimiento, se actualizan las categorías en GTM
+      console.log('Estado de consentimiento actualizado:', status);
+      console.log('Categorías elegidas:', chosenCategories);
+      handleConsentUpdate(chosenCategories);
+    },
+    onRevokeChoice: function () {
+      // Si el usuario revoca su consentimiento, se restablecen las categorías a 'denied'
+      console.log('Consentimiento revocado');
+      handleConsentUpdate({
+        analytics: false,
+        ads: false,
+        functionality: false,
+      });
+    }
+  });
+}
+
+// Llamamos a la función para inicializar el banner
+initializeCookieConsent();
+
 
